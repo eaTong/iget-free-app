@@ -1,0 +1,47 @@
+.home-page {
+
+}
+
+.home-page .covers {
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-page .covers .cover-item {
+  width: 80px;
+  position: absolute;
+  left: 50%;
+  margin-left: -40px;
+  z-index: 10;
+  border-radius: 4px;
+}
+
+.home-page .covers .cover-item:nth-child(2) {
+  margin-left: -32px;
+  z-index: 9;
+  top: 8px;
+}
+
+.home-page .covers .cover-item:nth-child(3) {
+  z-index: 8;
+  top: 16px;
+  margin-left: -24px;
+}
+
+.home-page .status-item .footer {
+  text-align: center;
+  padding-top: 5px;
+}
+
+.home-page .status-item .footer .label {
+  font-size: 0.8em;
+  color: var(--ion-color-medium, #989aa2);
+  margin-right: 5px;
+  line-height: 1em;
+}
+
+.home-page .status-item .footer .num {
+  position: relative;
+  top: 0.05em;
+}
