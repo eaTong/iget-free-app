@@ -3,7 +3,7 @@ import {
   IonLoading,
   IonPage,
   IonRow,
-  IonCol
+  IonCol, IonListHeader, IonList, IonLabel, IonItem, IonAvatar
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
@@ -14,12 +14,13 @@ import {bookMarkStatus} from '../utils/enums';
 class Home extends Component<PagePropsInterface, {}> {
   state = {
     loading: false,
+    recentlyReadingBooks: [],
+    recentlyReadingCount: 0,
     bookStatics: {
       wanted: {count: 0, covers: []},
       reading: {count: 0, covers: []},
       read: {count: 0, covers: []},
-    },
-    status: -1
+    }
   };
 
   async componentDidMount() {
@@ -45,9 +46,14 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   async getMyBookMark() {
-    const {status} = this.state;
-    const bookStatics = await ajax({url: '/api/bookMark/statics', data: {status}});
+    const bookStatics = await ajax({url: '/api/bookMark/statics'});
     this.setState({bookStatics});
+    this.recentlyReading();
+  }
+
+  async recentlyReading() {
+    const {list, total} = await ajax({url: '/api/bookMark/get', data: {status: 2}});
+    this.setState({recentlyReadingBooks: list, recentlyReadingCount: total});
   }
 
   redirectLogin() {
@@ -56,6 +62,19 @@ class Home extends Component<PagePropsInterface, {}> {
 
   toggleLoading(loading: Boolean): void {
     this.setState({loading: loading})
+  }
+
+  renderRecentlyBooks() {
+    return this.state.recentlyReadingBooks.map((item: any) => (
+      <IonItem key={item.id} className={'recently-read-item'}>
+        <div className="cover-container" slot="start">
+          <img src={item.book.coverImage} alt="" className={'cover-image'}/>
+        </div>
+        <IonLabel>
+          {item.book.name}
+        </IonLabel>
+      </IonItem>
+    ))
   }
 
   renderStatusStatics(status: number) {
@@ -100,7 +119,7 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   render() {
-    const {loading} = this.state;
+    const {loading, recentlyReadingCount} = this.state;
     return (
       <IonPage className={'home-page'}>
         <IonContent>
@@ -111,6 +130,12 @@ class Home extends Component<PagePropsInterface, {}> {
             duration={5000}
           />
           {this.renderStatics()}
+          <IonList>
+            <IonListHeader>
+              <IonLabel><h2>{`最近在读(${recentlyReadingCount})`}</h2></IonLabel>
+            </IonListHeader>
+            {this.renderRecentlyBooks()}
+          </IonList>
         </IonContent>
       </IonPage>
     );

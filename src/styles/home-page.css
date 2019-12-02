@@ -45,3 +45,18 @@
   position: relative;
   top: 0.05em;
 }
+
+.home-page .recently-read-item {
+
+}
+
+.home-page .recently-read-item .cover-container {
+  width: 50px;
+  height: 70px;
+  overflow: hidden;
+}
+
+.home-page .recently-read-item .cover-image {
+  width: 50px;
+  height: auto;
+}
