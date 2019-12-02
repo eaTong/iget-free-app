@@ -3,19 +3,22 @@ import {
   IonLoading,
   IonPage,
   IonRow,
-  IonCol, IonListHeader, IonList, IonLabel, IonItem, IonAvatar
+  IonCol, IonListHeader, IonList, IonLabel, IonItem
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import ajax from '../utils/ajax';
 import {bookMarkStatus} from '../utils/enums';
+import BookListItem from "../components/BookListItem";
 
 class Home extends Component<PagePropsInterface, {}> {
   state = {
     loading: false,
     recentlyReadingBooks: [],
     recentlyReadingCount: 0,
+    wantedBooks: [],
+    wantedCount: 0,
     bookStatics: {
       wanted: {count: 0, covers: []},
       reading: {count: 0, covers: []},
@@ -49,11 +52,17 @@ class Home extends Component<PagePropsInterface, {}> {
     const bookStatics = await ajax({url: '/api/bookMark/statics'});
     this.setState({bookStatics});
     this.recentlyReading();
+    this.wanted();
   }
 
   async recentlyReading() {
     const {list, total} = await ajax({url: '/api/bookMark/get', data: {status: 2}});
     this.setState({recentlyReadingBooks: list, recentlyReadingCount: total});
+  }
+
+  async wanted() {
+    const {list, total} = await ajax({url: '/api/bookMark/get', data: {status: 1}});
+    this.setState({wantedBooks: list, wantedCount: total});
   }
 
   redirectLogin() {
@@ -66,14 +75,13 @@ class Home extends Component<PagePropsInterface, {}> {
 
   renderRecentlyBooks() {
     return this.state.recentlyReadingBooks.map((item: any) => (
-      <IonItem key={item.id} className={'recently-read-item'}>
-        <div className="cover-container" slot="start">
-          <img src={item.book.coverImage} alt="" className={'cover-image'}/>
-        </div>
-        <IonLabel>
-          {item.book.name}
-        </IonLabel>
-      </IonItem>
+     <BookListItem book={item} key={item.id}/>
+    ))
+  }
+
+  renderWantedBooks() {
+    return this.state.wantedBooks.map((item: any) => (
+     <BookListItem book={item} key={item.id}/>
     ))
   }
 
@@ -119,7 +127,7 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   render() {
-    const {loading, recentlyReadingCount} = this.state;
+    const {loading, recentlyReadingCount, wantedCount} = this.state;
     return (
       <IonPage className={'home-page'}>
         <IonContent>
@@ -135,6 +143,12 @@ class Home extends Component<PagePropsInterface, {}> {
               <IonLabel><h2>{`最近在读(${recentlyReadingCount})`}</h2></IonLabel>
             </IonListHeader>
             {this.renderRecentlyBooks()}
+          </IonList>
+          <IonList>
+            <IonListHeader>
+              <IonLabel><h2>{`想读(${recentlyReadingCount})`}</h2></IonLabel>
+            </IonListHeader>
+            {this.renderWantedBooks()}
           </IonList>
         </IonContent>
       </IonPage>

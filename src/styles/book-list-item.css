@@ -1,0 +1,21 @@
+
+.book-list-item .label {
+  font-size: 0.9em;
+  margin-right: 5px;
+  color: var(--ion-color-medium, #989aa2);
+}
+
+.book-list-item .value {
+  font-size: 0.9em;
+}
+
+.book-list-item .cover-container {
+  width: 40px;
+  height: 56px;
+  overflow: hidden;
+}
+
+.book-list-item .cover-image {
+  width: 40px;
+  height: auto;
+}

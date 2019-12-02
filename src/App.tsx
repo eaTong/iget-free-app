@@ -18,6 +18,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './styles/variables.css';
 import './styles/home-page.css';
+import './styles/book-list-item.css';
 
 import LoginPage from "./pages/LoginPage";
 
