@@ -146,7 +146,7 @@ class Home extends Component<PagePropsInterface, {}> {
           </IonList>
           <IonList>
             <IonListHeader>
-              <IonLabel><h2>{`想读(${recentlyReadingCount})`}</h2></IonLabel>
+              <IonLabel><h2>{`想读(${wantedCount})`}</h2></IonLabel>
             </IonListHeader>
             {this.renderWantedBooks()}
           </IonList>

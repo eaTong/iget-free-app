@@ -1,5 +1,7 @@
 {
   "name": "iget-free-app",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "react"
 }
