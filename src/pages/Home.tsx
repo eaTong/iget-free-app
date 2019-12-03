@@ -3,7 +3,7 @@ import {
   IonLoading,
   IonPage,
   IonRow,
-  IonCol, IonListHeader, IonList, IonLabel, IonItem
+  IonCol, IonListHeader, IonList, IonLabel
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
@@ -66,7 +66,7 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   redirectLogin() {
-    this.props.history.push('/login');
+    this.props.history.replace('/login');
   }
 
   toggleLoading(loading: Boolean): void {
@@ -75,13 +75,13 @@ class Home extends Component<PagePropsInterface, {}> {
 
   renderRecentlyBooks() {
     return this.state.recentlyReadingBooks.map((item: any) => (
-     <BookListItem book={item} key={item.id}/>
+      <BookListItem book={item} key={item.id}/>
     ))
   }
 
   renderWantedBooks() {
     return this.state.wantedBooks.map((item: any) => (
-     <BookListItem book={item} key={item.id}/>
+      <BookListItem book={item} key={item.id}/>
     ))
   }
 

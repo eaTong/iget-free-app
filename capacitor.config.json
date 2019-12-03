@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "iget-free-app",
+  "appId": "cn.eatong.iget",
+  "appName": "得到-书香",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

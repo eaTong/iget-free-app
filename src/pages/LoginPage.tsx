@@ -24,7 +24,7 @@ class LoginPage extends Component<PagePropsInterface, {}> {
     await ajax({url: '/api/user/login', data: this.state.form});
     window.sessionStorage.setItem(HAS_LOGIN, '1');
     window.localStorage.setItem(CACHED_LOGIN_USER, JSON.stringify(this.state.form));
-    this.props.history.goBack();
+    this.props.history.replace('/home');
   }
 
   render() {

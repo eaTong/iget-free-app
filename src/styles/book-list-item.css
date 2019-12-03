@@ -18,4 +18,5 @@
 .book-list-item .cover-image {
   width: 40px;
   height: auto;
+  border: 1px solid var(--ion-color-light-shade, #d7d8da);
 }
