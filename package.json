@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "ionic serve",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cap sync",
     "test": "react-scripts test",
     "open-android": "cap open android",
     "eject": "react-scripts eject"
