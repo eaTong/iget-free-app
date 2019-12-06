@@ -22,6 +22,7 @@ import './styles/home-page.css';
 import './styles/book-list-item.css';
 
 import LoginPage from "./pages/LoginPage";
+import SearchPage from "./pages/SearchPage";
 
 const App: React.FC = () => (
   <IonApp>
@@ -29,6 +30,7 @@ const App: React.FC = () => (
       <IonRouterOutlet>
         <Route path="/home" component={Home} exact={true}/>
         <Route path="/login" component={LoginPage} exact={true}/>
+        <Route path="/search" component={SearchPage} exact={true}/>
         <Route exact path="/" render={() => <Redirect to="/home"/>}/>
       </IonRouterOutlet>
     </IonReactRouter>

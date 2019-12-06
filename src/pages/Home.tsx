@@ -3,7 +3,7 @@ import {
   IonLoading,
   IonPage,
   IonRow,
-  IonCol, IonListHeader, IonList, IonLabel
+  IonCol, IonListHeader, IonList, IonLabel, IonFab, IonFabButton, IonIcon, IonSearchbar, IonButton
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
@@ -11,6 +11,11 @@ import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import ajax from '../utils/ajax';
 import {bookMarkStatus} from '../utils/enums';
 import BookListItem from "../components/BookListItem";
+
+// @ts-ignore
+import QRScanner from 'cordova-plugin-qrscanner';
+import {search} from "ionicons/icons";
+import Empty from '../components/Empty';
 
 class Home extends Component<PagePropsInterface, {}> {
   state = {
@@ -85,6 +90,22 @@ class Home extends Component<PagePropsInterface, {}> {
     ))
   }
 
+  scan() {
+    QRScanner.scan(displayContents);
+
+    function displayContents(err: any, text: any) {
+      if (err) {
+        console.log(err);
+        // an error occurred, or the scan was canceled (error code `6`)
+      } else {
+        console.log(text);
+        // The scan completed, display the contents of the QR code:
+        alert(text);
+      }
+    }
+
+  }
+
   renderStatusStatics(status: number) {
     let statics = {count: 0, covers: []};
     const {bookStatics} = this.state;
@@ -127,7 +148,9 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   render() {
-    const {loading, recentlyReadingCount, wantedCount} = this.state;
+    const {loading, recentlyReadingCount, wantedCount, bookStatics} = this.state;
+    const {reading, wanted, read} = bookStatics;
+    const hasBookMark = reading.count > 0 || wanted.count > 0 || read.count > 0;
     return (
       <IonPage className={'home-page'}>
         <IonContent>
@@ -137,20 +160,40 @@ class Home extends Component<PagePropsInterface, {}> {
             message={'自动登录中...'}
             duration={5000}
           />
-          {this.renderStatics()}
-          <IonList>
-            <IonListHeader>
-              <IonLabel><h2>{`最近在读(${recentlyReadingCount})`}</h2></IonLabel>
-            </IonListHeader>
-            {this.renderRecentlyBooks()}
-          </IonList>
-          <IonList>
-            <IonListHeader>
-              <IonLabel><h2>{`想读(${wantedCount})`}</h2></IonLabel>
-            </IonListHeader>
-            {this.renderWantedBooks()}
-          </IonList>
+          {hasBookMark && this.renderStatics()}
+          {hasBookMark || (
+            <Empty>
+              <div>
+                <p className="add-more">最美是翻开书页的瞬间，马上开启您的完美书香之旅吧。</p>
+                <IonButton onClick={() => this.props.history.push('/search')}>开启书香之旅</IonButton>
+              </div>
+            </Empty>
+          )}
+          {recentlyReadingCount > 0 && (
+            <IonList>
+              <IonListHeader>
+                <IonLabel><h2>{`最近在读(${recentlyReadingCount})`}</h2></IonLabel>
+              </IonListHeader>
+              {this.renderRecentlyBooks()}
+            </IonList>
+          )}
+          {wantedCount > 0 && (
+            <IonList>
+              <IonListHeader>
+                <IonLabel><h2>{`想读(${wantedCount})`}</h2></IonLabel>
+              </IonListHeader>
+              {this.renderWantedBooks()}
+            </IonList>
+
+          )}
         </IonContent>
+        {hasBookMark && (
+          <IonFab vertical="bottom" horizontal="end" slot="fixed">
+            <IonFabButton onClick={() => this.props.history.push('/search')}>
+              <IonIcon icon={search}/>
+            </IonFabButton>
+          </IonFab>
+        )}
       </IonPage>
     );
   }

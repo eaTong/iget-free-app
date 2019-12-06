@@ -1,0 +1,9 @@
+.et-empty {
+  padding: 30px 10px;
+  text-align: center;
+}
+
+.et-empty .empty-icon {
+  font-size: 100px;
+  color: var(--ion-color-warning);
+}
