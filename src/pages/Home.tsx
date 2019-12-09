@@ -1,9 +1,18 @@
 import {
-  IonContent, IonGrid,
+  IonContent,
+  IonGrid,
   IonLoading,
   IonPage,
   IonRow,
-  IonCol, IonListHeader, IonList, IonLabel, IonFab, IonFabButton, IonIcon, IonSearchbar, IonButton
+  IonCol,
+  IonListHeader,
+  IonList,
+  IonLabel,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonButton,
+  IonToolbar, IonTitle
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
@@ -11,9 +20,6 @@ import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import ajax from '../utils/ajax';
 import {bookMarkStatus} from '../utils/enums';
 import BookListItem from "../components/BookListItem";
-
-// @ts-ignore
-import QRScanner from 'cordova-plugin-qrscanner';
 import {search} from "ionicons/icons";
 import Empty from '../components/Empty';
 
@@ -80,30 +86,14 @@ class Home extends Component<PagePropsInterface, {}> {
 
   renderRecentlyBooks() {
     return this.state.recentlyReadingBooks.map((item: any) => (
-      <BookListItem book={item} key={item.id}/>
+      <BookListItem history={this.props.history}  book={item.book} key={item.id}/>
     ))
   }
 
   renderWantedBooks() {
     return this.state.wantedBooks.map((item: any) => (
-      <BookListItem book={item} key={item.id}/>
+      <BookListItem history={this.props.history} book={item.book} key={item.id}/>
     ))
-  }
-
-  scan() {
-    QRScanner.scan(displayContents);
-
-    function displayContents(err: any, text: any) {
-      if (err) {
-        console.log(err);
-        // an error occurred, or the scan was canceled (error code `6`)
-      } else {
-        console.log(text);
-        // The scan completed, display the contents of the QR code:
-        alert(text);
-      }
-    }
-
   }
 
   renderStatusStatics(status: number) {
@@ -153,6 +143,9 @@ class Home extends Component<PagePropsInterface, {}> {
     const hasBookMark = reading.count > 0 || wanted.count > 0 || read.count > 0;
     return (
       <IonPage className={'home-page'}>
+        <IonToolbar>
+          <IonTitle>书香</IonTitle>
+        </IonToolbar>
         <IonContent>
           <IonLoading
             isOpen={loading}

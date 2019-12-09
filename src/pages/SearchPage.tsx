@@ -29,7 +29,6 @@ class SearchPage extends Component<PagePropsInterface, {}> {
 
   render() {
     const {bookList} = this.state;
-    console.log(bookList);
     return (
       <IonPage>
         <IonHeader>
@@ -45,7 +44,7 @@ class SearchPage extends Component<PagePropsInterface, {}> {
         </IonHeader>
         <IonContent>
           <IonList>
-            {bookList.map((book: any) => (<BookListItem book={{book: book}} key={book.id}/>))}
+            {bookList.map((book: any) => (<BookListItem history={this.props.history} book={book} key={book.id}/>))}
           </IonList>
         </IonContent>
       </IonPage>

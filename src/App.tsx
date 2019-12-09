@@ -20,9 +20,12 @@ import './styles/variables.css';
 import './styles/global.css';
 import './styles/home-page.css';
 import './styles/book-list-item.css';
+import './styles/book-detail-page.css';
 
 import LoginPage from "./pages/LoginPage";
 import SearchPage from "./pages/SearchPage";
+import BookDetailPage from "./pages/BookDetailPage";
+import AddNotePage from "./pages/AddNotePage";
 
 const App: React.FC = () => (
   <IonApp>
@@ -31,6 +34,8 @@ const App: React.FC = () => (
         <Route path="/home" component={Home} exact={true}/>
         <Route path="/login" component={LoginPage} exact={true}/>
         <Route path="/search" component={SearchPage} exact={true}/>
+        <Route path="/book" component={BookDetailPage} exact={true}/>
+        <Route path="/add-note" component={AddNotePage} exact={true}/>
         <Route exact path="/" render={() => <Redirect to="/home"/>}/>
       </IonRouterOutlet>
     </IonReactRouter>

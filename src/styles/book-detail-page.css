@@ -1,0 +1,48 @@
+.book-detail-page .book-summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.mark-status {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  font-size: 18px;
+  transform: rotate(45deg);
+}
+
+.book-detail-page .book-info {
+  display: flex;
+}
+
+.book-detail-page .book-info .cover-container {
+  width: 60px;
+  height: 85px;
+  overflow: hidden;
+  margin-right: 12px;
+}
+
+.book-info .label {
+  font-size: 0.9em;
+  margin-right: 5px;
+  color: var(--ion-color-medium, #989aa2);
+}
+
+.book-info .value {
+  font-size: 0.9em;
+  color: var(--ion-color-dark, #222428);
+}
+
+.note-detail {
+  background-color: #fff;
+  padding: 0 16px;
+  border-radius: 4px;
+  position: relative;
+}
+.note-detail .reference {
+  padding: 4px 10px;
+  border-left: 3px solid var(--ion-color-light-shade, #d7d8da);
+  background-color: var( --ion-color-light-tint, #f5f6f9)
+}
