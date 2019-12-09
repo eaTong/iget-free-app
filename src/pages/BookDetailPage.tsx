@@ -32,7 +32,7 @@ import {add, card, settings, star, bookmarks, more} from "ionicons/icons";
 
 const statusColor = ['default', 'warning', 'secondary', 'success'];
 
-class BookDetailPage extends Component<PagePropsInterface, {}> {
+class BookDetailPage extends Component<PagePropsInterface, {bookDetail:any}> {
   state = {
     bookDetail: {
       name: '',
@@ -116,7 +116,7 @@ class BookDetailPage extends Component<PagePropsInterface, {}> {
                     <div className="et-row">
                       <span className="label">我的评分</span>
                       <span className="value">
-                        <Rate value={bookDetail.mark.rate} onChange={() => null}/>
+                        <Rate value={bookDetail.mark.rate}/>
                       </span>
                     </div>
                   </div>
@@ -130,13 +130,15 @@ class BookDetailPage extends Component<PagePropsInterface, {}> {
                 <IonLabel>我的笔记</IonLabel>
               </IonListHeader>
               {bookDetail.bookNotes.map((note: any) => (
-                <div className="note-detail" key={note.id}>
-                  <div className="time">{note.createdAt}</div>
-                  <p className="content">{note.content}</p>
-                  {note.reference && (
-                    <p className="reference">{note.reference}</p>
-                  )}
-                </div>
+                <IonItem key={note.id}>
+                  <div className="note-detail">
+                    <div className="time">{note.createdAt}</div>
+                    {note.reference && (
+                      <div className="reference">{note.reference}</div>
+                    )}
+                    <div className="content">{note.content}</div>
+                  </div>
+                </IonItem>
               ))}
             </IonList>
           )}
@@ -145,7 +147,6 @@ class BookDetailPage extends Component<PagePropsInterface, {}> {
               <IonListHeader>
                 <IonLabel>历史评价</IonLabel>
               </IonListHeader>
-              <Rate value={2} onChange={() => console.log(234)}/>
             </IonList>
           )}
 

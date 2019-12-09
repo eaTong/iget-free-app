@@ -4,7 +4,7 @@ import {star, starOutline} from "ionicons/icons";
 
 interface RateInterface {
   value: number,
-  onChange: any,
+  onChange?: any,
 }
 
 const TOTAL_RATE = 5;
