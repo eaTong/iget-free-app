@@ -12,7 +12,7 @@ import {
   IonFabButton,
   IonIcon,
   IonButton,
-  IonToolbar, IonTitle
+  IonToolbar, IonTitle, withIonLifeCycle
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
@@ -37,7 +37,7 @@ class Home extends Component<PagePropsInterface, {}> {
     }
   };
 
-  async componentDidMount() {
+  async ionViewDidEnter() {
     const hasLogged = window.sessionStorage.getItem(HAS_LOGIN);
     if (hasLogged) {
       await this.getMyBookMark();
@@ -50,6 +50,8 @@ class Home extends Component<PagePropsInterface, {}> {
         await this.toggleLoading(true);
         await ajax({url: '/api/user/login', data: loggedUser});
         this.toggleLoading(false);
+        window.sessionStorage.setItem(HAS_LOGIN, '1');
+        window.localStorage.setItem(CACHED_LOGIN_USER, JSON.stringify(loggedUser));
         await this.getMyBookMark();
       } catch (e) {
         this.redirectLogin();
@@ -192,4 +194,4 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 }
 
-export default Home;
+export default withIonLifeCycle(Home);
