@@ -1,5 +1,5 @@
-import React, {ReactChild} from 'react';
-import {IonItem, IonLabel, IonIcon} from "@ionic/react";
+import React from 'react';
+import {IonIcon} from "@ionic/react";
 import {star, starOutline} from "ionicons/icons";
 
 interface RateInterface {

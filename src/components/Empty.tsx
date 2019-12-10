@@ -1,5 +1,5 @@
 import React, {ReactChild} from 'react';
-import {IonItem, IonLabel, IonIcon} from "@ionic/react";
+import {IonIcon} from "@ionic/react";
 import {school} from "ionicons/icons";
 
 interface EmptyInterface {

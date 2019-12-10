@@ -5,7 +5,6 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonSearchbar,
   IonTitle,
   IonToolbar,
   IonCard,
@@ -21,18 +20,19 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
-  IonFabList
+  IonFabList, withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import ajax from "../utils/ajax";
 import {parse} from 'querystring';
 import {bookMarkStatus} from "../utils/enums";
 import Rate from "../components/Rate";
-import {add, card, settings, star, bookmarks, more} from "ionicons/icons";
+import {star, bookmarks, more} from "ionicons/icons";
+import {getTimeFormat} from "../utils/utils";
 
 const statusColor = ['default', 'warning', 'secondary', 'success'];
 
-class BookDetailPage extends Component<PagePropsInterface, {bookDetail:any}> {
+class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> {
   state = {
     bookDetail: {
       name: '',
@@ -53,9 +53,8 @@ class BookDetailPage extends Component<PagePropsInterface, {bookDetail:any}> {
     }
   };
 
-  componentDidMount() {
+  ionViewDidEnter() {
     this.getBookDetail();
-
   }
 
   async getBookDetail() {
@@ -132,7 +131,7 @@ class BookDetailPage extends Component<PagePropsInterface, {bookDetail:any}> {
               {bookDetail.bookNotes.map((note: any) => (
                 <IonItem key={note.id}>
                   <div className="note-detail">
-                    <div className="time">{note.createdAt}</div>
+                    <div className="time">{getTimeFormat(note.createdAt)}</div>
                     {note.reference && (
                       <div className="reference">{note.reference}</div>
                     )}
@@ -168,4 +167,4 @@ class BookDetailPage extends Component<PagePropsInterface, {bookDetail:any}> {
   }
 }
 
-export default BookDetailPage;
+export default withIonLifeCycle(BookDetailPage);

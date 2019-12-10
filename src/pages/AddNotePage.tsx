@@ -5,7 +5,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonBackButton, IonButton, IonContent, IonItem, IonTextarea, IonList, IonListHeader, IonLabel
+  IonBackButton, IonButton, IonContent, IonItem, IonTextarea, IonList, IonLabel
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import ajax from "../utils/ajax";
