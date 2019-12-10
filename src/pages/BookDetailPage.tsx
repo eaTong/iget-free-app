@@ -20,20 +20,21 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
-  IonFabList, withIonLifeCycle
+  IonFabList, withIonLifeCycle, IonActionSheet
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import ajax from "../utils/ajax";
 import {parse} from 'querystring';
 import {bookMarkStatus} from "../utils/enums";
 import Rate from "../components/Rate";
-import {star, bookmarks, more} from "ionicons/icons";
+import {star, bookmarks, more, flag} from "ionicons/icons";
 import {getTimeFormat} from "../utils/utils";
 
 const statusColor = ['default', 'warning', 'secondary', 'success'];
 
-class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> {
+class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, showActions: boolean }> {
   state = {
+    showActions: false,
     bookDetail: {
       name: '',
       summary: '',
@@ -57,6 +58,22 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> 
     this.getBookDetail();
   }
 
+  toggleActions(showActions: boolean) {
+    this.setState({showActions})
+  }
+
+  changeMarkStatus(status: number) {
+    this.doChange(status);
+  }
+
+  async doChange(status: number) {
+    const {location} = this.props;
+    const query = parse(location.search.replace('?', ""));
+    const {isNew} = await ajax({url: '/api/bookMark/mark', data: {bookId: query.id, status}});
+    console.log(isNew);
+    this.getBookDetail();
+  }
+
   async getBookDetail() {
     const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
@@ -67,7 +84,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> 
   render() {
     const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
-    const {bookDetail} = this.state;
+    const {bookDetail, showActions} = this.state;
     return (
       <IonPage className={'book-detail-page'}>
         <IonHeader>
@@ -79,7 +96,11 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> 
           </IonToolbar>
         </IonHeader>
         <IonContent className={'book-detail-content'}>
-          <IonNote color={statusColor[bookDetail.mark.status]} className='mark-status'>
+          <IonNote
+            color={statusColor[bookDetail.mark.status]}
+            className='mark-status'
+            onClick={() => this.toggleActions(true)}
+          >
             {bookMarkStatus[bookDetail.mark.status]}
           </IonNote><br/>
           <IonCard>
@@ -173,9 +194,26 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> 
               <IonFabButton color={'warning'} onClick={() => this.props.history.push(`/add-rate?id=${query.id}`)}>
                 <IonIcon icon={star}/>
               </IonFabButton>
+              <IonFabButton color={'primary'} onClick={() => this.toggleActions(true)}>
+                <IonIcon icon={flag}/>
+              </IonFabButton>
             </IonFabList>
           </IonFab>
-
+          <IonActionSheet
+            header={'更换已读状态'}
+            isOpen={showActions}
+            onDidDismiss={() => this.toggleActions(false)}
+            buttons={
+              [
+                {text: '未读', handler: () => this.changeMarkStatus(0)},
+                {text: '想读', handler: () => this.changeMarkStatus(1)},
+                {text: '在读', handler: () => this.changeMarkStatus(2)},
+                {text: '已读', handler: () => this.changeMarkStatus(3)},
+                {text: '取消', role: 'cancel', icon: 'close', handler: () => this.toggleActions(false)},
+              ]
+            }
+          >
+          </IonActionSheet>
         </IonContent>
       </IonPage>
     )

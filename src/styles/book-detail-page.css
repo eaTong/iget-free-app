@@ -18,6 +18,7 @@
   right: 20px;
   font-size: 18px;
   transform: rotate(45deg);
+  z-index: 999;
 }
 
 .book-detail-page .book-info {

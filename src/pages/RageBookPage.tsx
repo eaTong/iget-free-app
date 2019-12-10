@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {
+  IonBackButton,
   IonButton, IonButtons,
   IonContent,
   IonHeader, IonItem, IonLabel, IonList,
@@ -31,6 +32,9 @@ class RageBookPage extends Component<PagePropsInterface, {}> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
+            <IonButtons slot="start">
+              <IonBackButton/>
+            </IonButtons>
             <IonTitle>添加评分</IonTitle>
             <IonButtons slot="end">
               <IonButton color={'primary'} onClick={() => this.rate()}>保存</IonButton>
