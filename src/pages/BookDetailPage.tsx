@@ -78,7 +78,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> 
             <IonTitle>{bookDetail.name}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+        <IonContent className={'book-detail-content'}>
           <IonNote color={statusColor[bookDetail.mark.status]} className='mark-status'>
             {bookMarkStatus[bookDetail.mark.status]}
           </IonNote><br/>
@@ -146,6 +146,19 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> 
               <IonListHeader>
                 <IonLabel>历史评价</IonLabel>
               </IonListHeader>
+              {bookDetail.rateHistories.map((history: any) => (
+                <IonItem key={history.id}>
+                  <div className="rate-detail">
+                    <div className="header">
+                      <div className="rate"><Rate value={history.rate}/></div>
+                      <div className="time">
+                        {getTimeFormat(history.createdAt)}
+                      </div>
+                    </div>
+                    <div className="content">{history.reason}</div>
+                  </div>
+                </IonItem>
+              ))}
             </IonList>
           )}
 
@@ -157,7 +170,9 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any }> 
               <IonFabButton color={'danger'} onClick={() => this.props.history.push(`/add-note?id=${query.id}`)}>
                 <IonIcon icon={bookmarks}/>
               </IonFabButton>
-              <IonFabButton color={'warning'}><IonIcon icon={star}/></IonFabButton>
+              <IonFabButton color={'warning'} onClick={() => this.props.history.push(`/add-rate?id=${query.id}`)}>
+                <IonIcon icon={star}/>
+              </IonFabButton>
             </IonFabList>
           </IonFab>
 

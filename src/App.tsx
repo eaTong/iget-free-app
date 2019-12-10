@@ -26,6 +26,7 @@ import LoginPage from "./pages/LoginPage";
 import SearchPage from "./pages/SearchPage";
 import BookDetailPage from "./pages/BookDetailPage";
 import AddNotePage from "./pages/AddNotePage";
+import RageBookPage from "./pages/RageBookPage";
 
 const App: React.FC = () => (
   <IonApp>
@@ -36,6 +37,7 @@ const App: React.FC = () => (
         <Route path="/search" component={SearchPage} exact={true}/>
         <Route path="/book" component={BookDetailPage} exact={true}/>
         <Route path="/add-note" component={AddNotePage} exact={true}/>
+        <Route path="/add-rate" component={RageBookPage} exact={true}/>
         <Route exact path="/" render={() => <Redirect to="/home"/>}/>
       </IonRouterOutlet>
     </IonReactRouter>
