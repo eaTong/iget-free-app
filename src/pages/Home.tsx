@@ -88,7 +88,7 @@ class Home extends Component<PagePropsInterface, {}> {
 
   renderRecentlyBooks() {
     return this.state.recentlyReadingBooks.map((item: any) => (
-      <BookListItem history={this.props.history}  book={item.book} key={item.id}/>
+      <BookListItem history={this.props.history} book={item.book} key={item.id}/>
     ))
   }
 
@@ -113,7 +113,7 @@ class Home extends Component<PagePropsInterface, {}> {
         break;
     }
     return (
-      <IonCol className={'status-item'}>
+      <IonCol className={'status-item'} onClick={() => this.props.history.push(`/book-list?status=${status}`)}>
         <div className="covers">
           {statics.covers.map(img => (
             <img className={'cover-item'} key={img} src={img} alt=""/>

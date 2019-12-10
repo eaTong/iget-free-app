@@ -3,17 +3,33 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar, withIonLifeCycle, IonContent, IonRefresher, IonRefresherContent, IonButtons, IonBackButton
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {bookMarkStatus} from "../utils/enums";
 import {parse} from "querystring";
+import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
+import ajax from "../utils/ajax";
+import BookListItem from "../components/BookListItem";
+import {RefresherEventDetail} from "@ionic/core";
 
-class BookListPage extends Component<PagePropsInterface, {}> {
+class BookListPage extends Component<PagePropsInterface, { bookList: any, status: number, total: number }> {
   state = {
     bookList: [],
-    total: 0
+    total: 0,
+    status: 0
   };
+
+  ionViewDidEnter() {
+    this.setState({status: this.getQuery().status});
+    this.getBooks();
+  }
+
+  async getBooks(page: number = 0, event?: CustomEvent<RefresherEventDetail>) {
+    const {list, total} = await ajax({url: '/api/bookMark/get', data: {page, status: this.getQuery().status}});
+    this.setState({bookList: list, total});
+    if (event) event.detail.complete();
+  }
 
   getQuery(): any {
     const {location} = this.props;
@@ -25,12 +41,23 @@ class BookListPage extends Component<PagePropsInterface, {}> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>{`${bookMarkStatus[this.getQuery().status]}清单`}</IonTitle>
+            <IonButtons slot="start">
+              <IonBackButton/>
+            </IonButtons>
+            <IonTitle>{`${bookMarkStatus[this.state.status]}清单`}</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <IonContent>
+          <IonRefresher slot="fixed" onIonRefresh={(event) => this.getBooks(0, event)}>
+            <IonRefresherContent/>
+          </IonRefresher>
+          {this.state.bookList.map((book: any) => (
+            <BookListItem book={book.book} history={this.props.history} key={book.id}/>
+          ))}
+        </IonContent>
       </IonPage>
     )
   }
 }
 
-export default BookListPage;
+export default withIonLifeCycle(BookListPage);

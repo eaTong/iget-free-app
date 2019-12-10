@@ -27,6 +27,7 @@ import SearchPage from "./pages/SearchPage";
 import BookDetailPage from "./pages/BookDetailPage";
 import AddNotePage from "./pages/AddNotePage";
 import RageBookPage from "./pages/RageBookPage";
+import BookListPage from "./pages/BookListPage";
 
 const App: React.FC = () => (
   <IonApp>
@@ -36,6 +37,7 @@ const App: React.FC = () => (
         <Route path="/login" component={LoginPage} exact={true}/>
         <Route path="/search" component={SearchPage} exact={true}/>
         <Route path="/book" component={BookDetailPage} exact={true}/>
+        <Route path="/book-list" component={BookListPage} exact={true}/>
         <Route path="/add-note" component={AddNotePage} exact={true}/>
         <Route path="/add-rate" component={RageBookPage} exact={true}/>
         <Route exact path="/" render={() => <Redirect to="/home"/>}/>
