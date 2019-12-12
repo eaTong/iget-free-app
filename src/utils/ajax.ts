@@ -13,7 +13,7 @@ export default function ajax(config: AjaxConfig): Promise<any> {
     axios(
       {
         withCredentials:true,
-        url: 'http://127.0.0.1:3001' + url,
+        url: 'https://iget.eatong.cn' + url,
         data,
         method: method || 'POST'
       }
