@@ -13,7 +13,7 @@ export default function ajax(config: AjaxConfig): Promise<any> {
     axios(
       {
         withCredentials:true,
-        url: 'https://iget.eatong.cn' + url,
+        url: 'http://127.0.0.1:3001' + url,
         data,
         method: method || 'POST'
       }
@@ -26,8 +26,14 @@ export default function ajax(config: AjaxConfig): Promise<any> {
       }
     }).catch((reason: any) => {
       console.log(reason);
-      showToast(`请求错误:${JSON.stringify(reason)}`);
-      reject();
+      try{
+        const error =  reason.response.data.message;
+        showToast(`${error}`);
+        reject();
+      }catch (e) {
+        reject();
+      }
+
     })
   }))
 }
