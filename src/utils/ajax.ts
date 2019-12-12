@@ -10,7 +10,7 @@ interface AjaxConfig {
 }
 
 export default function ajax(config: AjaxConfig): Promise<any> {
-  const { url, data, method } = config;
+  const { url, data = {}, method } = config;
   const urlPrefix = 'https://iget.eatong.cn';
   return new Promise(((resolve, reject) => {
     if (isPlatform('ios')) {
