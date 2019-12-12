@@ -8,7 +8,6 @@ import {
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {bookMarkStatus} from "../utils/enums";
 import {parse} from "querystring";
-import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import ajax from "../utils/ajax";
 import BookListItem from "../components/BookListItem";
 import {RefresherEventDetail} from "@ionic/core";

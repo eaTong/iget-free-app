@@ -12,7 +12,7 @@ import {
   IonFabButton,
   IonIcon,
   IonButton,
-  IonToolbar, IonTitle, withIonLifeCycle
+  IonToolbar, IonTitle, withIonLifeCycle, IonButtons
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
@@ -20,10 +20,13 @@ import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import ajax from '../utils/ajax';
 import {bookMarkStatus} from '../utils/enums';
 import BookListItem from "../components/BookListItem";
-import {search} from "ionicons/icons";
+import {qrScanner, search} from "ionicons/icons";
 import Empty from '../components/Empty';
+import {isPlatform} from '@ionic/react'
+import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 
 class Home extends Component<PagePropsInterface, {}> {
+
   state = {
     loading: false,
     recentlyReadingBooks: [],
@@ -98,6 +101,30 @@ class Home extends Component<PagePropsInterface, {}> {
     ))
   }
 
+  scanCode() {
+    if (isPlatform('mobileweb')) {
+      this.search("6953631801604");
+    } else {
+      BarcodeScanner.scan().then((barcodeData: any) => {
+        console.log('Barcode data', barcodeData);
+        if (/^\d{13}$/.test(barcodeData.text)) {
+          this.search(barcodeData.text);
+        }
+      }).catch((err: any) => {
+
+      });
+
+    }
+  }
+
+  async search(keywords: string) {
+    const bookList = await ajax({url: '/api/book/search', data: {keywords}});
+    if (bookList && bookList.length === 1) {
+      this.props.history.push(`/book?id=${bookList[0].id}`)
+    }
+  }
+
+
   renderStatusStatics(status: number) {
     let statics = {count: 0, covers: []};
     const {bookStatics} = this.state;
@@ -147,6 +174,11 @@ class Home extends Component<PagePropsInterface, {}> {
       <IonPage className={'home-page'}>
         <IonToolbar>
           <IonTitle>书香</IonTitle>
+          <IonButtons slot="end">
+            <IonButton color={'primary'} onClick={() => this.scanCode()}>
+              <IonIcon icon={qrScanner}/>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
         <IonContent>
           <IonLoading

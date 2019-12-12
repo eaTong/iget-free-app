@@ -26,6 +26,7 @@ class Toast {
         isOpen
         message={message}
         duration={duration}
+        position={'middle'}
         onDidDismiss={() => this.destroy()}
       />), this.toastContainer);
     return this;
