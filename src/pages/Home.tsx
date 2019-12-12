@@ -102,8 +102,6 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   scanCode() {
-    console.log(BarcodeScanner);
-    // @ts-ignore
     BarcodeScanner.scan().then((barcodeData: any) => {
       console.log('Barcode data', barcodeData);
     }).catch((err: any) => {
