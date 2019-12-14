@@ -21,6 +21,7 @@ import './styles/global.css';
 import './styles/home-page.css';
 import './styles/book-list-item.css';
 import './styles/book-detail-page.css';
+import './styles/login-page.css';
 
 import LoginPage from "./pages/LoginPage";
 import SearchPage from "./pages/SearchPage";
