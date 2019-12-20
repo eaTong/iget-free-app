@@ -1,3 +1,7 @@
+.book-list-item {
+  position: relative;
+  overflow: hidden;
+}
 
 .book-list-item .label {
   font-size: 0.9em;

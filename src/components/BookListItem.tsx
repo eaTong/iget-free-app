@@ -1,5 +1,5 @@
 import React from 'react';
-import {IonItem, IonLabel} from "@ionic/react";
+import {IonItem, IonLabel, IonRippleEffect} from "@ionic/react";
 
 interface BookListInterface {
   book: any,
@@ -27,6 +27,7 @@ const BookListItem: React.FC<BookListInterface> = (props: BookListInterface) => 
           </div>
         </div>
       </IonLabel>
+      <IonRippleEffect/>
     </IonItem>
   )
 };

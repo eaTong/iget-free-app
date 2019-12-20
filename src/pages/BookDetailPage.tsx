@@ -30,7 +30,7 @@ import Rate from "../components/Rate";
 import {star, bookmarks, more, flag} from "ionicons/icons";
 import {getTimeFormat} from "../utils/utils";
 
-const statusColor = ['default', 'warning', 'secondary', 'success'];
+const statusColor = ['default', 'warning', 'secondary', 'success', 'tertiary'];
 
 class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, showActions: boolean }> {
   state = {
@@ -70,7 +70,6 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
     const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
     const {isNew} = await ajax({url: '/api/bookMark/mark', data: {bookId: query.id, status}});
-    console.log(isNew);
     this.getBookDetail();
   }
 
@@ -209,6 +208,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
                 {text: '想读', handler: () => this.changeMarkStatus(1)},
                 {text: '在读', handler: () => this.changeMarkStatus(2)},
                 {text: '已读', handler: () => this.changeMarkStatus(3)},
+                {text: '已听', handler: () => this.changeMarkStatus(4)},
                 {text: '取消', role: 'cancel', icon: 'close', handler: () => this.toggleActions(false)},
               ]
             }

@@ -17,7 +17,6 @@ export default function ajax(config: AjaxConfig): Promise<any> {
       HTTP.sendRequest(urlPrefix + url, { method: 'post', data }).then((result: any) => {
         if (result.status === 200) {
           const resultData = JSON.parse(result.data);
-          console.log(resultData);
           if (resultData.success) {
             resolve(resultData.data);
           } else {
@@ -45,7 +44,6 @@ export default function ajax(config: AjaxConfig): Promise<any> {
           method: method || 'POST'
         }
       ).then((result: any) => {
-        console.log(result);
         if (result.data.success) {
           resolve(result.data.data);
         } else {

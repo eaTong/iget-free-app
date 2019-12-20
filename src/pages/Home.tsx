@@ -12,7 +12,7 @@ import {
   IonFabButton,
   IonIcon,
   IonButton,
-  IonToolbar, IonTitle, withIonLifeCycle, IonButtons
+  IonToolbar, IonTitle, withIonLifeCycle, IonButtons, IonSkeletonText
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
@@ -29,6 +29,7 @@ class Home extends Component<PagePropsInterface, {}> {
 
   state = {
     loading: false,
+    fetched: false,
     recentlyReadingBooks: [],
     recentlyReadingCount: 0,
     wantedBooks: [],
@@ -37,6 +38,7 @@ class Home extends Component<PagePropsInterface, {}> {
       wanted: {count: 0, covers: []},
       reading: {count: 0, covers: []},
       read: {count: 0, covers: []},
+      listened: {count: 0, covers: []},
     }
   };
 
@@ -66,7 +68,7 @@ class Home extends Component<PagePropsInterface, {}> {
 
   async getMyBookMark() {
     const bookStatics = await ajax({url: '/api/bookMark/statics'});
-    this.setState({bookStatics});
+    this.setState({bookStatics, fetched: true});
     this.recentlyReading();
     this.wanted();
   }
@@ -106,7 +108,6 @@ class Home extends Component<PagePropsInterface, {}> {
       this.search("6953631801604");
     } else {
       BarcodeScanner.scan().then((barcodeData: any) => {
-        console.log('Barcode data', barcodeData);
         if (/^\d{13}$/.test(barcodeData.text)) {
           this.search(barcodeData.text);
         }
@@ -138,6 +139,9 @@ class Home extends Component<PagePropsInterface, {}> {
       case 3:
         statics = bookStatics.read || statics;
         break;
+      case 4:
+        statics = bookStatics.listened || statics;
+        break;
     }
     return (
       <IonCol className={'status-item'} onClick={() => this.props.history.push(`/book-list?status=${status}`)}>
@@ -161,13 +165,14 @@ class Home extends Component<PagePropsInterface, {}> {
           {this.renderStatusStatics(1)}
           {this.renderStatusStatics(2)}
           {this.renderStatusStatics(3)}
+          {this.renderStatusStatics(4)}
         </IonRow>
       </IonGrid>
     )
   }
 
   render() {
-    const {loading, recentlyReadingCount, wantedCount, bookStatics} = this.state;
+    const {loading, recentlyReadingCount, wantedCount, bookStatics, fetched} = this.state;
     const {reading, wanted, read} = bookStatics;
     const hasBookMark = reading.count > 0 || wanted.count > 0 || read.count > 0;
     return (
@@ -187,8 +192,16 @@ class Home extends Component<PagePropsInterface, {}> {
             message={'自动登录中...'}
             duration={5000}
           />
-          {hasBookMark && this.renderStatics()}
-          {hasBookMark || (
+          {!fetched && (
+            <div className="ion-padding custom-skeleton">
+              <IonSkeletonText animated style={{width: '60%'}}/>
+              <IonSkeletonText animated/>
+              <IonSkeletonText animated style={{width: '88%'}}/>
+              <IonSkeletonText animated style={{width: '70%'}}/>
+            </div>
+          )}
+          {hasBookMark && fetched && this.renderStatics()}
+          {!hasBookMark && fetched && (
             <Empty>
               <div>
                 <p className="add-more">最美是翻开书页的瞬间，马上开启您的完美书香之旅吧。</p>
