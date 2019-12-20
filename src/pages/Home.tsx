@@ -143,6 +143,9 @@ class Home extends Component<PagePropsInterface, {}> {
         statics = bookStatics.listened || statics;
         break;
     }
+    if (!statics.count) {
+      return null;
+    }
     return (
       <IonCol className={'status-item'} onClick={() => this.props.history.push(`/book-list?status=${status}`)}>
         <div className="covers">

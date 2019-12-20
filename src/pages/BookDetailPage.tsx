@@ -69,7 +69,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
   async doChange(status: number) {
     const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
-    const {isNew} = await ajax({url: '/api/bookMark/mark', data: {bookId: query.id, status}});
+    await ajax({url: '/api/bookMark/mark', data: {bookId: query.id, status}});
     this.getBookDetail();
   }
 
