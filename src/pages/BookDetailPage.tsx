@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -20,21 +20,23 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
-  IonFabList, withIonLifeCycle, IonActionSheet
+  IonFabList, withIonLifeCycle,
 } from "@ionic/react";
-import {PagePropsInterface} from "../utils/PagePropsInterface";
+import { PagePropsInterface } from "../utils/PagePropsInterface";
 import ajax from "../utils/ajax";
-import {parse} from 'querystring';
-import {bookMarkStatus} from "../utils/enums";
+import { parse } from 'querystring';
+import { bookMarkStatus } from "../utils/enums";
 import Rate from "../components/Rate";
-import {star, bookmarks, more, flag} from "ionicons/icons";
-import {getTimeFormat} from "../utils/utils";
+import { star, bookmarks, more, flag } from "ionicons/icons";
+import { getTimeFormat } from "../utils/utils";
+import BookStatusModal from "../components/BookStatusModal";
+import moment from "moment";
 
 const statusColor = ['default', 'warning', 'secondary', 'success', 'tertiary'];
 
-class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, showActions: boolean }> {
+class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, showModal: boolean }> {
   state = {
-    showActions: false,
+    showModal: false,
     bookDetail: {
       name: '',
       summary: '',
@@ -45,9 +47,11 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
       author: '',
       isbn13: '',
       mark: {
-        status: 0,
-        rate: 5,
+        status: -1,
+        rate: 0,
+        listenedStatus: -1,
         finishTime: '',
+        finishListeningTime:''
       },
       bookNotes: [],
       rateHistories: []
@@ -58,38 +62,35 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
     this.getBookDetail();
   }
 
-  toggleActions(showActions: boolean) {
-    this.setState({showActions})
+  toggleModal(showModal: boolean) {
+    this.setState({ showModal })
   }
 
-  changeMarkStatus(status: number) {
-    this.doChange(status);
-  }
-
-  async doChange(status: number) {
-    const {location} = this.props;
+  async onChangeStatus(data: any) {
+    const { location } = this.props;
     const query = parse(location.search.replace('?', ""));
-    await ajax({url: '/api/bookMark/mark', data: {bookId: query.id, status}});
+    await ajax({ url: '/api/bookMark/mark', data: { bookId: query.id, ...data } });
+    this.toggleModal(false);
     this.getBookDetail();
   }
 
   async getBookDetail() {
-    const {location} = this.props;
+    const { location } = this.props;
     const query = parse(location.search.replace('?', ""));
-    const bookDetail = await ajax({url: '/api/book/detail', data: {id: query.id}});
-    this.setState({bookDetail});
+    const bookDetail = await ajax({ url: '/api/book/detail', data: { id: query.id } });
+    this.setState({ bookDetail });
   }
 
   render() {
-    const {location} = this.props;
+    const { location } = this.props;
     const query = parse(location.search.replace('?', ""));
-    const {bookDetail, showActions} = this.state;
+    const { bookDetail, showModal } = this.state;
     return (
       <IonPage className={'book-detail-page'}>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <IonBackButton />
             </IonButtons>
             <IonTitle>{bookDetail.name}</IonTitle>
           </IonToolbar>
@@ -98,10 +99,10 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
           <IonNote
             color={statusColor[bookDetail.mark.status]}
             className='mark-status'
-            onClick={() => this.toggleActions(true)}
+            onClick={() => this.toggleModal(true)}
           >
             {bookMarkStatus[bookDetail.mark.status]}
-          </IonNote><br/>
+          </IonNote>
           <IonCard>
             <IonCardHeader>
               <IonCardTitle>{bookDetail.name}</IonCardTitle>
@@ -112,7 +113,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
             <IonCardContent>
               <div className={'book-info'}>
                 <div className="cover-container" slot="start">
-                  <img src={bookDetail.coverImage} alt="" className={'cover-image'}/>
+                  <img src={bookDetail.coverImage} alt="" className={'cover-image'} />
                 </div>
                 <IonLabel>
                   <div className="info">
@@ -133,11 +134,29 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
                       <span className="value">{bookDetail.isbn13}</span>
                     </div>
                     <div className="et-row">
-                      <span className="label">我的评分</span>
+                      <span className="label">最近评分</span>
                       <span className="value">
-                        <Rate value={bookDetail.mark.rate}/>
+                        <Rate value={bookDetail.mark.rate} />
                       </span>
                     </div>
+
+                    {bookDetail.mark.status === 3 && (
+                      <div className="et-row">
+                        <span className="label">读完日期</span>
+                        <span className="value">
+                          {moment(bookDetail.mark.finishTime).format('YYYY-MM-DD')}
+                        </span>
+                      </div>
+                    )}
+
+                    {bookDetail.mark.listenedStatus === 1 && (
+                      <div className="et-row">
+                        <span className="label">听书日期</span>
+                        <span className="value">
+                          {moment(bookDetail.mark.finishListeningTime).format('YYYY-MM-DD')}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </IonLabel>
               </div>
@@ -170,7 +189,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
                 <IonItem key={history.id}>
                   <div className="rate-detail">
                     <div className="header">
-                      <div className="rate"><Rate value={history.rate}/></div>
+                      <div className="rate"><Rate value={history.rate} /></div>
                       <div className="time">
                         {getTimeFormat(history.createdAt)}
                       </div>
@@ -184,36 +203,25 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
 
           <IonFab vertical="bottom" horizontal="end" slot="fixed">
             <IonFabButton>
-              <IonIcon icon={more}/>
+              <IonIcon icon={more} />
             </IonFabButton>
             <IonFabList side="top">
               <IonFabButton color={'danger'} onClick={() => this.props.history.push(`/add-note?id=${query.id}`)}>
-                <IonIcon icon={bookmarks}/>
+                <IonIcon icon={bookmarks} />
               </IonFabButton>
               <IonFabButton color={'warning'} onClick={() => this.props.history.push(`/add-rate?id=${query.id}`)}>
-                <IonIcon icon={star}/>
+                <IonIcon icon={star} />
               </IonFabButton>
-              <IonFabButton color={'primary'} onClick={() => this.toggleActions(true)}>
-                <IonIcon icon={flag}/>
+              <IonFabButton color={'primary'} onClick={() => this.toggleModal(true)}>
+                <IonIcon icon={flag} />
               </IonFabButton>
             </IonFabList>
           </IonFab>
-          <IonActionSheet
-            header={'更换已读状态'}
-            isOpen={showActions}
-            onDidDismiss={() => this.toggleActions(false)}
-            buttons={
-              [
-                {text: '未读', handler: () => this.changeMarkStatus(0)},
-                {text: '想读', handler: () => this.changeMarkStatus(1)},
-                {text: '在读', handler: () => this.changeMarkStatus(2)},
-                {text: '已读', handler: () => this.changeMarkStatus(3)},
-                {text: '已听', handler: () => this.changeMarkStatus(4)},
-                {text: '取消', role: 'cancel', icon: 'close', handler: () => this.toggleActions(false)},
-              ]
-            }
-          >
-          </IonActionSheet>
+
+          {showModal && (
+            <BookStatusModal mark={bookDetail.mark} title={bookDetail.name} onDismiss={() => this.toggleModal(false)} onSubmit={(data: any) => this.onChangeStatus(data)} />
+          )}
+
         </IonContent>
       </IonPage>
     )

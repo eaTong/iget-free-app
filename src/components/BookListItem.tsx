@@ -10,7 +10,7 @@ interface BookListInterface {
 const BookListItem: React.FC<BookListInterface> = (props: BookListInterface) => {
   const {book, history} = props;
   return (
-    <IonItem className={'book-list-item'} onClick={() => history.push(`/book?id=${book.id}`)}>
+    <IonItem className={'book-list-item'} onClick={() => history.push(`/book?id=${book.id}`)} button>
       <div className="cover-container" slot="start">
         <img src={book.coverImage} alt="" className={'cover-image'}/>
       </div>

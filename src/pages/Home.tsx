@@ -14,16 +14,16 @@ import {
   IonButton,
   IonToolbar, IonTitle, withIonLifeCycle, IonButtons, IonSkeletonText
 } from '@ionic/react';
-import React, {Component} from 'react';
-import {PagePropsInterface} from "../utils/PagePropsInterface";
-import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
+import React, { Component } from 'react';
+import { PagePropsInterface } from "../utils/PagePropsInterface";
+import { CACHED_LOGIN_USER, HAS_LOGIN } from "../utils/constants";
 import ajax from '../utils/ajax';
-import {bookMarkStatus} from '../utils/enums';
+import { bookMarkStatus } from '../utils/enums';
 import BookListItem from "../components/BookListItem";
-import {qrScanner, search} from "ionicons/icons";
+import { qrScanner, search } from "ionicons/icons";
 import Empty from '../components/Empty';
-import {isPlatform} from '@ionic/react'
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
+import { isPlatform } from '@ionic/react'
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 class Home extends Component<PagePropsInterface, {}> {
 
@@ -35,10 +35,10 @@ class Home extends Component<PagePropsInterface, {}> {
     wantedBooks: [],
     wantedCount: 0,
     bookStatics: {
-      wanted: {count: 0, covers: []},
-      reading: {count: 0, covers: []},
-      read: {count: 0, covers: []},
-      listened: {count: 0, covers: []},
+      wanted: { count: 0, covers: [] },
+      reading: { count: 0, covers: [] },
+      read: { count: 0, covers: [] },
+      listened: { count: 0, covers: [] },
     }
   };
 
@@ -53,7 +53,7 @@ class Home extends Component<PagePropsInterface, {}> {
       try {
         const loggedUser = JSON.parse(loginUserSting);
         await this.toggleLoading(true);
-        await ajax({url: '/api/user/login', data: loggedUser});
+        await ajax({ url: '/api/user/login', data: loggedUser });
         this.toggleLoading(false);
         window.sessionStorage.setItem(HAS_LOGIN, '1');
         window.localStorage.setItem(CACHED_LOGIN_USER, JSON.stringify(loggedUser));
@@ -67,20 +67,20 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   async getMyBookMark() {
-    const bookStatics = await ajax({url: '/api/bookMark/statics'});
-    this.setState({bookStatics, fetched: true});
+    const bookStatics = await ajax({ url: '/api/bookMark/statics' });
+    this.setState({ bookStatics, fetched: true });
     this.recentlyReading();
     this.wanted();
   }
 
   async recentlyReading() {
-    const {list, total} = await ajax({url: '/api/bookMark/get', data: {status: 2}});
-    this.setState({recentlyReadingBooks: list, recentlyReadingCount: total});
+    const { list, total } = await ajax({ url: '/api/bookMark/get', data: { status: 2 } });
+    this.setState({ recentlyReadingBooks: list, recentlyReadingCount: total });
   }
 
   async wanted() {
-    const {list, total} = await ajax({url: '/api/bookMark/get', data: {status: 1}});
-    this.setState({wantedBooks: list, wantedCount: total});
+    const { list, total } = await ajax({ url: '/api/bookMark/get', data: { status: 1 } });
+    this.setState({ wantedBooks: list, wantedCount: total });
   }
 
   redirectLogin() {
@@ -88,18 +88,18 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   toggleLoading(loading: Boolean): void {
-    this.setState({loading: loading})
+    this.setState({ loading: loading })
   }
 
   renderRecentlyBooks() {
     return this.state.recentlyReadingBooks.map((item: any) => (
-      <BookListItem history={this.props.history} book={item.book} key={item.id}/>
+      <BookListItem history={this.props.history} book={item.book} key={item.id} />
     ))
   }
 
   renderWantedBooks() {
     return this.state.wantedBooks.map((item: any) => (
-      <BookListItem history={this.props.history} book={item.book} key={item.id}/>
+      <BookListItem history={this.props.history} book={item.book} key={item.id} />
     ))
   }
 
@@ -119,42 +119,44 @@ class Home extends Component<PagePropsInterface, {}> {
   }
 
   async search(keywords: string) {
-    const bookList = await ajax({url: '/api/book/search', data: {keywords}});
+    const bookList = await ajax({ url: '/api/book/search', data: { keywords } });
     if (bookList && bookList.length === 1) {
       this.props.history.push(`/book?id=${bookList[0].id}`)
     }
   }
 
 
-  renderStatusStatics(status: number) {
-    let statics = {count: 0, covers: []};
-    const {bookStatics} = this.state;
-    switch (status) {
-      case 1:
-        statics = bookStatics.wanted || statics;
-        break;
-      case 2:
-        statics = bookStatics.reading || statics;
-        break;
-      case 3:
-        statics = bookStatics.read || statics;
-        break;
-      case 4:
-        statics = bookStatics.listened || statics;
-        break;
+  renderStatusStatics(status: number, listenedStatus?: number) {
+    let statics = { count: 0, covers: [] };
+    const { bookStatics } = this.state;
+    if (listenedStatus) {
+      statics = bookStatics.listened || statics;
+    } else {
+
+      switch (status) {
+        case 1:
+          statics = bookStatics.wanted || statics;
+          break;
+        case 2:
+          statics = bookStatics.reading || statics;
+          break;
+        case 3:
+          statics = bookStatics.read || statics;
+          break;
+      }
     }
     if (!statics.count) {
       return null;
     }
     return (
-      <IonCol className={'status-item'} onClick={() => this.props.history.push(`/book-list?status=${status}`)}>
+      <IonCol className={'status-item'} onClick={() => this.props.history.push(`/book-list?status=${status}&listenedStatus=${listenedStatus}`)}>
         <div className="covers">
           {statics.covers.map(img => (
-            <img className={'cover-item'} key={img} src={img} alt=""/>
+            <img className={'cover-item'} key={img} src={img} alt="" />
           ))}
         </div>
         <div className="footer">
-          <span className="label">{bookMarkStatus[status]}</span>
+          <span className="label">{listenedStatus?'已听': bookMarkStatus[status]}</span>
           <span className="num">{statics.count}</span>
         </div>
       </IonCol>
@@ -168,15 +170,15 @@ class Home extends Component<PagePropsInterface, {}> {
           {this.renderStatusStatics(1)}
           {this.renderStatusStatics(2)}
           {this.renderStatusStatics(3)}
-          {this.renderStatusStatics(4)}
+          {this.renderStatusStatics(-1, 1)}
         </IonRow>
       </IonGrid>
     )
   }
 
   render() {
-    const {loading, recentlyReadingCount, wantedCount, bookStatics, fetched} = this.state;
-    const {reading, wanted, read} = bookStatics;
+    const { loading, recentlyReadingCount, wantedCount, bookStatics, fetched } = this.state;
+    const { reading, wanted, read } = bookStatics;
     const hasBookMark = reading.count > 0 || wanted.count > 0 || read.count > 0;
     return (
       <IonPage className={'home-page'}>
@@ -184,7 +186,7 @@ class Home extends Component<PagePropsInterface, {}> {
           <IonTitle>书香</IonTitle>
           <IonButtons slot="end">
             <IonButton color={'primary'} onClick={() => this.scanCode()}>
-              <IonIcon icon={qrScanner}/>
+              <IonIcon icon={qrScanner} />
             </IonButton>
           </IonButtons>
         </IonToolbar>
@@ -197,17 +199,17 @@ class Home extends Component<PagePropsInterface, {}> {
           />
           {!fetched && (
             <div className="ion-padding custom-skeleton">
-              <IonSkeletonText animated style={{width: '60%'}}/>
-              <IonSkeletonText animated/>
-              <IonSkeletonText animated style={{width: '88%'}}/>
-              <IonSkeletonText animated style={{width: '70%'}}/>
+              <IonSkeletonText animated style={{ width: '60%' }} />
+              <IonSkeletonText animated />
+              <IonSkeletonText animated style={{ width: '88%' }} />
+              <IonSkeletonText animated style={{ width: '70%' }} />
             </div>
           )}
           {hasBookMark && fetched && this.renderStatics()}
           {!hasBookMark && fetched && (
             <Empty>
               <div>
-                <p className="add-more">最美是翻开书页的瞬间，马上开启您的完美书香之旅吧。</p>
+                <p className="add-more">最美是翻开书页的瞬间，马上开启您的完美书香之旅吧。（点击右上角可扫描书籍条形码快速记录）</p>
                 <IonButton onClick={() => this.props.history.push('/search')}>开启书香之旅</IonButton>
               </div>
             </Empty>
@@ -233,7 +235,7 @@ class Home extends Component<PagePropsInterface, {}> {
         {hasBookMark && (
           <IonFab vertical="bottom" horizontal="end" slot="fixed">
             <IonFabButton onClick={() => this.props.history.push('/search')}>
-              <IonIcon icon={search}/>
+              <IonIcon icon={search} />
             </IonFabButton>
           </IonFab>
         )}
