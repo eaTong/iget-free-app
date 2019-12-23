@@ -9,17 +9,16 @@ import {
   IonBackButton,
   IonList,
   IonButton,
-  IonIcon,
-  isPlatform
+  IonIcon, isPlatform
 } from "@ionic/react";
-import {PagePropsInterface} from "../utils/PagePropsInterface";
-import ajax from "../utils/ajax";
-import BookListItem from "../components/BookListItem";
-import Empty from "../components/Empty";
-import { qrScanner } from "ionicons/icons";
+import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import ajax from "../../utils/ajax";
+import BookListItem from "../../components/BookListItem";
+import {qrScanner} from "ionicons/icons";
+import Empty from "../../components/Empty";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 
-class SearchPage extends Component<PagePropsInterface, {}> {
+class SearchBookPage extends Component<PagePropsInterface, {}> {
   state = {
     bookList: [],
     fetched:false
@@ -83,4 +82,4 @@ class SearchPage extends Component<PagePropsInterface, {}> {
   }
 }
 
-export default SearchPage;
+export default SearchBookPage;

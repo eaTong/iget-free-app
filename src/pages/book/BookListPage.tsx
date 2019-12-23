@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar, withIonLifeCycle, IonContent, IonRefresher, IonRefresherContent, IonButtons, IonBackButton
 } from "@ionic/react";
-import { PagePropsInterface } from "../utils/PagePropsInterface";
-import { bookMarkStatus, bookMarkListenedStatus } from "../utils/enums";
-import { parse } from "querystring";
-import ajax from "../utils/ajax";
-import BookListItem from "../components/BookListItem";
-import { RefresherEventDetail } from "@ionic/core";
+import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import {bookMarkStatus,bookMarkListenedStatus} from "../../utils/enums";
+import {parse} from "querystring";
+import ajax from "../../utils/ajax";
+import BookListItem from "../../components/BookListItem";
+import {RefresherEventDetail} from "@ionic/core";
 
 class BookListPage extends Component<PagePropsInterface, { bookList: any, status: number, listenedStatus: number, total: number }> {
   state = {
@@ -25,6 +25,7 @@ class BookListPage extends Component<PagePropsInterface, { bookList: any, status
   }
 
   ionViewDidEnter() {
+    this.setState({status: this.getQuery().status});
     this.getBooks();
   }
 

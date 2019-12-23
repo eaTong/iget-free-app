@@ -8,10 +8,10 @@ import {
   IonTitle,
   IonToolbar
 } from "@ionic/react";
-import {PagePropsInterface} from "../utils/PagePropsInterface";
-import Rate from "../components/Rate";
+import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import Rate from "../../components/Rate";
 import {parse} from "querystring";
-import ajax from "../utils/ajax";
+import ajax from "../../utils/ajax";
 
 class RageBookPage extends Component<PagePropsInterface, {}> {
   state = {

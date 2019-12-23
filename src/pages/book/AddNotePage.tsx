@@ -7,8 +7,8 @@ import {
   IonToolbar,
   IonBackButton, IonButton, IonContent, IonItem, IonTextarea, IonList, IonLabel
 } from "@ionic/react";
-import {PagePropsInterface} from "../utils/PagePropsInterface";
-import ajax from "../utils/ajax";
+import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import ajax from "../../utils/ajax";
 import {parse} from "querystring";
 
 class AddNotePage extends Component<PagePropsInterface, {}> {

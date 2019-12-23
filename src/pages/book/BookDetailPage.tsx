@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -22,14 +22,14 @@ import {
   IonIcon,
   IonFabList, withIonLifeCycle,
 } from "@ionic/react";
-import { PagePropsInterface } from "../utils/PagePropsInterface";
-import ajax from "../utils/ajax";
-import { parse } from 'querystring';
-import { bookMarkStatus } from "../utils/enums";
-import Rate from "../components/Rate";
-import { star, bookmarks, more, flag } from "ionicons/icons";
-import { getTimeFormat } from "../utils/utils";
-import BookStatusModal from "../components/BookStatusModal";
+import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import ajax from "../../utils/ajax";
+import {parse} from 'querystring';
+import {bookMarkStatus} from "../../utils/enums";
+import Rate from "../../components/Rate";
+import {star, bookmarks, more, flag} from "ionicons/icons";
+import {getTimeFormat} from "../../utils/utils";
+import BookStatusModal from "../../components/BookStatusModal";
 import moment from "moment";
 
 const statusColor = ['default', 'warning', 'secondary', 'success', 'tertiary'];
@@ -206,10 +206,10 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
               <IonIcon icon={more} />
             </IonFabButton>
             <IonFabList side="top">
-              <IonFabButton color={'danger'} onClick={() => this.props.history.push(`/add-note?id=${query.id}`)}>
+              <IonFabButton color={'danger'} onClick={() => this.props.history.push(`/book/add-note?id=${query.id}`)}>
                 <IonIcon icon={bookmarks} />
               </IonFabButton>
-              <IonFabButton color={'warning'} onClick={() => this.props.history.push(`/add-rate?id=${query.id}`)}>
+              <IonFabButton color={'warning'} onClick={() => this.props.history.push(`/book/add-rate?id=${query.id}`)}>
                 <IonIcon icon={star} />
               </IonFabButton>
               <IonFabButton color={'primary'} onClick={() => this.toggleModal(true)}>
