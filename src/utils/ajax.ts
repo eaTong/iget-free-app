@@ -1,7 +1,7 @@
-import axios, { Method } from 'axios';
+import axios, {Method} from 'axios';
 import showToast from './toastUtil';
-import { isPlatform } from '@ionic/react';
-import { HTTP } from '@ionic-native/http';
+import {isPlatform} from '@ionic/react';
+import {HTTP} from '@ionic-native/http';
 
 interface AjaxConfig {
   url: string,
@@ -10,11 +10,11 @@ interface AjaxConfig {
 }
 
 export default function ajax(config: AjaxConfig): Promise<any> {
-  const { url, data = {}, method } = config;
+  const {url, data = {}, method} = config;
   const urlPrefix = 'https://iget.eatong.cn';
   return new Promise(((resolve, reject) => {
     if (isPlatform('ios')) {
-      HTTP.sendRequest(urlPrefix + url, { method: 'post', data }).then((result: any) => {
+      HTTP.sendRequest(urlPrefix + url, {method: 'post', data}).then((result: any) => {
         if (result.status === 200) {
           const resultData = JSON.parse(result.data);
           if (resultData.success) {

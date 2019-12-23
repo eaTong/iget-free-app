@@ -13,7 +13,7 @@ import {
   IonRippleEffect
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
-import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
+import {CACHED_LOGIN_USER, CURRENT_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import ajax from "../utils/ajax";
 import {Plugins} from '@capacitor/core';
 
@@ -32,13 +32,16 @@ class LoginPage extends Component<PagePropsInterface, {}> {
 
   async quickLogin() {
     const deviceInfo = await Plugins.Device.getInfo();
-    await ajax({url: '/api/pub/quickLogin', data: {uuid: deviceInfo.uuid}});
+    const loginUser = await ajax({url: '/api/pub/quickLogin', data: {uuid: deviceInfo.uuid}});
     window.sessionStorage.setItem(HAS_LOGIN, '1');
+    window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
     this.props.history.replace('/home');
+
   }
 
   async login() {
-    await ajax({url: '/api/user/login', data: this.state.form});
+    const loginUser = await ajax({url: '/api/user/login', data: this.state.form});
+    window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
     window.sessionStorage.setItem(HAS_LOGIN, '1');
     window.localStorage.setItem(CACHED_LOGIN_USER, JSON.stringify(this.state.form));
     this.props.history.replace('/home');

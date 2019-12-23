@@ -149,7 +149,7 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
   }
 
   render() {
-    const { recentlyReadingCount, wantedCount, bookStatics, fetched} = this.state;
+    const {recentlyReadingCount, wantedCount, bookStatics, fetched} = this.state;
     const {reading, wanted, read} = bookStatics;
     const hasBookMark = reading.count > 0 || wanted.count > 0 || read.count > 0;
     return (

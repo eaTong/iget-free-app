@@ -6,7 +6,7 @@ import {
   IonToolbar, withIonLifeCycle, IonContent, IonRefresher, IonRefresherContent, IonButtons, IonBackButton
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
-import {bookMarkStatus,bookMarkListenedStatus} from "../../utils/enums";
+import {bookMarkStatus, bookMarkListenedStatus} from "../../utils/enums";
 import {parse} from "querystring";
 import ajax from "../../utils/ajax";
 import BookListItem from "../../components/BookListItem";
@@ -21,7 +21,7 @@ class BookListPage extends Component<PagePropsInterface, { bookList: any, status
   };
 
   componentDidMount() {
-    this.setState({ status: this.getQuery().status, listenedStatus: this.getQuery().listenedStatus });
+    this.setState({status: this.getQuery().status, listenedStatus: this.getQuery().listenedStatus});
   }
 
   ionViewDidEnter() {
@@ -31,18 +31,21 @@ class BookListPage extends Component<PagePropsInterface, { bookList: any, status
 
   async getBooks(page: number = 0, event?: CustomEvent<RefresherEventDetail>) {
     const query = this.getQuery();
-    const { list, total } = await ajax({ url: '/api/bookMark/get', data: { page, status: query.status, listenedStatus: query.listenedStatus } });
-    this.setState({ bookList: list, total });
+    const {list, total} = await ajax({
+      url: '/api/bookMark/get',
+      data: {page, status: query.status, listenedStatus: query.listenedStatus}
+    });
+    this.setState({bookList: list, total});
     if (event) event.detail.complete();
   }
 
   getQuery(): any {
-    const { location } = this.props;
+    const {location} = this.props;
     return parse(location.search.replace('?', ""));
   }
 
   getTitle() {
-    const { status, listenedStatus } = this.state;
+    const {status, listenedStatus} = this.state;
 
     if (status > -1) {
       return `${bookMarkStatus[status]}书单`;
@@ -59,17 +62,17 @@ class BookListPage extends Component<PagePropsInterface, { bookList: any, status
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton />
+              <IonBackButton/>
             </IonButtons>
             <IonTitle>{this.getTitle()}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
           <IonRefresher slot="fixed" onIonRefresh={(event) => this.getBooks(0, event)}>
-            <IonRefresherContent />
+            <IonRefresherContent/>
           </IonRefresher>
           {this.state.bookList.map((book: any) => (
-            <BookListItem book={book.book} history={this.props.history} key={book.id} />
+            <BookListItem book={book.book} history={this.props.history} key={book.id}/>
           ))}
         </IonContent>
       </IonPage>

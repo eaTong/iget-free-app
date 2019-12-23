@@ -16,12 +16,12 @@ import ajax from "../../utils/ajax";
 import BookListItem from "../../components/BookListItem";
 import {qrScanner} from "ionicons/icons";
 import Empty from "../../components/Empty";
-import { BarcodeScanner } from "@ionic-native/barcode-scanner";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 
 class SearchBookPage extends Component<PagePropsInterface, {}> {
   state = {
     bookList: [],
-    fetched:false
+    fetched: false
   };
 
   componentDidMount(): void {
@@ -30,8 +30,9 @@ class SearchBookPage extends Component<PagePropsInterface, {}> {
 
   async search(keywords: string) {
     const bookList = await ajax({url: '/api/book/search', data: {keywords}});
-    this.setState({bookList,fetched:true});
+    this.setState({bookList, fetched: true});
   }
+
   scanCode() {
     if (isPlatform('mobileweb')) {
       this.search("6953631801604");
@@ -48,7 +49,7 @@ class SearchBookPage extends Component<PagePropsInterface, {}> {
   }
 
   render() {
-    const {bookList,fetched} = this.state;
+    const {bookList, fetched} = this.state;
     return (
       <IonPage>
         <IonHeader>
@@ -58,10 +59,10 @@ class SearchBookPage extends Component<PagePropsInterface, {}> {
             </IonButtons>
             <IonTitle>书海寻珍</IonTitle>
             <IonButtons slot="end">
-            <IonButton color={'primary'} onClick={() => this.scanCode()}>
-              <IonIcon icon={qrScanner}/>
-            </IonButton>
-          </IonButtons>
+              <IonButton color={'primary'} onClick={() => this.scanCode()}>
+                <IonIcon icon={qrScanner}/>
+              </IonButton>
+            </IonButtons>
           </IonToolbar>
           <IonToolbar>
             <IonSearchbar animated placeholder={'输入书名或ISBN搜索'} onIonChange={(e: any) => this.search(e.target.value)}/>

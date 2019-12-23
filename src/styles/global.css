@@ -30,3 +30,18 @@
   font-size: 0.9em;
   color: var(--ion-color-dark, #222428);
 }
+
+.menu-footer {
+  display: flex;
+  padding: 16px;
+}
+
+.menu-footer .user-name {
+  color: var(--ion-color-primary)
+}
+
+.menu-footer .operation {
+  flex: 1;
+  text-align: right;
+  color: var(--ion-color-danger)
+}

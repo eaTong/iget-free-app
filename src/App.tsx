@@ -33,9 +33,10 @@ import BookDetailPage from "./pages/book/BookDetailPage";
 import AddNotePage from "./pages/book/AddNotePage";
 import RageBookPage from "./pages/book/RageBookPage";
 import BookListPage from "./pages/book/BookListPage";
-import {home, list} from "ionicons/icons";
+import {school} from "ionicons/icons";
 import Menu from './components/Menu';
 import BookHomePage from "./pages/book/BookHomePage";
+import MineHomePage from "./pages/mine/MineHomePage";
 
 export interface AppPage {
   url: string;
@@ -47,12 +48,7 @@ const appPages: AppPage[] = [
   {
     title: '书香',
     url: '/book/home',
-    icon: home
-  },
-  {
-    title: '我的',
-    url: '/mine/home',
-    icon: list
+    icon: school
   }
 ];
 
@@ -70,6 +66,7 @@ const App: React.FC = () => (
             <Route path="/book/list" component={BookListPage} exact={true}/>
             <Route path="/book/add-note" component={AddNotePage} exact={true}/>
             <Route path="/book/add-rate" component={RageBookPage} exact={true}/>
+            <Route path="/mine/home" component={MineHomePage} exact={true}/>
             <Route exact path="/" render={() => <Redirect to="/home"/>}/>
           </IonRouterOutlet>
         </IonSplitPane>

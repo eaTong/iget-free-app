@@ -1,7 +1,9 @@
 import moment from "moment";
 import {weekEnums} from "./enums";
+import {CURRENT_LOGIN_USER} from "./constants";
+import ajax from "./ajax";
 
-function getTimeFormat(timeStr: string = '') {
+export function getTimeFormat(timeStr: string = '') {
   const date = moment(timeStr);
   const now = moment();
   const diff = dateDiff(now, date, true);
@@ -32,4 +34,15 @@ export function dateDiff(a: any, b: any, disableAutoAdd: boolean) {
   return Math.round((dateA.valueOf() - dateB.valueOf()) / (1000 * 60 * 60 * 24) + (disableAutoAdd ? 0 : 1)) || 0;
 }
 
-export {getTimeFormat}
+export function getLoginUser() {
+  try {
+    return JSON.parse(window.sessionStorage.getItem(CURRENT_LOGIN_USER) || '{}');
+  } catch (e) {
+    return {}
+  }
+}
+
+export async function logout() {
+  await ajax({url: '/api/user/logout'});
+
+}

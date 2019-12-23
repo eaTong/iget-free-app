@@ -51,7 +51,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
         rate: 0,
         listenedStatus: -1,
         finishTime: '',
-        finishListeningTime:''
+        finishListeningTime: ''
       },
       bookNotes: [],
       rateHistories: []
@@ -63,34 +63,34 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
   }
 
   toggleModal(showModal: boolean) {
-    this.setState({ showModal })
+    this.setState({showModal})
   }
 
   async onChangeStatus(data: any) {
-    const { location } = this.props;
+    const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
-    await ajax({ url: '/api/bookMark/mark', data: { bookId: query.id, ...data } });
+    await ajax({url: '/api/bookMark/mark', data: {bookId: query.id, ...data}});
     this.toggleModal(false);
     this.getBookDetail();
   }
 
   async getBookDetail() {
-    const { location } = this.props;
+    const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
-    const bookDetail = await ajax({ url: '/api/book/detail', data: { id: query.id } });
-    this.setState({ bookDetail });
+    const bookDetail = await ajax({url: '/api/book/detail', data: {id: query.id}});
+    this.setState({bookDetail});
   }
 
   render() {
-    const { location } = this.props;
+    const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
-    const { bookDetail, showModal } = this.state;
+    const {bookDetail, showModal} = this.state;
     return (
       <IonPage className={'book-detail-page'}>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton />
+              <IonBackButton/>
             </IonButtons>
             <IonTitle>{bookDetail.name}</IonTitle>
           </IonToolbar>
@@ -113,7 +113,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
             <IonCardContent>
               <div className={'book-info'}>
                 <div className="cover-container" slot="start">
-                  <img src={bookDetail.coverImage} alt="" className={'cover-image'} />
+                  <img src={bookDetail.coverImage} alt="" className={'cover-image'}/>
                 </div>
                 <IonLabel>
                   <div className="info">
@@ -136,7 +136,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
                     <div className="et-row">
                       <span className="label">最近评分</span>
                       <span className="value">
-                        <Rate value={bookDetail.mark.rate} />
+                        <Rate value={bookDetail.mark.rate}/>
                       </span>
                     </div>
 
@@ -189,7 +189,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
                 <IonItem key={history.id}>
                   <div className="rate-detail">
                     <div className="header">
-                      <div className="rate"><Rate value={history.rate} /></div>
+                      <div className="rate"><Rate value={history.rate}/></div>
                       <div className="time">
                         {getTimeFormat(history.createdAt)}
                       </div>
@@ -203,23 +203,24 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
 
           <IonFab vertical="bottom" horizontal="end" slot="fixed">
             <IonFabButton>
-              <IonIcon icon={more} />
+              <IonIcon icon={more}/>
             </IonFabButton>
             <IonFabList side="top">
               <IonFabButton color={'danger'} onClick={() => this.props.history.push(`/book/add-note?id=${query.id}`)}>
-                <IonIcon icon={bookmarks} />
+                <IonIcon icon={bookmarks}/>
               </IonFabButton>
               <IonFabButton color={'warning'} onClick={() => this.props.history.push(`/book/add-rate?id=${query.id}`)}>
-                <IonIcon icon={star} />
+                <IonIcon icon={star}/>
               </IonFabButton>
               <IonFabButton color={'primary'} onClick={() => this.toggleModal(true)}>
-                <IonIcon icon={flag} />
+                <IonIcon icon={flag}/>
               </IonFabButton>
             </IonFabList>
           </IonFab>
 
           {showModal && (
-            <BookStatusModal mark={bookDetail.mark} title={bookDetail.name} onDismiss={() => this.toggleModal(false)} onSubmit={(data: any) => this.onChangeStatus(data)} />
+            <BookStatusModal mark={bookDetail.mark} title={bookDetail.name} onDismiss={() => this.toggleModal(false)}
+                             onSubmit={(data: any) => this.onChangeStatus(data)}/>
           )}
 
         </IonContent>
