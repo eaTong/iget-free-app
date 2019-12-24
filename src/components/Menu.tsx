@@ -14,7 +14,7 @@ import {
 import React from 'react';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {getLoginUser} from "../utils/utils";
-import {contact} from "ionicons/icons";
+import {settings} from "ionicons/icons";
 
 export interface AppPage {
   url: string;
@@ -27,6 +27,7 @@ interface MenuProps extends RouteComponentProps {
 }
 
 const Menu: React.FunctionComponent<MenuProps> = ({appPages}) => {
+  console.log(getLoginUser());
   return (
     <IonMenu contentId="main" type="overlay">
       <IonHeader>
@@ -48,8 +49,8 @@ const Menu: React.FunctionComponent<MenuProps> = ({appPages}) => {
           })}
           <IonMenuToggle autoHide={false}>
             <IonItem routerLink={'/mine/home'} routerDirection="none">
-              <IonIcon slot="start" icon={contact}/>
-              <IonLabel>我的</IonLabel>
+              <IonIcon slot="start" icon={settings}/>
+              <IonLabel>设置</IonLabel>
             </IonItem>
           </IonMenuToggle>
         </IonList>

@@ -11,9 +11,10 @@ interface AjaxConfig {
 
 export default function ajax(config: AjaxConfig): Promise<any> {
   const {url, data = {}, method} = config;
-  const urlPrefix = 'https://iget.eatong.cn';
+  const urlPrefix = 'http://localhost:3001';
+  // const urlPrefix = 'https://iget.eatong.cn';
   return new Promise(((resolve, reject) => {
-    if (isPlatform('ios')) {
+    if (isPlatform('ios') && !isPlatform('mobileweb')) {
       HTTP.sendRequest(urlPrefix + url, {method: 'post', data}).then((result: any) => {
         if (result.status === 200) {
           const resultData = JSON.parse(result.data);
