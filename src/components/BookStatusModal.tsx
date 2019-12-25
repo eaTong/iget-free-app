@@ -53,7 +53,7 @@ class BookStatusModal extends Component<BookStatusProps, BookStatusState> {
     const {onSubmit, onDismiss, title} = this.props;
     const {mark} = this.state;
     return (
-      <IonModal isOpen>
+      <IonModal isOpen onDidDismiss={() => onDismiss()}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>{`标记：${title}`}</IonTitle>

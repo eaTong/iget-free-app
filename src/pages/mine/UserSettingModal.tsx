@@ -83,7 +83,7 @@ class UserSettingModal extends Component<UserSettingProps, UserSettingState> {
     const {onDismiss, type} = this.props;
 
     return (
-      <IonModal isOpen>
+      <IonModal isOpen onDidDismiss={() => onDismiss()}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>{`${title}设置`}</IonTitle>
@@ -94,7 +94,6 @@ class UserSettingModal extends Component<UserSettingProps, UserSettingState> {
         </IonHeader>
         <IonContent>
           <IonList>
-
             <IonItem>
               <IonLabel position="stacked">{title}</IonLabel>
               <IonInput
