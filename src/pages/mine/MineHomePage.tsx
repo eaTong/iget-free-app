@@ -8,28 +8,47 @@ import {
   IonButton,
   IonList,
   IonItem,
-  IonLabel, IonMenuButton, IonButtons
+  IonLabel, IonMenuButton, IonButtons, IonItemDivider
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import {getLoginUser} from "../../utils/utils";
 import UserSettingModal from "./UserSettingModal";
 import {CURRENT_LOGIN_USER} from "../../utils/constants";
+import {AppUpdate} from '@ionic-native/app-update';
+import {Plugins} from "@capacitor/core";
+import showToast from "../../utils/toastUtil";
 
 interface MineHomePageState {
   showSettingModal: Boolean,
-  settingType: String
+  settingType: String,
+  appVersion: String
 }
 
 class MineHomePage extends Component<PagePropsInterface, MineHomePageState> {
   state = {
     showSettingModal: false,
-    settingType: ''
+    settingType: '',
+    appVersion: ''
   };
+
+  async componentDidMount() {
+
+    const deviceInfo = await Plugins.Device.getInfo();
+    this.setState({appVersion: deviceInfo.appVersion})
+  }
 
   async logout() {
     await ajax({url: '/api/pub/logout'});
     this.props.history.replace('/login')
+  }
+
+  async updateAPP() {
+    const deviceInfo = await Plugins.Device.getInfo();
+    console.log(deviceInfo);
+    AppUpdate.checkAppUpdate('https://iget.eatong.cn/version.xml').then(() => {
+      showToast('当前已经是最新版本！')
+    }).catch((error: any) => console.log(error));
   }
 
   async onSaveSettings(data: any) {
@@ -48,7 +67,7 @@ class MineHomePage extends Component<PagePropsInterface, MineHomePageState> {
   }
 
   render() {
-    const {showSettingModal, settingType} = this.state;
+    const {showSettingModal, settingType, appVersion} = this.state;
     const loginUser = getLoginUser();
     return (
       <IonPage>
@@ -62,6 +81,9 @@ class MineHomePage extends Component<PagePropsInterface, MineHomePageState> {
         </IonHeader>
         <IonContent>
           <IonList>
+            <IonItemDivider>
+              <IonLabel>账号设置</IonLabel>
+            </IonItemDivider>
             <IonItem detail button onClick={() => this.toggleSettingModal(true, 'name')}>
               <IonLabel>昵称</IonLabel>
               {loginUser.name}
@@ -72,6 +94,15 @@ class MineHomePage extends Component<PagePropsInterface, MineHomePageState> {
             </IonItem>
             <IonItem detail button onClick={() => this.toggleSettingModal(true, 'password')}>
               <IonLabel>修改密码</IonLabel>
+            </IonItem>
+          </IonList>
+          <IonList>
+            <IonItemDivider>
+              <IonLabel>软件设置</IonLabel>
+            </IonItemDivider>
+            <IonItem detail button onClick={() => this.updateAPP()}>
+              <IonLabel>检查更新</IonLabel>
+              {appVersion && `当前版本：${appVersion}`}
             </IonItem>
           </IonList>
           <IonButton color='danger' expand="full" onClick={() => this.logout()}>退出登录</IonButton>
