@@ -2,6 +2,7 @@ import axios, {Method} from 'axios';
 import showToast from './toastUtil';
 import {isPlatform} from '@ionic/react';
 import {HTTP} from '@ionic-native/http';
+import AppConfig from '../AppConfig';
 
 interface AjaxConfig {
   url: string,
@@ -11,8 +12,7 @@ interface AjaxConfig {
 
 export default function ajax(config: AjaxConfig): Promise<any> {
   const {url, data = {}, method} = config;
-  // const urlPrefix = 'http://localhost:3001';
-  const urlPrefix = 'https://iget.eatong.cn';
+  const urlPrefix = AppConfig.host;
   return new Promise(((resolve, reject) => {
     if (isPlatform('ios') && !isPlatform('mobileweb')) {
       HTTP.sendRequest(urlPrefix + url, {method: 'post', data}).then((result: any) => {
