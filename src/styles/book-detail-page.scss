@@ -1,0 +1,86 @@
+.book-detail-page {
+  .book-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+  .mark-status {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    font-size: 18px;
+    transform: rotate(45deg);
+    z-index: 999;
+  }
+
+  .book-detail-content {
+    padding-bottom: 2em;
+  }
+  .book-info {
+    display: flex;
+    .cover-container {
+      width: 60px;
+      height: 85px;
+      overflow: hidden;
+      margin-right: 12px;
+    }
+    .label {
+      font-size: 0.9em;
+      margin-right: 5px;
+      color: var(--ion-color-medium, #989aa2);
+    }
+    .value {
+      font-size: 0.9em;
+      color: var(--ion-color-dark, #222428);
+    }
+
+
+  }
+  .note-detail {
+    background-color: #fff;
+    border-radius: 4px;
+    position: relative;
+    flex: 1;
+    padding: 0.9em 0;
+  }
+
+  .note-detail .time {
+    font-size: 0.9em;
+  }
+
+  .note-detail .reference {
+    padding: 4px 10px;
+    border-left: 3px solid var(--ion-color-light-shade, #d7d8da);
+    background-color: var(--ion-color-light-tint, #f5f6f9);
+    margin: 0.5em 0 0.5em;
+    font-size: 0.8em;
+  }
+
+  .note-detail .content {
+    margin-bottom: 0.5em;
+  }
+
+  .rate-detail {
+    flex: 1;
+    padding-top: 10px;
+  }
+
+  .rate-detail .header {
+    display: flex;
+  }
+
+  .rate-detail .content {
+    padding: 0 0 10px;
+    font-size: 0.9em;
+  }
+
+  .rate-detail .header .rate {
+    flex: 1;
+  }
+
+  .rate-detail .header .time {
+    font-size: 0.8em;
+    color: var(--ion-color-medium, #989aa2);
+  }
+}

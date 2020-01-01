@@ -21,11 +21,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './styles/variables.css';
-import './styles/global.css';
-import './styles/home-page.css';
-import './styles/book-list-item.css';
-import './styles/book-detail-page.css';
-import './styles/login-page.css';
+import './styles/index.scss'
 
 import LoginPage from "./pages/LoginPage";
 import SearchBookPage from "./pages/book/SearchBookPage";
@@ -68,17 +64,13 @@ const appPages: AppPage[] = [
 const App: React.FC = () => (
     <IonApp>
       <IonReactRouter>
-        <IonSplitPane contentId="blank">
-        <IonRouterOutlet id="blank">
-          <Route exact path="/" render={() => <Redirect to="/home"/>}/>
-
-          <Route path="/home" component={Home} exact={true}/>
-          <Route path="/login" component={LoginPage} exact={true}/>
-        </IonRouterOutlet>
-        </IonSplitPane>
         <IonSplitPane contentId="main">
           <Menu appPages={appPages}/>
           <IonRouterOutlet id="main">
+            <Route exact path="/" render={() => <Redirect to="/home"/>}/>
+
+            <Route path="/home" component={Home} exact={true}/>
+            <Route path="/login" component={LoginPage} exact={true}/>
             <Route path="/book/home" component={BookHomePage} exact={true}/>
             <Route path="/book/search" component={SearchBookPage} exact={true}/>
             <Route path="/book/detail" component={BookDetailPage} exact={true}/>
