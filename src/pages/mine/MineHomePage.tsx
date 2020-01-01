@@ -11,10 +11,7 @@ import {
   IonLabel, IonMenuButton, IonButtons, IonItemDivider
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
-import ajax from "../../utils/ajax";
-import {getLoginUser} from "../../utils/utils";
 import UserSettingModal from "./UserSettingModal";
-import {CURRENT_LOGIN_USER} from "../../utils/constants";
 import {AppUpdate} from '@ionic-native/app-update';
 import {Plugins} from "@capacitor/core";
 import showToast from "../../utils/toastUtil";
@@ -25,9 +22,11 @@ interface MineHomePageState {
   settingType: String,
   appVersion: String
 }
-interface MineHomePageInterface extends PagePropsInterface{
-  app?:any
+
+interface MineHomePageInterface extends PagePropsInterface {
+  app?: any
 }
+
 @inject('app') @observer
 class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
   state = {
@@ -54,13 +53,7 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
   }
 
   async onSaveSettings(data: any) {
-    const {settingType} = this.state;
-    if (settingType === 'password') {
-      await ajax({url: '/api/user/changePassword', data});
-    } else {
-      await ajax({url: '/api/user/update', data});
-    }
-    window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(data));
+    this.props.app.updateUser(data, this.state.settingType);
     this.setState({showSettingModal: false})
   }
 
@@ -70,7 +63,7 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
 
   render() {
     const {showSettingModal, settingType, appVersion} = this.state;
-    const loginUser = getLoginUser();
+    const loginUser = this.props.app.loginUser;
     return (
       <IonPage>
         <IonHeader>

@@ -2,6 +2,7 @@ import {observable, action} from 'mobx';
 import {Plugins} from "@capacitor/core";
 import ajax from "../utils/ajax";
 import { CURRENT_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
+import {getLoginUser} from "../utils/utils";
 
 export default class AppStore {
   @observable loginUser = {};
@@ -19,8 +20,8 @@ export default class AppStore {
   }
 
   @action async autoLogin(){
-    console.log(this.logged);
     this.logged = true;
+    this.loginUser = getLoginUser();
   }
 
   @action
@@ -37,5 +38,15 @@ export default class AppStore {
     this.logged = false;
     window.sessionStorage.setItem(HAS_LOGIN, '0');
     await ajax({url: '/api/pub/logout'});
+  }
+
+  @action async updateUser(data:any,settingType:string){
+    if (settingType === 'password') {
+      await ajax({url: '/api/user/changePassword', data});
+    } else {
+      await ajax({url: '/api/user/update', data});
+    }
+    this.loginUser = data;
+    window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(data));
   }
 }

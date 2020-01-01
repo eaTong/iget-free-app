@@ -44,16 +44,17 @@ const appPages: AppPage[] = [
 
 @inject('app') @observer
 class AppContainer extends Component<any, any> {
+  componentDidMount(): void {
+    this.props.app.autoLogin();
+  }
 
   render() {
     return (
       <IonReactRouter>
         <IonSplitPane contentId="main">
           {this.props.app.logged && (<Menu appPages={appPages}/>)}
-
           <IonRouterOutlet id="main">
             <Route exact path="/" render={() => <Redirect to="/home"/>}/>
-
             <Route path="/home" component={Home} exact={true}/>
             <Route path="/login" component={LoginPage} exact={true}/>
             <Route path="/book/home" component={BookHomePage} exact={true}/>
