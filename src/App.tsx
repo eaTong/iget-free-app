@@ -37,6 +37,9 @@ import {school} from "ionicons/icons";
 import Menu from './components/Menu';
 import BookHomePage from "./pages/book/BookHomePage";
 import MineHomePage from "./pages/mine/MineHomePage";
+import TeamPage from "./pages/team/TeamPage";
+import OKRHomePage from "./pages/OKR/OKRHomePage";
+import CreateTeamPage from "./pages/team/CreateTeamPage";
 
 export interface AppPage {
   url: string;
@@ -49,17 +52,33 @@ const appPages: AppPage[] = [
     title: '书香',
     url: '/book/home',
     icon: school
-  }
+  },
+  // {
+  //   title: '团队',
+  //   url: '/team/home',
+  //   icon: people
+  // },
+  // {
+  //   title: 'OKR',
+  //   url: '/okr/home',
+  //   icon: options
+  // },
 ];
 
 const App: React.FC = () => (
     <IonApp>
       <IonReactRouter>
+        <IonSplitPane contentId="blank">
+        <IonRouterOutlet id="blank">
+          <Route exact path="/" render={() => <Redirect to="/home"/>}/>
+
+          <Route path="/home" component={Home} exact={true}/>
+          <Route path="/login" component={LoginPage} exact={true}/>
+        </IonRouterOutlet>
+        </IonSplitPane>
         <IonSplitPane contentId="main">
           <Menu appPages={appPages}/>
           <IonRouterOutlet id="main">
-            <Route path="/home" component={Home} exact={true}/>
-            <Route path="/login" component={LoginPage} exact={true}/>
             <Route path="/book/home" component={BookHomePage} exact={true}/>
             <Route path="/book/search" component={SearchBookPage} exact={true}/>
             <Route path="/book/detail" component={BookDetailPage} exact={true}/>
@@ -67,7 +86,9 @@ const App: React.FC = () => (
             <Route path="/book/add-note" component={AddNotePage} exact={true}/>
             <Route path="/book/add-rate" component={RageBookPage} exact={true}/>
             <Route path="/mine/home" component={MineHomePage} exact={true}/>
-            <Route exact path="/" render={() => <Redirect to="/home"/>}/>
+            <Route path="/team/home" component={TeamPage} exact={true}/>
+            <Route path="/team/add" component={CreateTeamPage} exact={true}/>
+            <Route path="/okr/home" component={OKRHomePage} exact={true}/>
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
