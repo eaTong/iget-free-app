@@ -18,14 +18,18 @@ import {CURRENT_LOGIN_USER} from "../../utils/constants";
 import {AppUpdate} from '@ionic-native/app-update';
 import {Plugins} from "@capacitor/core";
 import showToast from "../../utils/toastUtil";
+import {inject, observer} from "mobx-react";
 
 interface MineHomePageState {
   showSettingModal: Boolean,
   settingType: String,
   appVersion: String
 }
-
-class MineHomePage extends Component<PagePropsInterface, MineHomePageState> {
+interface MineHomePageInterface extends PagePropsInterface{
+  app?:any
+}
+@inject('app') @observer
+class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
   state = {
     showSettingModal: false,
     settingType: '',
@@ -39,13 +43,11 @@ class MineHomePage extends Component<PagePropsInterface, MineHomePageState> {
   }
 
   async logout() {
-    await ajax({url: '/api/pub/logout'});
+    await this.props.app.logout();
     this.props.history.replace('/login')
   }
 
   async updateAPP() {
-    const deviceInfo = await Plugins.Device.getInfo();
-    console.log(deviceInfo);
     AppUpdate.checkAppUpdate('https://iget.eatong.cn/version.xml').then(() => {
       showToast('当前已经是最新版本！')
     }).catch((error: any) => console.log(error));

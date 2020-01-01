@@ -13,11 +13,13 @@ import {
   IonRippleEffect
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
-import {CACHED_LOGIN_USER, CURRENT_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
-import ajax from "../utils/ajax";
-import {Plugins} from '@capacitor/core';
+import {inject, observer} from "mobx-react";
 
-class LoginPage extends Component<PagePropsInterface, {}> {
+interface LoginPageInterface extends PagePropsInterface{
+  app?:any
+}
+@inject('app') @observer
+class LoginPage extends Component<LoginPageInterface, {}> {
   state = {form: {account: '', password: ''}};
 
   onChangeFormItem(val: string, key: string) {
@@ -31,19 +33,13 @@ class LoginPage extends Component<PagePropsInterface, {}> {
   }
 
   async quickLogin() {
-    const deviceInfo = await Plugins.Device.getInfo();
-    const loginUser = await ajax({url: '/api/pub/quickLogin', data: {uuid: deviceInfo.uuid}});
-    window.sessionStorage.setItem(HAS_LOGIN, '1');
-    window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
+    this.props.app.quickLogin();
     this.props.history.replace('/home');
-
   }
 
   async login() {
-    const loginUser = await ajax({url: '/api/user/login', data: this.state.form});
-    window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
-    window.sessionStorage.setItem(HAS_LOGIN, '1');
-    window.localStorage.setItem(CACHED_LOGIN_USER, JSON.stringify(this.state.form));
+    await this.props.app.login(this.state.form);
+
     this.props.history.replace('/home');
   }
 

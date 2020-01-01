@@ -2,26 +2,27 @@ import {IonContent, IonLoading, IonPage, withIonLifeCycle,} from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
-import ajax from '../utils/ajax';
+import {inject, observer} from "mobx-react";
 
-class Home extends Component<PagePropsInterface, {}> {
+interface LoginPageInterface extends PagePropsInterface{
+  app?:any
+}
+
+@inject('app') @observer
+class Home extends Component<LoginPageInterface, {}> {
   state = {loading: false};
 
   async ionViewDidEnter() {
     const hasLogged = window.sessionStorage.getItem(HAS_LOGIN);
     if (hasLogged) {
+      this.props.app.autoLogin();
       this.jumpToIndex();
       return;
     }
     const loginUserSting = window.localStorage.getItem(CACHED_LOGIN_USER);
     if (loginUserSting) {
       try {
-        const loggedUser = JSON.parse(loginUserSting);
-        await this.toggleLoading(true);
-        await ajax({url: '/api/user/login', data: loggedUser});
-        this.toggleLoading(false);
-        window.sessionStorage.setItem(HAS_LOGIN, '1');
-        window.localStorage.setItem(CACHED_LOGIN_USER, JSON.stringify(loggedUser));
+        await this.props.app.login(JSON.parse(loginUserSting));
         this.jumpToIndex();
       } catch (e) {
         this.redirectLogin();

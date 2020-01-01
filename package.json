@@ -24,6 +24,8 @@
     "cordova-plugin-appversion": "^1.0.0",
     "cordova-plugin-file": "^6.0.2",
     "ionicons": "^4.6.3",
+    "mobx": "^5.15.1",
+    "mobx-react": "^6.1.4",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",
