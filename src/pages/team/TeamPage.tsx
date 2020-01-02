@@ -11,6 +11,7 @@ import {
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import Empty from "../../components/Empty";
+import TeamListItem from "./TeamListItem";
 
 interface TeamPageState {
   teamStatus: string,
@@ -28,13 +29,21 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
   };
 
   async ionViewDidEnter() {
-    const {list, total} = await ajax({url: '/api/team/get'});
-    this.setState({fetched: true, teams: list, total});
-    console.log(list, total);
+    this.getTeams()
   }
 
-  createTeam(){
+  createTeam() {
     this.props.history.push('/team/add')
+  }
+
+  async getTeams(page: number = 0) {
+
+    const {list, total} = await ajax({url: '/api/team/get', data: {page, status: this.state.teamStatus}});
+    this.setState({fetched: true, teams: page === 0 ? list : [...this.state.teams, ...list], total});
+  }
+
+  onChangeTeamStatus(teamStatus: any) {
+    this.setState({teamStatus}, () => this.getTeams())
   }
 
   render() {
@@ -48,12 +57,12 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
             </IonButtons>
             <IonTitle>我的团队</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={()=>this.createTeam()}>创建团队</IonButton>
+              <IonButton onClick={() => this.createTeam()}>创建团队</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonSegment onIonChange={e => console.log('Segment selected', e.detail.value)} value={teamStatus}>
+          <IonSegment onIonChange={e => this.onChangeTeamStatus(e.detail.value)} value={teamStatus}>
             <IonSegmentButton value="all">
               <IonLabel>全部</IonLabel>
             </IonSegmentButton>
@@ -66,9 +75,12 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
           </IonSegment>
           {teams.length === 0 && fetched && (
             <Empty title={'您还没有加入任何团队哦'}>
-              <IonButton  onClick={()=>this.createTeam()}>立刻创建</IonButton>
+              <IonButton onClick={() => this.createTeam()}>立刻创建</IonButton>
             </Empty>
           )}
+          {teams.map((team: any) => (
+            <TeamListItem team={team} key={team.id}/>
+          ))}
 
         </IonContent>
 

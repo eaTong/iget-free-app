@@ -15,8 +15,8 @@ import TeamPage from "./pages/team/TeamPage";
 import CreateTeamPage from "./pages/team/CreateTeamPage";
 import OKRHomePage from "./pages/OKR/OKRHomePage";
 import {IonReactRouter} from "@ionic/react-router";
-import {school} from "ionicons/icons";
-import {inject,observer} from "mobx-react";
+import {options, people, school} from "ionicons/icons";
+import {inject, observer} from "mobx-react";
 
 export interface AppPage {
   url: string;
@@ -30,16 +30,16 @@ const appPages: AppPage[] = [
     url: '/book/home',
     icon: school
   },
-  // {
-  //   title: '团队',
-  //   url: '/team/home',
-  //   icon: people
-  // },
-  // {
-  //   title: 'OKR',
-  //   url: '/okr/home',
-  //   icon: options
-  // },
+  {
+    title: '团队',
+    url: '/team/home',
+    icon: people
+  },
+  {
+    title: 'OKR',
+    url: '/okr/home',
+    icon: options
+  },
 ];
 
 @inject('app') @observer
@@ -55,22 +55,23 @@ class AppContainer extends Component<any, any> {
           {this.props.app.logged && (<Menu appPages={appPages}/>)}
           <IonRouterOutlet id="main">
             <Route exact path="/" render={() => <Redirect to="/home"/>}/>
-            <Route path="/home" component={Home} exact={true}/>
-            <Route path="/login" component={LoginPage} exact={true}/>
-            <Route path="/book/home" component={BookHomePage} exact={true}/>
-            <Route path="/book/search" component={SearchBookPage} exact={true}/>
-            <Route path="/book/detail" component={BookDetailPage} exact={true}/>
-            <Route path="/book/list" component={BookListPage} exact={true}/>
-            <Route path="/book/add-note" component={AddNotePage} exact={true}/>
-            <Route path="/book/add-rate" component={RageBookPage} exact={true}/>
-            <Route path="/mine/home" component={MineHomePage} exact={true}/>
-            <Route path="/team/home" component={TeamPage} exact={true}/>
-            <Route path="/team/add" component={CreateTeamPage} exact={true}/>
-            <Route path="/okr/home" component={OKRHomePage} exact={true}/>
+            <Route path="/home" component={Home} exact/>
+            <Route path="/login" component={LoginPage} exact/>
+            <Route path="/book/home" component={BookHomePage} exact/>
+            <Route path="/book/search" component={SearchBookPage} exact/>
+            <Route path="/book/detail" component={BookDetailPage} exact/>
+            <Route path="/book/list" component={BookListPage} exact/>
+            <Route path="/book/add-note" component={AddNotePage} exact/>
+            <Route path="/book/add-rate" component={RageBookPage} exact/>
+            <Route path="/mine/home" component={MineHomePage} exact/>
+            <Route path="/team/home" component={TeamPage} exact/>
+            <Route path="/team/add" component={CreateTeamPage} exact/>
+            <Route path="/okr/home" component={OKRHomePage} exact/>
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
     )
   }
 }
-export default  AppContainer
+
+export default AppContainer
