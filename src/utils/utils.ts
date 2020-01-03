@@ -46,3 +46,7 @@ export async function logout() {
   await ajax({url: '/api/user/logout'});
 
 }
+
+export async function scanQrCode() {
+
+}

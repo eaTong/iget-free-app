@@ -17,6 +17,7 @@ import OKRHomePage from "./pages/OKR/OKRHomePage";
 import {IonReactRouter} from "@ionic/react-router";
 import {options, people, school} from "ionicons/icons";
 import {inject, observer} from "mobx-react";
+import TeamDetailPage from "./pages/team/TeamDetailPage";
 
 export interface AppPage {
   url: string;
@@ -66,6 +67,7 @@ class AppContainer extends Component<any, any> {
             <Route path="/mine/home" component={MineHomePage} exact/>
             <Route path="/team/home" component={TeamPage} exact/>
             <Route path="/team/add" component={CreateTeamPage} exact/>
+            <Route path="/team/detail/:id" component={TeamDetailPage} exact/>
             <Route path="/okr/home" component={OKRHomePage} exact/>
           </IonRouterOutlet>
         </IonSplitPane>
