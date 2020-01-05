@@ -2,10 +2,6 @@ import moment from "moment";
 import {weekEnums} from "./enums";
 import {CURRENT_LOGIN_USER} from "./constants";
 import ajax from "./ajax";
-import {RouteManagerWithRouter} from "@ionic/react-router/dist/types/ReactRouter/Router";
-
-
-
 
 export function getTimeFormat(timeStr: string = '') {
   const date = moment(timeStr);
