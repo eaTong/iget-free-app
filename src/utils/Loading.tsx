@@ -2,20 +2,20 @@ import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {IonLoading} from '@ionic/react';
 
-export interface ToastOptions {
+export interface LoadingOptions {
   duration?: number,
   message?: string,
   key?: string
 }
 
-class Toast {
-  constructor(options: ToastOptions) {
+class Loading {
+  constructor(options: LoadingOptions) {
     this.options = options;
     this.toastContainer = document.createElement('div');
   }
 
   private toastContainer: HTMLDivElement;
-  private options: ToastOptions;
+  private options: LoadingOptions;
 
   show() {
     const {message, duration} = this.options;
@@ -36,4 +36,4 @@ class Toast {
   }
 }
 
-export default Toast;
+export default Loading;
