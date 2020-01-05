@@ -6,7 +6,7 @@ import {
   IonToolbar,
   IonContent,
   IonButton,
-  IonButtons, IonSegment, IonSegmentButton, IonLabel, withIonLifeCycle, IonMenuButton
+  IonButtons, IonSegment, IonSegmentButton, IonLabel, withIonLifeCycle,  IonBackButton
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
@@ -53,7 +53,7 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton/>
+              <IonBackButton/>
             </IonButtons>
             <IonTitle>我的团队</IonTitle>
             <IonButtons slot="end">

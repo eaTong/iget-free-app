@@ -5,8 +5,7 @@ import {
   IonTitle,
   IonToolbar,
   IonContent,
-  IonMenuButton,
-  IonButtons
+  IonButtons, IonBackButton
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 
@@ -24,7 +23,7 @@ class OKRHomePage extends Component<PagePropsInterface, OKRHomePageState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton/>
+              <IonBackButton/>
             </IonButtons>
             <IonTitle>我的OKR</IonTitle>
           </IonToolbar>

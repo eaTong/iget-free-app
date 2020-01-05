@@ -11,7 +11,7 @@ import {
   IonFabButton,
   IonIcon,
   IonButton,
-  IonToolbar, IonTitle, withIonLifeCycle, IonButtons, IonSkeletonText, IonMenuButton, IonHeader
+  IonToolbar, IonTitle, withIonLifeCycle, IonButtons, IonSkeletonText, IonHeader, IonBackButton
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
@@ -41,7 +41,6 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
 
   async ionViewDidEnter() {
     this.getMyBookMark();
-
   }
 
   async getMyBookMark() {
@@ -157,7 +156,7 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton/>
+              <IonBackButton/>
             </IonButtons>
             <IonTitle>书香</IonTitle>
             <IonButtons slot="end">

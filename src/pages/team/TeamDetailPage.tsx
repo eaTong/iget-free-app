@@ -36,7 +36,6 @@ class TeamDetailPage extends Component<TeamDetailPageProps, TeamDetailPageState>
 
   async getTeamDetail(){
     const teamDetail = await ajax({url: '/api/team/detail', data: {id: this.props.match.params.id}})
-    console.log(teamDetail);
     this.setState({teamDetail});
   }
 

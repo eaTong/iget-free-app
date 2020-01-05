@@ -8,14 +8,15 @@ import {
   IonButton,
   IonList,
   IonItem,
-  IonLabel, IonMenuButton, IonButtons, IonItemDivider
+  IonLabel, IonMenuButton, IonButtons, IonItemDivider, withIonLifeCycle
 } from "@ionic/react";
-import {PagePropsInterface} from "../../utils/PagePropsInterface";
-import UserSettingModal from "./UserSettingModal";
+import {PagePropsInterface} from "../utils/PagePropsInterface";
+import UserSettingModal from "./mine/UserSettingModal";
 import {AppUpdate} from '@ionic-native/app-update';
 import {Plugins} from "@capacitor/core";
-import showToast from "../../utils/toastUtil";
+import showToast from "../utils/toastUtil";
 import {inject, observer} from "mobx-react";
+import {checkTabBarShouldHide, showTabBar} from "../utils/utils";
 
 interface MineHomePageState {
   showSettingModal: Boolean,
@@ -39,6 +40,14 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
 
     const deviceInfo = await Plugins.Device.getInfo();
     this.setState({appVersion: deviceInfo.appVersion})
+  }
+
+  ionViewWillEnter() {
+    showTabBar()
+  }
+
+  ionViewDidLeave() {
+    checkTabBarShouldHide(this.props.history, this.props.location);
   }
 
   async logout() {
@@ -115,4 +124,4 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
   }
 }
 
-export default MineHomePage;
+export default withIonLifeCycle(MineHomePage);

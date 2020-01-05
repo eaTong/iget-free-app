@@ -2,6 +2,10 @@ import moment from "moment";
 import {weekEnums} from "./enums";
 import {CURRENT_LOGIN_USER} from "./constants";
 import ajax from "./ajax";
+import {RouteManagerWithRouter} from "@ionic/react-router/dist/types/ReactRouter/Router";
+
+
+
 
 export function getTimeFormat(timeStr: string = '') {
   const date = moment(timeStr);
@@ -50,3 +54,25 @@ export async function logout() {
 export async function scanQrCode() {
 
 }
+
+export function hideTabBar() {
+  const tabBar = document.querySelector("ion-tab-bar");
+  if (tabBar) {
+    tabBar.style.display = 'none'
+  }
+}
+
+
+export function showTabBar() {
+  const tabBar = document.querySelector("ion-tab-bar");
+  if (tabBar) {
+    tabBar.style.display = ''
+  }
+}
+
+export function checkTabBarShouldHide(history: any, location: any) {
+  if (history.action === 'PUSH' && ['/home', '/mine/home', '/apps'].indexOf(location.pathname) === -1) {
+    hideTabBar();
+  }
+}
+

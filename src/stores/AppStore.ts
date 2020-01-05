@@ -20,8 +20,10 @@ export default class AppStore {
   }
 
   @action async autoLogin(){
-    this.logged = true;
-    this.loginUser = getLoginUser();
+    if(window.sessionStorage.getItem(HAS_LOGIN)){
+      this.logged = true;
+      this.loginUser = getLoginUser();
+    }
   }
 
   @action
