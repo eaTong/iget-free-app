@@ -2,6 +2,9 @@ import moment from "moment";
 import {weekEnums} from "./enums";
 import {CURRENT_LOGIN_USER} from "./constants";
 import ajax from "./ajax";
+import showLoading from "./loadingUtil";
+import {isPlatform} from "@ionic/react";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 
 export function getTimeFormat(timeStr: string = '') {
   const date = moment(timeStr);
@@ -47,9 +50,33 @@ export async function logout() {
 
 }
 
-export async function scanQrCode() {
+export async function scanQrCode(history: any) {
+  // history.push('/book/home')
+  const loading = showLoading('正在加载中....');
+  if (isPlatform('mobileweb')) {
+
+  } else {
+    BarcodeScanner.scan().then(async (barcodeData: any) => {
+
+      // If is ISBN  then search book and jump to bookDetailPage
+      if (/^\d{13}$/.test(barcodeData.text)) {
+        const bookList = await searchBook(barcodeData.text);
+        if (bookList && bookList.length === 1) {
+          loading.destroy();
+          history.push(`/book/detail?id=${bookList[0].id}`)
+        }
+      }
+    }).catch((err: any) => {
+
+    });
+  }
+}
+
+async function searchBook(ISBN: string) {
+  return ajax({url: '/api/book/search', data: {keywords: ISBN}});
 
 }
+
 
 export function hideTabBar() {
   const tabBar = document.querySelector("ion-tab-bar");
@@ -57,7 +84,6 @@ export function hideTabBar() {
     tabBar.style.display = 'none'
   }
 }
-
 
 export function showTabBar() {
   const tabBar = document.querySelector("ion-tab-bar");

@@ -2,7 +2,6 @@ import {
   IonButton,
   IonButtons,
   IonContent, IonHeader, IonIcon,
-  IonLoading,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -14,15 +13,14 @@ import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import {inject, observer} from "mobx-react";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";
 import {qrScanner} from "ionicons/icons";
+import showLoading from "../utils/loadingUtil";
 
-interface LoginPageInterface extends PagePropsInterface{
-  app?:any
+interface LoginPageInterface extends PagePropsInterface {
+  app?: any
 }
 
 @inject('app') @observer
 class Home extends Component<LoginPageInterface, {}> {
-  state = {loading: false};
-
   async ionViewDidEnter() {
 
     const hasLogged = window.sessionStorage.getItem(HAS_LOGIN);
@@ -33,7 +31,9 @@ class Home extends Component<LoginPageInterface, {}> {
     const loginUserSting = window.localStorage.getItem(CACHED_LOGIN_USER);
     if (loginUserSting) {
       try {
+        const loading = showLoading('自动登陆中...');
         await this.props.app.login(JSON.parse(loginUserSting));
+        loading.destroy()
       } catch (e) {
         this.redirectLogin();
       }
@@ -41,43 +41,35 @@ class Home extends Component<LoginPageInterface, {}> {
       this.redirectLogin();
     }
   }
-  ionViewWillEnter(){
+
+  ionViewWillEnter() {
     showTabBar();
   }
 
-  ionViewDidLeave(){
-    checkTabBarShouldHide(this.props.history , this.props.location);
+  ionViewDidLeave() {
+    checkTabBarShouldHide(this.props.history, this.props.location);
   }
 
   redirectLogin() {
     this.props.history.replace('/login');
   }
 
-  toggleLoading(loading: Boolean): void {
-    this.setState({loading: loading})
-  }
 
   render() {
-    const {loading} = this.state;
     return (
       <IonPage>
         <IonHeader>
           <IonToolbar>
             <IonTitle>书香-得寸进尺</IonTitle>
             <IonButtons slot="end">
-              <IonButton color={'primary'} onClick={scanQrCode}>
+              <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
                 <IonIcon icon={qrScanner}/>
               </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonLoading
-            isOpen={loading}
-            onDidDismiss={() => this.toggleLoading(false)}
-            message={'自动登录中...'}
-            duration={5000}
-          />
+
         </IonContent>
       </IonPage>
     );

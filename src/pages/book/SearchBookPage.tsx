@@ -9,14 +9,14 @@ import {
   IonBackButton,
   IonList,
   IonButton,
-  IonIcon, isPlatform
+  IonIcon
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import BookListItem from "../../components/BookListItem";
 import {qrScanner} from "ionicons/icons";
 import Empty from "../../components/Empty";
-import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {scanQrCode} from "../../utils/utils";
 
 class SearchBookPage extends Component<PagePropsInterface, {}> {
   state = {
@@ -33,21 +33,6 @@ class SearchBookPage extends Component<PagePropsInterface, {}> {
     this.setState({bookList, fetched: true});
   }
 
-  scanCode() {
-    if (isPlatform('mobileweb')) {
-      this.search("6953631801604");
-    } else {
-      BarcodeScanner.scan().then((barcodeData: any) => {
-        if (/^\d{13}$/.test(barcodeData.text)) {
-          this.search(barcodeData.text);
-        }
-      }).catch((err: any) => {
-
-      });
-
-    }
-  }
-
   render() {
     const {bookList, fetched} = this.state;
     return (
@@ -59,7 +44,7 @@ class SearchBookPage extends Component<PagePropsInterface, {}> {
             </IonButtons>
             <IonTitle>书海寻珍</IonTitle>
             <IonButtons slot="end">
-              <IonButton color={'primary'} onClick={() => this.scanCode()}>
+              <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
                 <IonIcon icon={qrScanner}/>
               </IonButton>
             </IonButtons>

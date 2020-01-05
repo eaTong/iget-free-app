@@ -20,8 +20,7 @@ import {bookMarkStatus} from '../../utils/enums';
 import BookListItem from "../../components/BookListItem";
 import {qrScanner, search} from "ionicons/icons";
 import Empty from '../../components/Empty';
-import {isPlatform} from '@ionic/react'
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
+import {scanQrCode} from "../../utils/utils";
 
 class BookHomePage extends Component<PagePropsInterface, {}> {
 
@@ -72,29 +71,6 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
       <BookListItem history={this.props.history} book={item.book} key={item.id}/>
     ))
   }
-
-  scanCode() {
-    if (isPlatform('mobileweb')) {
-      this.search("6953631801604");
-    } else {
-      BarcodeScanner.scan().then((barcodeData: any) => {
-        if (/^\d{13}$/.test(barcodeData.text)) {
-          this.search(barcodeData.text);
-        }
-      }).catch((err: any) => {
-
-      });
-
-    }
-  }
-
-  async search(keywords: string) {
-    const bookList = await ajax({url: '/api/book/search', data: {keywords}});
-    if (bookList && bookList.length === 1) {
-      this.props.history.push(`/book/detail?id=${bookList[0].id}`)
-    }
-  }
-
 
   renderStatusStatics(status: number, listenedStatus?: number) {
     let statics = {count: 0, covers: []};
@@ -160,7 +136,7 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
             </IonButtons>
             <IonTitle>书香</IonTitle>
             <IonButtons slot="end">
-              <IonButton color={'primary'} onClick={() => this.scanCode()}>
+              <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
                 <IonIcon icon={qrScanner}/>
               </IonButton>
             </IonButtons>

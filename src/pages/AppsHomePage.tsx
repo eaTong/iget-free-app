@@ -9,10 +9,11 @@ import {
   IonTitle,
   IonToolbar,
   IonContent,
-  withIonLifeCycle, IonList, IonItem,
+  withIonLifeCycle, IonList, IonItem, IonButton, IonIcon, IonButtons,
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
-import {checkTabBarShouldHide, showTabBar} from "../utils/utils";
+import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";
+import {qrScanner} from "ionicons/icons";
 
 interface AppsHomePageState {
 
@@ -35,6 +36,11 @@ class AppsHomePage extends Component<PagePropsInterface, AppsHomePageState> {
         <IonHeader>
           <IonToolbar>
             <IonTitle>百宝箱</IonTitle>
+            <IonButtons slot="end">
+              <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
+                <IonIcon icon={qrScanner}/>
+              </IonButton>
+            </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>

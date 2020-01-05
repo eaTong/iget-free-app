@@ -19,12 +19,15 @@ import './styles/variables.css';
 import './styles/index.scss'
 
 import AppContainer from "./AppContainer";
+import {IonReactRouter} from "@ionic/react-router";
 
 
 const App: React.FC = () => (
     <IonApp>
       <Provider {...store}>
-        <AppContainer/>
+        <IonReactRouter>
+          <AppContainer/>
+        </IonReactRouter>
       </Provider>
     </IonApp>
   )

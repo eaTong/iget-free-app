@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonTabs } from "@ionic/react";
+import {IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonTabs} from "@ionic/react";
 import {Redirect, Route} from "react-router-dom";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
@@ -13,19 +13,11 @@ import MineHomePage from "./pages/MineHomePage";
 import TeamPage from "./pages/team/TeamPage";
 import CreateTeamPage from "./pages/team/CreateTeamPage";
 import OKRHomePage from "./pages/OKR/OKRHomePage";
-import {IonReactRouter } from "@ionic/react-router";
 import {apps, home, person} from "ionicons/icons";
 import {inject, observer} from "mobx-react";
 import TeamDetailPage from "./pages/team/TeamDetailPage";
 import AppsHomePage from "./pages/AppsHomePage";
 import {hideTabBar} from "./utils/utils";
-
-export interface AppPage {
-  url: string;
-  icon: object;
-  title: string;
-}
-
 
 @inject('app') @observer
 class AppContainer extends Component<any, any> {
@@ -37,7 +29,7 @@ class AppContainer extends Component<any, any> {
   renderRouters() {
     return (
       <IonRouterOutlet>
-        <Route exact path="/" render={() => <Redirect to="/home"/>} />
+        <Route exact path="/" render={() => <Redirect to="/home"/>}/>
         <Route path="/home" component={Home} exact/>
         <Route path="/apps" component={AppsHomePage} exact/>
         <Route path="/login" component={LoginPage} exact/>
@@ -86,12 +78,7 @@ class AppContainer extends Component<any, any> {
   }
 
   render() {
-    return (
-      <IonReactRouter >
-        {this.props.app.logged ? this.renderRoutersWithTab() : this.renderRouters()}
-
-      </IonReactRouter>
-    )
+    return this.props.app.logged ? this.renderRoutersWithTab() : this.renderRouters()
   }
 }
 

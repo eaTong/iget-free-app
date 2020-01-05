@@ -8,7 +8,7 @@ import {
   IonButton,
   IonList,
   IonItem,
-  IonLabel, IonMenuButton, IonButtons, IonItemDivider, withIonLifeCycle
+  IonLabel, IonButtons, IonItemDivider, withIonLifeCycle, IonIcon
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import UserSettingModal from "./mine/UserSettingModal";
@@ -16,7 +16,8 @@ import {AppUpdate} from '@ionic-native/app-update';
 import {Plugins} from "@capacitor/core";
 import showToast from "../utils/toastUtil";
 import {inject, observer} from "mobx-react";
-import {checkTabBarShouldHide, showTabBar} from "../utils/utils";
+import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";
+import {qrScanner} from "ionicons/icons";
 
 interface MineHomePageState {
   showSettingModal: Boolean,
@@ -77,10 +78,12 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton/>
-            </IonButtons>
             <IonTitle>我的</IonTitle>
+            <IonButtons slot="end">
+              <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
+                <IonIcon icon={qrScanner}/>
+              </IonButton>
+            </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
