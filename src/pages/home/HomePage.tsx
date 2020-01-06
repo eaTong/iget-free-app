@@ -89,6 +89,7 @@ class HomePage extends Component<LoginPageInterface, {}> {
               history={this.props.history}
               title={card.title}
               key={card.key}
+              link={card.link}
               Component={card.Component}
             />
           ))}

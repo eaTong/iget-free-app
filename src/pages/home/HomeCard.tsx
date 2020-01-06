@@ -4,7 +4,7 @@
 
 import React, {Component, FC} from 'react';
 import ajax from "../../utils/ajax";
-import {IonCard,  IonSkeletonText, IonCardHeader, IonCardTitle} from "@ionic/react";
+import {IonCard, IonSkeletonText, IonCardHeader, IonCardTitle} from "@ionic/react";
 
 interface HomeCardProps {
   ajaxConfig: {
@@ -14,6 +14,7 @@ interface HomeCardProps {
   dataResolve: Function,
   history: any,
   title: string,
+  link: string,
   Component: FC<any>
 }
 
@@ -33,7 +34,7 @@ class HomeCard extends Component<HomeCardProps, HomeCardInterface> {
 
   render() {
     const {loading, data} = this.state;
-    const {Component, history, title} = this.props;
+    const {Component, history, title,link} = this.props;
     if (loading) {
       return (
         <div className="ion-padding custom-skeleton">
@@ -46,7 +47,7 @@ class HomeCard extends Component<HomeCardProps, HomeCardInterface> {
       )
     }
     return (
-      <IonCard>
+      <IonCard button onClick={() => history.push(link)}>
         <IonCardHeader>
           <IonCardTitle>{title}</IonCardTitle>
         </IonCardHeader>
