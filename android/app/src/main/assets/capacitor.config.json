@@ -5,8 +5,5 @@
   "npmClient": "npm",
   "webDir": "build",
   "version": "1.1.0",
-  "cordova": {},
-  "server": {
-    "url": "http://192.168.10.77:8100"
-  }
+  "cordova": {}
 }
