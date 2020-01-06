@@ -58,13 +58,17 @@ export async function scanQrCode(history: any) {
   } else {
     BarcodeScanner.scan().then(async (barcodeData: any) => {
 
-      // If is ISBN  then search book and jump to bookDetailPage
-      if (/^\d{13}$/.test(barcodeData.text)) {
-        const bookList = await searchBook(barcodeData.text);
-        if (bookList && bookList.length === 1) {
-          loading.destroy();
-          history.push(`/book/detail?id=${bookList[0].id}`)
+      try {
+        // If is ISBN  then search book and jump to bookDetailPage
+        if (/^\d{13}$/.test(barcodeData.text)) {
+          const bookList = await searchBook(barcodeData.text);
+          if (bookList && bookList.length === 1) {
+            history.push(`/book/detail?id=${bookList[0].id}`)
+          }
         }
+        loading.destroy();
+      } catch (e) {
+        loading.destroy();
       }
     }).catch((err: any) => {
 

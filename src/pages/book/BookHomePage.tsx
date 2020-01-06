@@ -1,9 +1,6 @@
 import {
   IonContent,
-  IonGrid,
   IonPage,
-  IonRow,
-  IonCol,
   IonListHeader,
   IonList,
   IonLabel,
@@ -16,11 +13,10 @@ import {
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from '../../utils/ajax';
-import {bookMarkStatus} from '../../utils/enums';
 import BookListItem from "../../components/BookListItem";
 import {qrScanner, search} from "ionicons/icons";
-import Empty from '../../components/Empty';
 import {scanQrCode} from "../../utils/utils";
+import BookStaticsCard from "../../components/cards/BookStaticsCard";
 
 class BookHomePage extends Component<PagePropsInterface, {}> {
 
@@ -72,56 +68,6 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
     ))
   }
 
-  renderStatusStatics(status: number, listenedStatus?: number) {
-    let statics = {count: 0, covers: []};
-    const {bookStatics} = this.state;
-    if (listenedStatus) {
-      statics = bookStatics.listened || statics;
-    } else {
-
-      switch (status) {
-        case 1:
-          statics = bookStatics.wanted || statics;
-          break;
-        case 2:
-          statics = bookStatics.reading || statics;
-          break;
-        case 3:
-          statics = bookStatics.read || statics;
-          break;
-      }
-    }
-    if (!statics.count) {
-      return null;
-    }
-    return (
-      <IonCol className={'status-item'}
-              onClick={() => this.props.history.push(`/book/list?status=${status}&listenedStatus=${listenedStatus}`)}>
-        <div className="covers">
-          {statics.covers.map(img => (
-            <img className={'cover-item'} key={img} src={img} alt=""/>
-          ))}
-        </div>
-        <div className="footer">
-          <span className="label">{listenedStatus ? '已听' : bookMarkStatus[status]}</span>
-          <span className="num">{statics.count}</span>
-        </div>
-      </IonCol>
-    )
-  }
-
-  renderStatics() {
-    return (
-      <IonGrid>
-        <IonRow>
-          {this.renderStatusStatics(1)}
-          {this.renderStatusStatics(2)}
-          {this.renderStatusStatics(3)}
-          {this.renderStatusStatics(-1, 1)}
-        </IonRow>
-      </IonGrid>
-    )
-  }
 
   render() {
     const {recentlyReadingCount, wantedCount, bookStatics, fetched} = this.state;
@@ -151,14 +97,8 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
               <IonSkeletonText animated style={{width: '70%'}}/>
             </div>
           )}
-          {hasBookMark && fetched && this.renderStatics()}
-          {!hasBookMark && fetched && (
-            <Empty>
-              <div>
-                <p className="add-more">最美是翻开书页的瞬间，马上开启您的完美书香之旅吧。</p>
-                <IonButton onClick={() => this.props.history.push('/book/search')}>开启书香之旅</IonButton>
-              </div>
-            </Empty>
+          {fetched && (
+            <BookStaticsCard bookStatics={bookStatics} history={this.props.history}/>
           )}
           {recentlyReadingCount > 0 && (
             <IonList>

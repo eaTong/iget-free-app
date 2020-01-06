@@ -8,19 +8,32 @@ import {
   withIonLifeCycle,
 } from '@ionic/react';
 import React, {Component} from 'react';
-import {PagePropsInterface} from "../utils/PagePropsInterface";
-import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
+import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import {CACHED_LOGIN_USER, HAS_LOGIN} from "../../utils/constants";
 import {inject, observer} from "mobx-react";
-import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";
+import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../../utils/utils";
 import {qrScanner} from "ionicons/icons";
-import showLoading from "../utils/loadingUtil";
+import showLoading from "../../utils/loadingUtil";
+import BookStaticsCard from "../../components/cards/BookStaticsCard";
+import HomeCard from "./HomeCard";
 
 interface LoginPageInterface extends PagePropsInterface {
   app?: any
 }
 
+const cardsConfig = [
+  {
+    title: '书香-总览',
+    key: 'book-statics',
+    ajaxConfig: {url: '/api/bookMark/statics'},
+    dataResolve: (result: any) => ({bookStatics: result}),
+    link: '/book/home',
+    Component: BookStaticsCard
+  },
+];
+
 @inject('app') @observer
-class Home extends Component<LoginPageInterface, {}> {
+class HomePage extends Component<LoginPageInterface, {}> {
   async ionViewDidEnter() {
 
     const hasLogged = window.sessionStorage.getItem(HAS_LOGIN);
@@ -60,7 +73,7 @@ class Home extends Component<LoginPageInterface, {}> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>书香-得寸进尺</IonTitle>
+            <IonTitle>我的主页</IonTitle>
             <IonButtons slot="end">
               <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
                 <IonIcon icon={qrScanner}/>
@@ -69,6 +82,16 @@ class Home extends Component<LoginPageInterface, {}> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
+          {cardsConfig.map((card: any) => (
+            <HomeCard
+              ajaxConfig={card.ajaxConfig}
+              dataResolve={card.dataResolve}
+              history={this.props.history}
+              title={card.title}
+              key={card.key}
+              Component={card.Component}
+            />
+          ))}
 
         </IonContent>
       </IonPage>
@@ -76,4 +99,4 @@ class Home extends Component<LoginPageInterface, {}> {
   }
 }
 
-export default withIonLifeCycle(Home);
+export default withIonLifeCycle(HomePage);

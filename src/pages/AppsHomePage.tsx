@@ -9,7 +9,7 @@ import {
   IonTitle,
   IonToolbar,
   IonContent,
-  withIonLifeCycle, IonList, IonItem, IonButton, IonIcon, IonButtons,
+  withIonLifeCycle, IonList, IonItem, IonButton, IonIcon, IonButtons, IonItemDivider, IonLabel,
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";
@@ -46,6 +46,22 @@ class AppsHomePage extends Component<PagePropsInterface, AppsHomePageState> {
         <IonContent>
           <IonList>
             <IonItem routerLink={'/book/home'} detail>书香</IonItem>
+          </IonList>
+          <IonList>
+
+            <IonItemDivider>
+              <IonLabel>发现</IonLabel>
+            </IonItemDivider>
+            <IonItem onClick={() => scanQrCode(this.props.history)}>扫一扫</IonItem>
+          </IonList>
+          <IonList>
+
+            <IonItemDivider>
+              <IonLabel>计划管理</IonLabel>
+            </IonItemDivider>
+            <IonItem routerLink={'/team/home'} detail>团队</IonItem>
+            <IonItem routerLink={'/okr/home'} detail>OKR</IonItem>
+
           </IonList>
 
         </IonContent>

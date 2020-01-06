@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonTabs} from "@ionic/react";
 import {Redirect, Route} from "react-router-dom";
-import Home from "./pages/Home";
+import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/LoginPage";
 import BookHomePage from "./pages/book/BookHomePage";
 import SearchBookPage from "./pages/book/SearchBookPage";
@@ -30,7 +30,7 @@ class AppContainer extends Component<any, any> {
     return (
       <IonRouterOutlet>
         <Route exact path="/" render={() => <Redirect to="/home"/>}/>
-        <Route path="/home" component={Home} exact/>
+        <Route path="/home" component={HomePage} exact/>
         <Route path="/apps" component={AppsHomePage} exact/>
         <Route path="/login" component={LoginPage} exact/>
         <Route path="/book/home" component={BookHomePage} exact/>
