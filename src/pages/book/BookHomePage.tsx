@@ -13,10 +13,10 @@ import {
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from '../../utils/ajax';
-import BookListItem from "../../components/BookListItem";
 import {qrScanner, search} from "ionicons/icons";
 import {scanQrCode} from "../../utils/utils";
 import BookStaticsCard from "../../components/cards/BookStaticsCard";
+import BookList from "../../components/cards/BookList";
 
 class BookHomePage extends Component<PagePropsInterface, {}> {
 
@@ -55,26 +55,12 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
     this.setState({wantedBooks: list, wantedCount: total});
   }
 
-
-  renderRecentlyBooks() {
-    return this.state.recentlyReadingBooks.map((item: any) => (
-      <BookListItem history={this.props.history} book={item.book} key={item.id}/>
-    ))
-  }
-
-  renderWantedBooks() {
-    return this.state.wantedBooks.map((item: any) => (
-      <BookListItem history={this.props.history} book={item.book} key={item.id}/>
-    ))
-  }
-
-
   render() {
-    const {recentlyReadingCount, wantedCount, bookStatics, fetched} = this.state;
+    const {recentlyReadingCount, wantedCount, bookStatics, fetched, recentlyReadingBooks, wantedBooks} = this.state;
     const {reading, wanted, read} = bookStatics;
     const hasBookMark = reading.count > 0 || wanted.count > 0 || read.count > 0;
     return (
-      <IonPage className={'home-page'}>
+      <IonPage className={'book-home-page'}>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
@@ -105,7 +91,7 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
               <IonListHeader>
                 <IonLabel><h2>{`最近在读(${recentlyReadingCount})`}</h2></IonLabel>
               </IonListHeader>
-              {this.renderRecentlyBooks()}
+              <BookList bookList={recentlyReadingBooks} history={this.props.history}/>
             </IonList>
           )}
           {wantedCount > 0 && (
@@ -113,7 +99,7 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
               <IonListHeader>
                 <IonLabel><h2>{`想读(${wantedCount})`}</h2></IonLabel>
               </IonListHeader>
-              {this.renderWantedBooks()}
+              <BookList bookList={wantedBooks} history={this.props.history}/>
             </IonList>
 
           )}

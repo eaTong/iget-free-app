@@ -2,7 +2,7 @@ import {
   IonButton,
   IonButtons,
   IonContent, IonHeader, IonIcon,
-  IonPage,
+  IonPage, IonRouterLink,
   IonTitle,
   IonToolbar,
   withIonLifeCycle,
@@ -14,23 +14,11 @@ import {inject, observer} from "mobx-react";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../../utils/utils";
 import {qrScanner} from "ionicons/icons";
 import showLoading from "../../utils/loadingUtil";
-import BookStaticsCard from "../../components/cards/BookStaticsCard";
 import HomeCard from "./HomeCard";
 
 interface LoginPageInterface extends PagePropsInterface {
   app?: any
 }
-
-const cardsConfig = [
-  {
-    title: '书香-总览',
-    key: 'book-statics',
-    ajaxConfig: {url: '/api/bookMark/statics'},
-    dataResolve: (result: any) => ({bookStatics: result}),
-    link: '/book/home',
-    Component: BookStaticsCard
-  },
-];
 
 @inject('app') @observer
 class HomePage extends Component<LoginPageInterface, {}> {
@@ -69,8 +57,9 @@ class HomePage extends Component<LoginPageInterface, {}> {
 
 
   render() {
+    const {app} = this.props;
     return (
-      <IonPage>
+      <IonPage className={'home-page'}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>我的主页</IonTitle>
@@ -82,17 +71,20 @@ class HomePage extends Component<LoginPageInterface, {}> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {cardsConfig.map((card: any) => (
+          {app.enabledHomeCards.map((card: any) => (
             <HomeCard
               ajaxConfig={card.ajaxConfig}
               dataResolve={card.dataResolve}
               history={this.props.history}
               title={card.title}
               key={card.key}
+              subtitle={card.subtitle}
               link={card.link}
               Component={card.Component}
             />
           ))}
+
+          <IonRouterLink color={'medium'} routerLink={'/config/home'} className={'custom-home-link'}>内容不喜欢？试试点我自定义主页吧！</IonRouterLink>
 
         </IonContent>
       </IonPage>

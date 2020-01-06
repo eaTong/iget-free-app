@@ -48,14 +48,12 @@ class AppsHomePage extends Component<PagePropsInterface, AppsHomePageState> {
             <IonItem routerLink={'/book/home'} detail>书香</IonItem>
           </IonList>
           <IonList>
-
             <IonItemDivider>
               <IonLabel>发现</IonLabel>
             </IonItemDivider>
             <IonItem onClick={() => scanQrCode(this.props.history)}>扫一扫</IonItem>
           </IonList>
           <IonList>
-
             <IonItemDivider>
               <IonLabel>计划管理</IonLabel>
             </IonItemDivider>

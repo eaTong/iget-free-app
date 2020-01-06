@@ -1,5 +1,5 @@
 import moment from "moment";
-import {weekEnums} from "./enums";
+import {appTabLinks, weekEnums} from "./enums";
 import {CURRENT_LOGIN_USER} from "./constants";
 import ajax from "./ajax";
 import showLoading from "./loadingUtil";
@@ -97,7 +97,7 @@ export function showTabBar() {
 }
 
 export function checkTabBarShouldHide(history: any, location: any) {
-  if (history.action === 'PUSH' && ['/home', '/mine/home', '/apps'].indexOf(location.pathname) === -1) {
+  if (history.action === 'PUSH' && appTabLinks.indexOf(location.pathname) === -1) {
     hideTabBar();
   }
 }

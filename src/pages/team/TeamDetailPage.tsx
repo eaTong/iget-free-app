@@ -17,7 +17,8 @@ import {RouteComponentProps} from "react-router";
 
 interface TeamDetailPageProps extends RouteComponentProps<{
   id: string;
-}> {}
+}> {
+}
 
 interface TeamDetailPageState {
   teamDetail: any
@@ -26,7 +27,7 @@ interface TeamDetailPageState {
 class TeamDetailPage extends Component<TeamDetailPageProps, TeamDetailPageState> {
   state = {
     teamDetail: {
-      name:''
+      name: ''
     }
   };
 
@@ -34,7 +35,7 @@ class TeamDetailPage extends Component<TeamDetailPageProps, TeamDetailPageState>
     this.getTeamDetail()
   }
 
-  async getTeamDetail(){
+  async getTeamDetail() {
     const teamDetail = await ajax({url: '/api/team/detail', data: {id: this.props.match.params.id}})
     this.setState({teamDetail});
   }
@@ -53,6 +54,7 @@ class TeamDetailPage extends Component<TeamDetailPageProps, TeamDetailPageState>
           </IonToolbar>
         </IonHeader>
         <IonContent>
+          {JSON.stringify(teamDetail)}
 
         </IonContent>
 

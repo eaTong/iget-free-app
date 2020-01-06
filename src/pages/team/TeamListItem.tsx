@@ -14,7 +14,7 @@ interface TeamListItemInterface {
 const TeamListItem: React.FC<TeamListItemInterface> = (props: TeamListItemInterface) => {
   const {team} = props;
   return (
-    <IonItem button href={`/team/detail/${team.id}`}>
+    <IonItem button routerLink={`/team/detail/${team.id}`}>
       <IonLabel>{team.name}</IonLabel>
       {team.needPassword &&(
         <IonNote color="success" slot={'end'}>

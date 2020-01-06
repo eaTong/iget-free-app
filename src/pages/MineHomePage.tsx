@@ -107,6 +107,7 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
             <IonItemDivider>
               <IonLabel>软件设置</IonLabel>
             </IonItemDivider>
+            <IonItem routerLink={'/config/home'} detail>首页定制</IonItem>
             <IonItem detail button onClick={() => this.updateAPP()}>
               <IonLabel>检查更新</IonLabel>
               {appVersion && `当前版本：${appVersion}`}

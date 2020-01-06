@@ -51,7 +51,9 @@ class LoginPage extends Component<LoginPageInterface, {}> {
             <IonCardTitle>
               书香
             </IonCardTitle>
-            <IonCardSubtitle>记录心灵每一次触动</IonCardSubtitle>
+            <IonCardSubtitle>给心灵的触动一个港湾.</IonCardSubtitle>
+            <IonCardTitle>得寸进尺</IonCardTitle>
+            <IonCardSubtitle>怕什么真理无穷，进一寸有进一寸的欢喜。</IonCardSubtitle>
           </IonCardHeader>
           <IonList>
             <IonItem>

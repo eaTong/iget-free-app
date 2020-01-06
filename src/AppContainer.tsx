@@ -18,12 +18,17 @@ import {inject, observer} from "mobx-react";
 import TeamDetailPage from "./pages/team/TeamDetailPage";
 import AppsHomePage from "./pages/AppsHomePage";
 import {hideTabBar} from "./utils/utils";
+import {appTabLinks} from './utils/enums';
+import ConfigurationHomeCardPage from "./pages/mine/ConfigurationHomeCardPage";
 
 @inject('app') @observer
 class AppContainer extends Component<any, any> {
-  componentDidMount(): void {
-    hideTabBar();
-    this.props.app.autoLogin();
+  async componentDidMount() {
+    await this.props.app.autoLogin();
+    await this.props.app.initialConfigCards();
+    if (appTabLinks.indexOf(window.location.pathname) === -1) {
+      hideTabBar();
+    }
   }
 
   renderRouters() {
@@ -44,6 +49,7 @@ class AppContainer extends Component<any, any> {
         <Route path="/team/add" component={CreateTeamPage} exact/>
         <Route path="/team/detail/:id" component={TeamDetailPage} exact/>
         <Route path="/okr/home" component={OKRHomePage} exact/>
+        <Route path="/config/home" component={ConfigurationHomeCardPage} exact/>
       </IonRouterOutlet>
 
     );

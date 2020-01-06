@@ -1,13 +1,25 @@
-import {observable, action} from 'mobx';
-import {Plugins} from "@capacitor/core";
+import {observable, action, computed, toJS} from 'mobx';
+import {Plugins, Storage} from "@capacitor/core";
 import ajax from "../utils/ajax";
-import { CURRENT_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
+import {CURRENT_LOGIN_USER, HAS_LOGIN, HOME_CARD_CONFIG} from "../utils/constants";
 import {getLoginUser} from "../utils/utils";
+import {cardsConfig} from "../utils/enums";
+import arrayMove from 'array-move';
+import {DynamicObject} from '../utils/types';
 
 export default class AppStore {
   @observable loginUser = {};
   @observable logged = false;
+  @observable configReady = false;
+  @observable homeCardsConfig = cardsConfig;
 
+  @computed get homeCards() {
+    return this.homeCardsConfig;
+  }
+
+  @computed get enabledHomeCards() {
+    return this.configReady ? this.homeCardsConfig.filter((item: any) => !item.hide) : [];
+  }
 
   @action
   async quickLogin() {
@@ -19,8 +31,9 @@ export default class AppStore {
     window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
   }
 
-  @action async autoLogin(){
-    if(window.sessionStorage.getItem(HAS_LOGIN)){
+  @action
+  async autoLogin() {
+    if (window.sessionStorage.getItem(HAS_LOGIN)) {
       this.logged = true;
       this.loginUser = getLoginUser();
     }
@@ -35,14 +48,16 @@ export default class AppStore {
     window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
   }
 
-  @action async logout(){
+  @action
+  async logout() {
     this.loginUser = {};
     this.logged = false;
     window.sessionStorage.setItem(HAS_LOGIN, '0');
     await ajax({url: '/api/pub/logout'});
   }
 
-  @action async updateUser(data:any,settingType:string){
+  @action
+  async updateUser(data: any, settingType: string) {
     if (settingType === 'password') {
       await ajax({url: '/api/user/changePassword', data});
     } else {
@@ -50,5 +65,51 @@ export default class AppStore {
     }
     this.loginUser = data;
     window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(data));
+  }
+
+  @action
+  async initialConfigCards() {
+    const {value} = await Storage.get({key: HOME_CARD_CONFIG});
+    if (value) {
+      const minimalConfig = JSON.parse(value);
+      const config = toJS([...this.homeCardsConfig]);
+
+      this.homeCardsConfig = config.map(item => {
+        return {
+          ...item,
+          sort: minimalConfig[item.key].sort,
+          hide: minimalConfig[item.key].hide,
+        }
+      }).sort((a: any, b: any) => a.sort - b.sort);
+    }
+    this.configReady = true;
+  }
+
+  @action
+  onSortCards(value: any) {
+    const {newIndex, oldIndex} = value;
+    this.homeCardsConfig = arrayMove(this.homeCardsConfig, oldIndex, newIndex);
+    this.saveConfiguration();
+  }
+
+  @action
+  onChangeVisible(value: boolean, key: string) {
+    const config = toJS([...this.homeCardsConfig]);
+    config.forEach(item => {
+      if (item.key === key) {
+        item.hide = !value;
+      }
+    });
+    this.homeCardsConfig = config;
+    this.saveConfiguration();
+  }
+
+  saveConfiguration() {
+    const config = toJS(this.homeCardsConfig);
+    const minimalConfig: DynamicObject = {};
+    config.forEach((item: any, index: number) => {
+      minimalConfig[item.key] = {sort: index, hide: item.hide};
+    });
+    Storage.set({key: HOME_CARD_CONFIG, value: JSON.stringify(minimalConfig)});
   }
 }
