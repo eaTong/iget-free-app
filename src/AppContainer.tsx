@@ -20,6 +20,7 @@ import AppsHomePage from "./pages/AppsHomePage";
 import {hideTabBar} from "./utils/utils";
 import {appTabLinks} from './utils/enums';
 import ConfigurationHomeCardPage from "./pages/mine/ConfigurationHomeCardPage";
+import CheckAuth from "./pages/CheckAuth";
 
 @inject('app') @observer
 class AppContainer extends Component<any, any> {
@@ -34,7 +35,8 @@ class AppContainer extends Component<any, any> {
   renderRouters() {
     return (
       <IonRouterOutlet>
-        <Route exact path="/" render={() => <Redirect to="/home"/>}/>
+        <Route exact path="/" render={() => <Redirect to="/check"/>}/>
+        <Route path="/check" component={CheckAuth} exact/>
         <Route path="/home" component={HomePage} exact/>
         <Route path="/apps" component={AppsHomePage} exact/>
         <Route path="/login" component={LoginPage} exact/>

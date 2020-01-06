@@ -9,11 +9,9 @@ import {
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
-import {CACHED_LOGIN_USER, HAS_LOGIN} from "../../utils/constants";
 import {inject, observer} from "mobx-react";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../../utils/utils";
 import {qrScanner} from "ionicons/icons";
-import showLoading from "../../utils/loadingUtil";
 import HomeCard from "./HomeCard";
 
 interface LoginPageInterface extends PagePropsInterface {
@@ -22,26 +20,7 @@ interface LoginPageInterface extends PagePropsInterface {
 
 @inject('app') @observer
 class HomePage extends Component<LoginPageInterface, {}> {
-  async ionViewDidEnter() {
 
-    const hasLogged = window.sessionStorage.getItem(HAS_LOGIN);
-    if (hasLogged) {
-      this.props.app.autoLogin();
-      return;
-    }
-    const loginUserSting = window.localStorage.getItem(CACHED_LOGIN_USER);
-    if (loginUserSting) {
-      try {
-        const loading = showLoading('自动登陆中...');
-        await this.props.app.login(JSON.parse(loginUserSting));
-        loading.destroy()
-      } catch (e) {
-        this.redirectLogin();
-      }
-    } else {
-      this.redirectLogin();
-    }
-  }
 
   ionViewWillEnter() {
     showTabBar();
@@ -51,9 +30,6 @@ class HomePage extends Component<LoginPageInterface, {}> {
     checkTabBarShouldHide(this.props.history, this.props.location);
   }
 
-  redirectLogin() {
-    this.props.history.replace('/login');
-  }
 
 
   render() {
