@@ -6,12 +6,12 @@ import {
   IonToolbar,
   IonContent,
   IonButton,
-  IonButtons, IonSegment, IonSegmentButton, IonLabel, withIonLifeCycle,  IonBackButton
+  IonButtons, IonSegment, IonSegmentButton, IonLabel, withIonLifeCycle, IonBackButton
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import Empty from "../../components/Empty";
-import TeamListItem from "./TeamListItem";
+import TeamList from "../../components/cards/TeamList";
 
 interface TeamPageState {
   teamStatus: string,
@@ -22,7 +22,7 @@ interface TeamPageState {
 
 class TeamPage extends Component<PagePropsInterface, TeamPageState> {
   state = {
-    teamStatus: 'all',
+    teamStatus: '-1',
     teams: [],
     fetched: false,
     total: 0
@@ -37,8 +37,10 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
   }
 
   async getTeams(page: number = 0) {
-
-    const {list, total} = await ajax({url: '/api/team/get', data: {page, status: this.state.teamStatus}});
+    const {list, total} = await ajax({
+      url: '/api/team/get',
+      data: {page, status: parseInt(this.state.teamStatus)}
+    });
     this.setState({fetched: true, teams: page === 0 ? list : [...this.state.teams, ...list], total});
   }
 
@@ -63,13 +65,13 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
         </IonHeader>
         <IonContent>
           <IonSegment onIonChange={e => this.onChangeTeamStatus(e.detail.value)} value={teamStatus}>
-            <IonSegmentButton value="all">
+            <IonSegmentButton value="-1">
               <IonLabel>全部</IonLabel>
             </IonSegmentButton>
-            <IonSegmentButton value="mine">
+            <IonSegmentButton value="1">
               <IonLabel>我创建的</IonLabel>
             </IonSegmentButton>
-            <IonSegmentButton value="joined">
+            <IonSegmentButton value="0">
               <IonLabel>我加入的</IonLabel>
             </IonSegmentButton>
           </IonSegment>
@@ -78,9 +80,7 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
               <IonButton onClick={() => this.createTeam()}>立刻创建</IonButton>
             </Empty>
           )}
-          {teams.map((team: any) => (
-            <TeamListItem team={team} key={team.id}/>
-          ))}
+          <TeamList history={this.props.history} teamList={teams}/>
 
         </IonContent>
 
