@@ -54,25 +54,34 @@ export async function scanQrCode(history: any) {
   // history.push('/book/home')
   const loading = showLoading('正在加载中....');
   if (isPlatform('mobileweb')) {
-
+    await analyseScanResult('joinTeam:d44e7556-f084-4574-9d28-9e0d1d78d5a2', history);
+    loading.destroy();
   } else {
     BarcodeScanner.scan().then(async (barcodeData: any) => {
 
       try {
-        // If is ISBN  then search book and jump to bookDetailPage
-        if (/^\d{13}$/.test(barcodeData.text)) {
-          const bookList = await searchBook(barcodeData.text);
-          if (bookList && bookList.length === 1) {
-            history.push(`/book/detail?id=${bookList[0].id}`)
-          }
-        }
+        await analyseScanResult(barcodeData.text, history);
         loading.destroy();
       } catch (e) {
         loading.destroy();
       }
     }).catch((err: any) => {
 
+      loading.destroy();
     });
+  }
+}
+
+async function analyseScanResult(text: string, history: any) {
+  console.log(text);
+  // If is ISBN  then search book and jump to bookDetailPage
+  if (/^\d{13}$/.test(text)) {
+    const bookList = await searchBook(text);
+    if (bookList && bookList.length === 1) {
+      history.push(`/book/detail?id=${bookList[0].id}`)
+    }
+  } else if (/^joinTeam/.test(text)) {
+    history.push(`/team/detail/${text.replace(/^joinTeam:/,'')}`)
   }
 }
 
