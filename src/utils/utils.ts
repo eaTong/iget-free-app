@@ -5,6 +5,8 @@ import ajax from "./ajax";
 import showLoading from "./loadingUtil";
 import {isPlatform} from "@ionic/react";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {ImagePicker, OutputType} from "@ionic-native/image-picker";
+
 
 export function getTimeFormat(timeStr: string = '') {
   const date = moment(timeStr);
@@ -50,6 +52,36 @@ export async function logout() {
 
 }
 
+export async function takePicture() {
+
+  if (isPlatform('mobileweb')) {
+    return ['https://eatong-iget.oss-cn-beijing.aliyuncs.com/0916192d-87bc-4d9c-8f80-50f66cd3d808.jpg']
+  }
+  try {
+    const options = {
+      maximumImagesCount: 9,
+      quality: 50,
+      outputType: OutputType.DATA_URL
+    };
+
+    let result = await ImagePicker.getPictures(options);
+    if (result === 'ok') {
+      result = await ImagePicker.getPictures(options);
+    }
+    const loading = showLoading('正在上传图片');
+    const promise: Promise<any>[] = [];
+    result.forEach((base64: string) => {
+      promise.push(ajax({url: '/api/image/upload/base64', data: {file: base64}}))
+    });
+    const finalResult = await Promise.all(promise);
+    loading.destroy();
+    return finalResult
+
+  } catch (e) {
+    return []
+  }
+}
+
 export async function scanQrCode(history: any) {
   // history.push('/book/home')
   const loading = showLoading('正在加载中....');
@@ -58,7 +90,6 @@ export async function scanQrCode(history: any) {
     loading.destroy();
   } else {
     BarcodeScanner.scan().then(async (barcodeData: any) => {
-
       try {
         await analyseScanResult(barcodeData.text, history);
         loading.destroy();
@@ -73,7 +104,6 @@ export async function scanQrCode(history: any) {
 }
 
 async function analyseScanResult(text: string, history: any) {
-  console.log(text);
   // If is ISBN  then search book and jump to bookDetailPage
   if (/^\d{13}$/.test(text)) {
     const bookList = await searchBook(text);
@@ -81,7 +111,7 @@ async function analyseScanResult(text: string, history: any) {
       history.push(`/book/detail?id=${bookList[0].id}`)
     }
   } else if (/^joinTeam/.test(text)) {
-    history.push(`/team/detail/${text.replace(/^joinTeam:/,'')}`)
+    history.push(`/team/detail/${text.replace(/^joinTeam:/, '')}`)
   }
 }
 
@@ -111,3 +141,10 @@ export function checkTabBarShouldHide(history: any, location: any) {
   }
 }
 
+export function getThumbnailList(list: Array<string> = []) {
+  return list.map((url: string) => getThumbnail(url));
+}
+
+export function getThumbnail(url: string) {
+  return `${url.replace(/\?.*$/, '')}?x-oss-process=image/resize,w_300`
+}

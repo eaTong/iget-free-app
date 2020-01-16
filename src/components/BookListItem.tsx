@@ -1,5 +1,6 @@
 import React from 'react';
 import {IonItem, IonLabel} from "@ionic/react";
+import {getThumbnail} from "../utils/utils";
 
 interface BookListInterface {
   book: any,
@@ -19,7 +20,7 @@ const BookListItem: React.FC<BookListInterface> = (props: BookListInterface) => 
   return (
     <IonItem className={'book-list-item'} onClick={(event) => viewDetail(event)} button>
       <div className="cover-container" slot="start">
-        <img src={book.coverImage} alt="" className={'cover-image'}/>
+        <img src={getThumbnail(book.coverImage)} alt="" className={'cover-image'}/>
       </div>
       <IonLabel>
         <div className="info">

@@ -6,6 +6,7 @@ import React from 'react';
 import {IonButton, IonCol, IonGrid, IonRow} from "@ionic/react";
 import {bookMarkStatus} from "../../utils/enums";
 import Empty from "../Empty";
+import {getThumbnail} from "../../utils/utils";
 
 interface BookStaticsCardInterface {
   bookStatics: any,
@@ -49,7 +50,7 @@ const BookStaticsCard: React.FC<BookStaticsCardInterface> = (props: BookStaticsC
               onClick={(event: any) => viewDetail(event)}>
         <div className="covers">
           {statics.covers.map(img => (
-            <img className={'cover-item'} key={img} src={img} alt=""/>
+            <img className={'cover-item'} key={img} src={getThumbnail(img)} alt=""/>
           ))}
         </div>
         <div className="footer">
@@ -60,6 +61,13 @@ const BookStaticsCard: React.FC<BookStaticsCardInterface> = (props: BookStaticsC
     )
   }
 
+  function viewSearch(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    history.push('/book/search')
+  }
+
+
   const {reading, wanted, read} = bookStatics;
   const hasBookMark = reading.count > 0 || wanted.count > 0 || read.count > 0;
   return (
@@ -68,7 +76,7 @@ const BookStaticsCard: React.FC<BookStaticsCardInterface> = (props: BookStaticsC
         <Empty>
           <div>
             <p className="add-more">最美是翻开书页的瞬间，马上开启您的完美书香之旅吧。</p>
-            <IonButton onClick={() => history.push('/book/search')}>开启书香之旅</IonButton>
+            <IonButton onClick={(event: any) => viewSearch(event)}>开启书香之旅</IonButton>
           </div>
         </Empty>
       )}

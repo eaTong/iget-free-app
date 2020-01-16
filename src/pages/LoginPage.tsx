@@ -10,17 +10,21 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonRippleEffect
+  IonRippleEffect,
+  IonFooter, IonCheckbox
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";
+import {Browser} from "@capacitor/core";
+import showToast from "../utils/toastUtil";
 
-interface LoginPageInterface extends PagePropsInterface{
-  app?:any
+interface LoginPageInterface extends PagePropsInterface {
+  app?: any
 }
+
 @inject('app') @observer
 class LoginPage extends Component<LoginPageInterface, {}> {
-  state = {form: {account: '', password: ''}};
+  state = {form: {account: '', password: ''}, agreed: true};
 
   onChangeFormItem(val: string, key: string) {
     const {form} = this.state;
@@ -33,14 +37,22 @@ class LoginPage extends Component<LoginPageInterface, {}> {
   }
 
   async quickLogin() {
-    this.props.app.quickLogin();
-    this.props.history.replace('/home');
+    if (this.state.agreed) {
+
+      await this.props.app.quickLogin();
+      this.props.history.replace('/home');
+    } else {
+      showToast('请先同意「书香-得寸进尺」隐私政策')
+    }
   }
 
   async login() {
     await this.props.app.login(this.state.form);
-
     this.props.history.replace('/home');
+  }
+
+  viewPrivacy() {
+    Browser.open({url: 'https://eatong.cn/blog/10'});
   }
 
   render() {
@@ -73,8 +85,19 @@ class LoginPage extends Component<LoginPageInterface, {}> {
             快速登录
             <IonRippleEffect type='bounded'/>
           </div>
-
         </IonContent>
+        <IonFooter className={'login-footer'}>
+          <IonCheckbox
+            color="primary"
+            checked={this.state.agreed}
+            onIonChange={(event: any) => this.setState({agreed: event.target.checked})}
+          />
+          <span className={'tip-content'}>
+            我同意「书香-得寸进尺」
+          </span>
+          <IonButton fill={'clear'} onClick={() => this.viewPrivacy()}>隐私政策</IonButton>
+
+        </IonFooter>
       </IonPage>
     )
   }

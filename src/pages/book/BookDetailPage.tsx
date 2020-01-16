@@ -28,9 +28,10 @@ import {parse} from 'querystring';
 import {bookMarkStatus} from "../../utils/enums";
 import Rate from "../../components/Rate";
 import {star, bookmarks, more, flag} from "ionicons/icons";
-import {getTimeFormat} from "../../utils/utils";
+import {getThumbnail, getTimeFormat} from "../../utils/utils";
 import BookStatusModal from "../../components/BookStatusModal";
 import moment from "moment";
+import PickImage from "../../components/PickImage";
 
 const statusColor = ['default', 'warning', 'secondary', 'success', 'tertiary'];
 
@@ -113,7 +114,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
             <IonCardContent>
               <div className={'book-info'}>
                 <div className="cover-container" slot="start">
-                  <img src={bookDetail.coverImage} alt="" className={'cover-image'}/>
+                  <img src={getThumbnail(bookDetail.coverImage)} alt="" className={'cover-image'}/>
                 </div>
                 <IonLabel>
                   <div className="info">
@@ -175,6 +176,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
                       <div className="reference">{note.reference}</div>
                     )}
                     <div className="content">{note.content}</div>
+                    <PickImage value={note.images || []}/>
                   </div>
                 </IonItem>
               ))}

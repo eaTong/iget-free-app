@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.eatong.iget">
+    package="cn.eatong.iget">
 
   <application
     android:allowBackup="true"
@@ -11,39 +11,39 @@
     android:usesCleartextTraffic="true"
     android:theme="@style/AppTheme">
 
-    <activity
-      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
-      android:name="cn.eatong.iget.MainActivity"
-      android:label="@string/title_activity_main"
-      android:theme="@style/AppTheme.NoActionBarLaunch"
-      android:launchMode="singleTask">
+        <activity
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
+            android:name="cn.eatong.iget.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:launchMode="singleTask">
 
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="@string/custom_url_scheme"/>
-      </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/custom_url_scheme" />
+            </intent-filter>
 
-    </activity>
+        </activity>
 
-    <provider
-      android:name="android.support.v4.content.FileProvider"
-      android:authorities="${applicationId}.fileprovider"
-      android:exported="false"
-      android:grantUriPermissions="true">
-      <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/file_paths"></meta-data>
-    </provider>
-  </application>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+    </application>
 
-  <!-- Permissions -->
+    <!-- Permissions -->
 
   <uses-permission android:name="android.permission.INTERNET"/>
   <!-- Camera, Photos, input file -->

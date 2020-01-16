@@ -7,25 +7,24 @@ import {
   IonToolbar,
   IonBackButton, IonButton, IonContent, IonItem, IonTextarea, IonList, IonLabel
 } from "@ionic/react";
-import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import {FormPageProps} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import {parse} from "querystring";
+import PickImage from "../../components/PickImage";
+import formWrapper from "../../utils/formWrapper";
 
-class AddNotePage extends Component<PagePropsInterface, {}> {
-  state = {
-    content: '',
-    reference: '',
-    imgs: ''
-  };
+
+class AddNotePage extends Component<FormPageProps, {}> {
 
   async saveNote() {
     const {location} = this.props;
     const query = parse(location.search.replace('?', ""));
-    await ajax({url: '/api/bookNote/add', data: {...this.state, bookId: query.id}});
+    await ajax({url: '/api/bookNote/add', data: {...this.props.form.getFieldsValue(), bookId: query.id}});
     this.props.history.goBack();
   }
 
   render() {
+    const {form} = this.props;
     return (
       <IonPage>
         <IonHeader>
@@ -42,24 +41,35 @@ class AddNotePage extends Component<PagePropsInterface, {}> {
         <IonContent>
           <IonList>
             <IonItem>
-              <IonLabel position={'floating'}>笔记</IonLabel>
-              <IonTextarea
-                value={this.state.content}
-                rows={2}
-                autoGrow
-                required
-                onIonChange={(val: any) => this.setState({content: val.target.value})}
-              />
+              <IonLabel position={'fixed'}>笔记</IonLabel>
+              {form.getFieldDecorator('content', {trigger: 'onIonChange'})(
+                <IonTextarea
+                  rows={2}
+                  autoGrow
+                  required
+                  placeholder={'记录您的读书灵感吧。'}
+                />
+              )}
             </IonItem>
             <IonItem>
-              <IonLabel position={'floating'}>内容引用</IonLabel>
-              <IonTextarea
-                value={this.state.reference}
-                rows={2}
-                required
-                autoGrow
-                onIonChange={(val: any) => this.setState({reference: val.target.value})}
-              />
+              <IonLabel position={'fixed'}>内容引用</IonLabel>
+
+              {form.getFieldDecorator('reference', {trigger: 'onIonChange'})(
+                <IonTextarea
+                  rows={2}
+                  required
+                  autoGrow
+                  placeholder={'书籍金句引用。'}
+                />
+              )}
+
+            </IonItem>
+            <IonItem>
+              <IonLabel position={'fixed'}>图片</IonLabel>
+              {form.getFieldDecorator('images')(
+                <PickImage/>
+              )}
+
             </IonItem>
           </IonList>
         </IonContent>
@@ -68,4 +78,4 @@ class AddNotePage extends Component<PagePropsInterface, {}> {
   }
 }
 
-export default AddNotePage;
+export default formWrapper(AddNotePage);

@@ -21,6 +21,8 @@ import {hideTabBar} from "./utils/utils";
 import {appTabLinks} from './utils/enums';
 import ConfigurationHomeCardPage from "./pages/mine/ConfigurationHomeCardPage";
 import CheckAuth from "./pages/CheckAuth";
+import AddObjective from "./pages/OKR/AddObjective";
+import ObjectiveDetailPage from "./pages/OKR/ObjectiveDetailPage";
 
 @inject('app') @observer
 class AppContainer extends Component<any, any> {
@@ -51,6 +53,8 @@ class AppContainer extends Component<any, any> {
         <Route path="/team/add" component={CreateTeamPage} exact/>
         <Route path="/team/detail/:id" component={TeamDetailPage} exact/>
         <Route path="/okr/home" component={OKRHomePage} exact/>
+        <Route path="/okr/add" component={AddObjective} exact/>
+        <Route path="/okr/detail/:id" component={ObjectiveDetailPage} exact/>
         <Route path="/config/home" component={ConfigurationHomeCardPage} exact/>
       </IonRouterOutlet>
 
