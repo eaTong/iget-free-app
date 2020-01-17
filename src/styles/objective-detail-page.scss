@@ -1,0 +1,21 @@
+.objective-detail-page {
+
+  .record-detail {
+    padding-top: 16px;
+    flex: 1;
+    position: relative;
+    padding-left: 16px;
+
+    .title {
+      margin-top: 0;
+      margin-bottom: 4px;
+    }
+
+    .content {
+      .operator {
+        color: var(--ion-color-primary);
+        margin-right: 5px;
+      }
+    }
+  }
+}

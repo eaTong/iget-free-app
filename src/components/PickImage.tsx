@@ -32,6 +32,10 @@ const PickImage: React.FC<ImagePickerInterface> = (props: ImagePickerInterface) 
     new PreviewImage({urls: value, index}).preview();
   }
 
+  if ((!value || value.length === 0) && !onChange) {
+    return null;
+  }
+
   return (
     <div className='et-pick-image-list'>
       {getThumbnailList(value).map((src: string, index: number) => (

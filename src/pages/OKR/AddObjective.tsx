@@ -12,15 +12,20 @@ import {
   IonBackButton,
   IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel, IonTextarea,  IonDatetime
 } from "@ionic/react";
-import {FormPageProps} from "../../utils/PagePropsInterface";
 import formWrapper from "../../utils/formWrapper";
 import ajax from "../../utils/ajax";
+import {RouteComponentProps} from "react-router";
+import {FormWrapperProps} from "../../utils/types";
 
-interface AddObjectiveState {
-
+interface AddObjectiveProps extends RouteComponentProps<{
+  id?: string,
+  operation?: string,
+}> {
+  app: any,
+  form: FormWrapperProps,
 }
 
-class AddObjective extends Component<FormPageProps, AddObjectiveState> {
+class AddObjective extends Component<AddObjectiveProps, any> {
   state = {};
 
   componentDidMount(): void {
@@ -28,9 +33,17 @@ class AddObjective extends Component<FormPageProps, AddObjectiveState> {
   }
 
   async onSaveData() {
-    const values = this.props.form.getFieldsValue();
+    const {match , history , form} = this.props;
+    const values = form.getFieldsValue();
+    if(match.params.id ){
+      if(match.params.operation === 'edit'){
+        values.id = match.params.id;
+      }else{
+        values.parentObjectiveId = match.params.id;
+      }
+    }
     await ajax({url: '/api/objective/add', data: {...values}});
-    this.props.history.goBack();
+    history.goBack();
   }
 
 

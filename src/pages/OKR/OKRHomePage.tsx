@@ -43,7 +43,7 @@ class OKRHomePage extends Component<PagePropsInterface, ObjectivePageState> {
   };
 
   async ionViewDidEnter() {
-    this.setState({page:0},()=>this.getObjectives());
+    this.setState({page: 0}, () => this.getObjectives());
   }
 
   createObjective() {
@@ -84,7 +84,7 @@ class OKRHomePage extends Component<PagePropsInterface, ObjectivePageState> {
             <IonButtons slot="start">
               <IonBackButton/>
             </IonButtons>
-            <IonTitle>我的团队</IonTitle>
+            <IonTitle>我的OKR</IonTitle>
             <IonButtons slot="end">
               <IonButton slot={'end'} fill={'clear'} onClick={() => this.toggleModal(true)}>
                 <IonIcon slot="icon-only" icon={search}/>
