@@ -12,20 +12,14 @@ import {
   IonBackButton,
   IonButtons,
   withIonLifeCycle,
-  IonCard,
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
-  IonList,
-  IonLabel,
-  IonListHeader,
+  IonCardContent, IonNote, IonProgressBar,
 } from "@ionic/react";
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
 import {inject, observer} from "mobx-react";
-import {Plugins} from '@capacitor/core';
-
-const {Modals} = Plugins;
 
 interface ObjectiveDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -35,6 +29,8 @@ interface ObjectiveDetailPageProps extends RouteComponentProps<{
 
 interface ObjectiveDetailPageState {
   objectiveDetail: {
+    responsibleUser: any,
+    publishUser: any,
   }
 }
 
@@ -45,6 +41,11 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
       name: '',
       description: '',
       id: '',
+      reward: '',
+      rewarded: false,
+      progress: 0,
+      responsibleUser: {name: ''},
+      publishUser: {name: ''},
     },
   };
 
@@ -60,36 +61,6 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
     });
   }
 
-  async quitObjective() {
-    let {value} = await Modals.confirm({
-      title: '操作确认',
-      message: '确定要退出团队吗?'
-    });
-    if (!value) {
-      return
-    }
-    await ajax({
-      url: '/api/objective/quit',
-      data: {objectiveId: this.props.match.params.id}
-    });
-    this.getObjectiveDetail();
-  }
-
-  async deleteObjective() {
-    let {value} = await Modals.confirm({
-      title: '操作确认',
-      message: '解散后将不可恢复，确认要解散团队吗?'
-    });
-    if (!value) {
-      return
-    }
-    await ajax({
-      url: '/api/objective/delete',
-      data: {ids: [this.props.match.params.id]}
-    });
-    this.props.history.goBack();
-  }
-
   render() {
     const {objectiveDetail} = this.state;
     return (
@@ -100,20 +71,42 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
               <IonBackButton/>
             </IonButtons>
             <IonTitle>{objectiveDetail.name || ''}</IonTitle>
+
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle>{objectiveDetail.name}</IonCardTitle>
-              <IonCardSubtitle>{objectiveDetail.description}</IonCardSubtitle>
-            </IonCardHeader>
-          </IonCard>
-          <IonList>
-            <IonListHeader>
-              <IonLabel>团队成员</IonLabel>
-            </IonListHeader>
-          </IonList>
+          <IonProgressBar value={objectiveDetail.progress / 100}/>
+          <IonCardHeader>
+            <IonCardTitle>{objectiveDetail.name}</IonCardTitle>
+            <IonCardSubtitle>{objectiveDetail.description}</IonCardSubtitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <div className="et-row large">
+              <span className={'label'}>发布人</span>
+              <span className="value">{objectiveDetail.publishUser.name}</span>
+            </div>
+            <div className="et-row large">
+              <span className={'label'}>负责人</span>
+              <span className="value">{objectiveDetail.responsibleUser.name}</span>
+            </div>
+            {objectiveDetail.reward && (
+              <div className="et-row large">
+                <span className={'label'}>完成奖励</span>
+                <span className="value">{objectiveDetail.reward}</span>
+              </div>
+
+            )}
+            {objectiveDetail.reward && (
+              <div className="et-row large">
+                <span className={'label'}>奖励已发放</span>
+                <IonNote color={objectiveDetail.rewarded ? 'success' : 'danger'} slot={'end'}>
+                  {objectiveDetail.rewarded ? '已发放' : '未发放'}
+                </IonNote>
+              </div>
+            )}
+
+          </IonCardContent>
+
         </IonContent>
       </IonPage>
     )

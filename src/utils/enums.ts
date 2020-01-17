@@ -1,5 +1,6 @@
 import BookStaticsCard from "../components/cards/BookStaticsCard";
 import BookList from "../components/cards/BookList";
+import ObjectiveList from "../components/cards/ObjectiveList";
 
 export const bookMarkStatus = [
   '未读', '想读', '在读', '已读',
@@ -68,5 +69,15 @@ export const cardsConfig = [
     link: '/book/list?status=3',
     hide: true,
     Component: BookList
+  },
+  {
+    title: 'OKR',
+    key: 'ORK-all',
+    subtitle: '首页仅显示最新5条未完成计划',
+    ajaxConfig: {url: '/api/objective/get', data: {pageSize: 5, completeStatus: '3'}},
+    dataResolve: (result: any) => ({objectiveList: result.list}),
+    link: '/okr/home',
+    hide: false,
+    Component: ObjectiveList
   },
 ];

@@ -6,7 +6,14 @@ import {
   IonToolbar,
   IonContent,
   IonButton,
-  IonButtons, IonSegment, IonSegmentButton, IonLabel, withIonLifeCycle, IonBackButton
+  IonButtons,
+  IonSegment,
+  IonSegmentButton,
+  IonLabel,
+  withIonLifeCycle,
+  IonBackButton,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
@@ -17,7 +24,8 @@ interface TeamPageState {
   teamStatus: string,
   teams: Array<any>,
   fetched: boolean,
-  total: number
+  total: number,
+  page: number
 }
 
 class TeamPage extends Component<PagePropsInterface, TeamPageState> {
@@ -25,7 +33,8 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
     teamStatus: '-1',
     teams: [],
     fetched: false,
-    total: 0
+    total: 0,
+    page: 0
   };
 
   async ionViewDidEnter() {
@@ -36,16 +45,26 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
     this.props.history.push('/team/add')
   }
 
+  async onIonInfinite(event: any) {
+    const {page} = this.state;
+    if ((page + 1) * 20 < this.state.total) {
+
+      await this.getTeams(page + 1);
+      this.setState({page: page + 1});
+    }
+    event.target.complete();
+  }
+
   async getTeams(page: number = 0) {
     const {list, total} = await ajax({
       url: '/api/team/get',
-      data: {page, status: parseInt(this.state.teamStatus)}
+      data: {pageIndex: page, status: parseInt(this.state.teamStatus)}
     });
     this.setState({fetched: true, teams: page === 0 ? list : [...this.state.teams, ...list], total});
   }
 
   onChangeTeamStatus(teamStatus: any) {
-    this.setState({teamStatus}, () => this.getTeams())
+    this.setState({teamStatus, page: 0}, () => this.getTeams())
   }
 
   render() {
@@ -81,6 +100,9 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
             </Empty>
           )}
           <TeamList history={this.props.history} teamList={teams}/>
+          <IonInfiniteScroll threshold="100px" onIonInfinite={(event) => this.onIonInfinite(event)}>
+            <IonInfiniteScrollContent loadingText={'正在加载下一页'}/>
+          </IonInfiniteScroll>
 
         </IonContent>
 

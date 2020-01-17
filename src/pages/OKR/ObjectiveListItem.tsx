@@ -3,7 +3,8 @@
  */
 
 import React from 'react';
-import {IonItem, IonLabel} from "@ionic/react";
+import {IonItem, IonLabel, IonText} from "@ionic/react";
+import {Circle} from "../../components/Circle";
 
 
 interface ObjectiveListItemInterface {
@@ -26,7 +27,18 @@ const ObjectiveListItem: React.FC<ObjectiveListItemInterface> = (props: Objectiv
       <IonLabel>
         <h3>{objective.name}</h3>
         <p>{objective.description}</p>
+
       </IonLabel>
+      {objective.progress > 0 && (
+        <IonText slot={'end'}>
+          <Circle
+            size="30"
+            progress={objective.progress}
+            textStyle={{fontSize: 150}}
+            showPercentageSymbol={false}
+          />
+        </IonText>
+      )}
     </IonItem>
   )
 };

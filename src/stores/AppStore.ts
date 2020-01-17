@@ -74,11 +74,12 @@ export default class AppStore {
       const minimalConfig = JSON.parse(value);
       const config = toJS([...this.homeCardsConfig]);
 
-      this.homeCardsConfig = config.map(item => {
+      this.homeCardsConfig = config.map((item, index) => {
+        const minimal = minimalConfig[item.key];
         return {
           ...item,
-          sort: minimalConfig[item.key].sort,
-          hide: minimalConfig[item.key].hide,
+          sort: minimal ? minimal.sort : index,
+          hide: minimal ? minimal.hide : item.hide,
         }
       }).sort((a: any, b: any) => a.sort - b.sort);
     }
