@@ -40,7 +40,10 @@ class ConfigurationHomeCardPage extends Component<ConfigurationHomeCardPageInter
         <IonCheckbox
           slot="end"
           checked={!item.hide} value={item.key} name={'card-config'}
-          onIonChange={(event: any) => this.props.app.onChangeVisible(event.target.checked, item.key)}/>
+          onIonChange={(event: any) =>{
+            console.log(event);
+            this.props.app.onChangeVisible(event.target.checked, item.key);
+          }}/>
       </IonItem>
     )
   });
@@ -58,7 +61,7 @@ class ConfigurationHomeCardPage extends Component<ConfigurationHomeCardPageInter
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <SortableListContainer onSortEnd={(value: any) => this.props.app.onSortCards(value)} pressDelay={50}>
+          <SortableListContainer onSortEnd={(value: any) => this.props.app.onSortCards(value)} pressDelay={350}>
             {this.props.app.homeCards.map((value: any, index: any) => (
               <SortableItem key={`item-${value.key}`} index={index} value={value}/>
             ))}

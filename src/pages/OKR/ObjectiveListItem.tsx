@@ -6,15 +6,15 @@ import React from 'react';
 import {IonItem, IonLabel, IonText} from "@ionic/react";
 import {Circle} from "../../components/Circle";
 
-
 interface ObjectiveListItemInterface {
   objective: any,
   key: any,
-  history: any
+  history: any,
+  renderThumbnail?: Function
 }
 
 const ObjectiveListItem: React.FC<ObjectiveListItemInterface> = (props: ObjectiveListItemInterface) => {
-  const {objective, history} = props;
+  const {objective, history, renderThumbnail} = props;
 
   function viewDetail(event: any) {
     event.stopPropagation();
@@ -24,6 +24,7 @@ const ObjectiveListItem: React.FC<ObjectiveListItemInterface> = (props: Objectiv
 
   return (
     <IonItem button onClick={viewDetail}>
+      {renderThumbnail && renderThumbnail(objective)}
       <IonLabel>
         <h3>{objective.name}</h3>
         <p>{objective.description}</p>

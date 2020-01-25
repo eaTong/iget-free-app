@@ -1,5 +1,5 @@
 const AppConfig = {
   // host:'https://iget.eatong.cn',// production
-  host:'http://127.0.0.1:3001',// dev
+  host:'http://192.168.0.104:3001',// dev
 };
 export default AppConfig;

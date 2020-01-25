@@ -38,6 +38,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>【书香-得寸进尺】想要保存计划到日历中，是否允许？</string>
 	<key>NSCameraUsageDescription</key>
 	<string> 【书香】需要使用您的相机扫描书籍二维码</string>
 	<key>NSLocationAlwaysUsageDescription</key>

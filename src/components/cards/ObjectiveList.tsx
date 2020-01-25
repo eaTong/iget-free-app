@@ -7,7 +7,7 @@ import ObjectiveListItem from "../../pages/OKR/ObjectiveListItem";
 
 interface ObjectiveListInterface {
   objectiveList: Array<any>,
-  history: any
+  history: any,
 }
 
 const ObjectiveList: React.FC<ObjectiveListInterface> = (props: ObjectiveListInterface) => {

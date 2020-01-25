@@ -88,8 +88,6 @@ class BookStatusModal extends Component<BookStatusProps, BookStatusState> {
                     onIonChange={(event: any) => this.onChangeMark(event.target.value, 'finishTime')}/>
                 </IonItem>
               )}
-
-
             </IonItemGroup>
             <IonItemGroup>
               <IonItemDivider>

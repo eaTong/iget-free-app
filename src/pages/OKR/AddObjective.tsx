@@ -10,12 +10,13 @@ import {
   IonToolbar,
   IonContent,
   IonBackButton,
-  IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel, IonTextarea,  IonDatetime
+  IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel, IonTextarea, IonDatetime, IonToggle
 } from "@ionic/react";
 import formWrapper from "../../utils/formWrapper";
-import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
 import {FormWrapperProps} from "../../utils/types";
+import {Calendar} from '@ionic-native/calendar';
+import ajax from "../../utils/ajax";
 
 interface AddObjectiveProps extends RouteComponentProps<{
   id?: string,
@@ -33,22 +34,29 @@ class AddObjective extends Component<AddObjectiveProps, any> {
   }
 
   async onSaveData() {
-    const {match , history , form} = this.props;
+    const {match, history, form} = this.props;
     const values = form.getFieldsValue();
-    if(match.params.id ){
-      if(match.params.operation === 'edit'){
+    if (match.params.id) {
+      if (match.params.operation === 'edit') {
         values.id = match.params.id;
-      }else{
+      } else {
         values.parentObjectiveId = match.params.id;
       }
     }
+    if (values.addToEvent) {
+      const options = await Calendar.getCalendarOptions();
+      options.calendarName = '书香-得寸进尺';
+      values.calendarId = await Calendar.createEventWithOptions(values.name, values.description, '书香-得寸进尺', new Date(values.planStartDate || ''), new Date(values.planEndDate || ''), options)
+    }
     await ajax({url: '/api/objective/add', data: {...values}});
+
     history.goBack();
   }
 
 
   render() {
     const {form} = this.props;
+    const values = form.getFieldsValue();
     return (
       <IonPage>
         <IonHeader>
@@ -86,13 +94,20 @@ class AddObjective extends Component<AddObjectiveProps, any> {
             <IonItem>
               <IonLabel>计划开始日期</IonLabel>
               {form.getFieldDecorator('planStartDate', {trigger: 'onIonChange'})(
-                <IonDatetime displayFormat="YYYY-MM-DD" placeholder={'计划开始日期'}/>
+                <IonDatetime displayFormat="YYYY-MM-DD" placeholder={'计划开始日期'} max={values.planEndDate}/>
               )}
             </IonItem>
             <IonItem>
               <IonLabel>计划结束日期</IonLabel>
               {form.getFieldDecorator('planEndDate')(
-                <IonDatetime displayFormat="YYYY-MM-DD" placeholder={'计划结束日期'}/>
+                <IonDatetime displayFormat="YYYY-MM-DD" placeholder={'计划结束日期'} min={values.planStartDate}
+                             max={(new Date().getFullYear() +2) + ''}/>
+              )}
+            </IonItem>
+            <IonItem>
+              <IonLabel>添加到日历</IonLabel>
+              {form.getFieldDecorator('addToEvent', {valuePropName: 'checked'})(
+                <IonToggle disabled={!values.planStartDate || !values.planEndDate}/>
               )}
             </IonItem>
           </IonList>

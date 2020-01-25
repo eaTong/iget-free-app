@@ -24,7 +24,7 @@ import {
   IonFabList,
   IonList,
   IonItemDivider,
-  IonLabel,
+  IonLabel, IonButton,
 } from "@ionic/react";
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
@@ -32,7 +32,9 @@ import {inject, observer} from "mobx-react";
 import {add} from "ionicons/icons";
 import {getTimeFormat} from "../../utils/utils";
 import PickImage from "../../components/PickImage";
-import ObjectiveList from "../../components/cards/ObjectiveList";
+import ObjectiveListItem from "./ObjectiveListItem";
+import ChangeRewardModal from "./ChangeRewardModal";
+import {Modals} from "@capacitor/core";
 
 interface ObjectiveDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -46,7 +48,8 @@ interface ObjectiveDetailPageState {
     publishUser: any,
     records: Array<any>,
     childrenObjectives: Array<any>,
-  }
+  },
+  showRewardModal: boolean
 }
 
 @inject('app') @observer
@@ -66,6 +69,7 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
       records: [],
       childrenObjectives: [],
     },
+    showRewardModal: false,
   };
 
   ionViewDidEnter() {
@@ -80,9 +84,31 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
     });
   }
 
+  async updateReward(reward: String) {
+    await ajax({url: '/api/objective/update', data: {reward, id: this.props.match.params.id}});
+    this.toggleRewardModal(false);
+    this.getObjectiveDetail();
+  }
+
+  async sendReward() {
+    let {value} = await Modals.confirm({
+      title: '操作确认',
+      message: '本次操作只是更改标记，是否确认?'
+    });
+    if (!value) {
+      return
+    }
+    await ajax({url: '/api/objective/update', data: {rewarded: true, id: this.props.match.params.id}});
+    this.getObjectiveDetail();
+  }
+
+  toggleRewardModal(showRewardModal: boolean) {
+    this.setState({showRewardModal})
+  }
+
   render() {
     const {history, match} = this.props;
-    const {objectiveDetail} = this.state;
+    const {objectiveDetail, showRewardModal} = this.state;
     return (
       <IonPage className={'objective-detail-page'}>
         <IonHeader>
@@ -110,25 +136,40 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
               <span className="value">{objectiveDetail.responsibleUser.name}</span>
             </div>
             <div className="et-row large">
-              <span className={'label'}>计划开始日期</span>
-              <span className="value">{objectiveDetail.planStartDate}</span>
+              <span className={'label'}>计划日期</span>
+              <span className="value">{`${objectiveDetail.planStartDate}~${objectiveDetail.planEndDate}`}</span>
             </div>
             <div className="et-row large">
-              <span className={'label'}>计划结束日期</span>
-              <span className="value">{objectiveDetail.planEndDate}</span>
+              <span className={'label'}>完成奖励</span>
+              {!objectiveDetail.reward && (
+                <span className="value">
+                  <IonButton
+                    fill={'clear'}
+                    size={'small'}
+                    onClick={() => this.toggleRewardModal(true)}>没有设置奖励，点击设置</IonButton>
+                </span>
+              )}
+              {objectiveDetail.reward && (
+                <>
+                  <span className="value">
+                  {objectiveDetail.reward}
+                </span>
+                  <IonNote color={'primary'} onClick={() => this.toggleRewardModal(true)}>修改奖励</IonNote>
+                </>
+              )}
             </div>
-            {objectiveDetail.reward && (
-              <div className="et-row large">
-                <span className={'label'}>完成奖励</span>
-                <span className="value">{objectiveDetail.reward}</span>
-              </div>
-            )}
+
             {objectiveDetail.reward && (
               <div className="et-row large">
                 <span className={'label'}>奖励已发放</span>
+                <span className="value">
                 <IonNote color={objectiveDetail.rewarded ? 'success' : 'danger'} slot={'end'}>
                   {objectiveDetail.rewarded ? '已发放' : '未发放'}
                 </IonNote>
+                </span>
+                {!objectiveDetail.rewarded && (
+                  <IonNote color={'success'} onClick={()=>this.sendReward()}>发放奖励</IonNote>
+                )}
               </div>
             )}
 
@@ -138,7 +179,14 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
             <IonItemDivider>
               <IonLabel>KR</IonLabel>
             </IonItemDivider>
-            <ObjectiveList objectiveList={objectiveDetail.childrenObjectives} history={history}/>
+            {objectiveDetail.childrenObjectives.map((objective: any, index: number) => (
+              <ObjectiveListItem objective={objective} key={objective.id} history={history} renderThumbnail={() => (
+                <div slot={'start'} className={'objective-list-badge'}>
+                  <small>KR</small><br/>
+                  <strong>{index + 1}</strong>
+                </div>
+              )}/>
+            ))}
           </IonList>
           <IonList>
             <IonItemDivider>
@@ -175,8 +223,13 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
               </IonFabButton>
             </IonFabList>
           </IonFab>
-
         </IonContent>
+        {showRewardModal && (
+          <ChangeRewardModal
+            reward={objectiveDetail.reward}
+            onDismiss={() => this.toggleRewardModal(false)}
+            onSubmit={(reword: string) => this.updateReward(reword)}/>
+        )}
       </IonPage>
     )
   }
