@@ -8,6 +8,7 @@ import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";
 import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
 import showLoading from "../utils/loadingUtil";
+import {Storage} from "@capacitor/core";
 
 
 interface CheckAuthInterface extends PagePropsInterface {
@@ -24,11 +25,11 @@ class CheckAuth extends Component<CheckAuthInterface, any> {
       this.jumpToIndex();
       return;
     }
-    const loginUserSting = window.localStorage.getItem(CACHED_LOGIN_USER);
-    if (loginUserSting) {
+    const {value} = await Storage.get({key: CACHED_LOGIN_USER});
+    if (value) {
       try {
         const loading = showLoading('自动登陆中...');
-        await this.props.app.login(JSON.parse(loginUserSting));
+        await this.props.app.login(JSON.parse(value));
         this.jumpToIndex();
         loading.destroy()
       } catch (e) {

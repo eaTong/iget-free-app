@@ -1,7 +1,7 @@
 import {observable, action, computed, toJS} from 'mobx';
 import {Plugins, Storage} from "@capacitor/core";
 import ajax from "../utils/ajax";
-import {CURRENT_LOGIN_USER, HAS_LOGIN, HOME_CARD_CONFIG} from "../utils/constants";
+import {CACHED_LOGIN_USER, CURRENT_LOGIN_USER, HAS_LOGIN, HOME_CARD_CONFIG} from "../utils/constants";
 import {getLoginUser} from "../utils/utils";
 import {cardsConfig} from "../utils/enums";
 import arrayMove from 'array-move';
@@ -46,6 +46,7 @@ export default class AppStore {
     this.logged = true;
     window.sessionStorage.setItem(HAS_LOGIN, '1');
     window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
+    await Storage.set({key: CACHED_LOGIN_USER, value: JSON.stringify(loginUser)});
   }
 
   @action

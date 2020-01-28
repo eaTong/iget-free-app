@@ -9,7 +9,7 @@ import {
   IonContent,
   IonHeader,
   IonItem,
-  IonLabel, IonList,
+  IonLabel,
   IonModal, IonTextarea,
   IonTitle,
   IonToolbar

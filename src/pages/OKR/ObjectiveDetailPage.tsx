@@ -35,6 +35,8 @@ import PickImage from "../../components/PickImage";
 import ObjectiveListItem from "./ObjectiveListItem";
 import ChangeRewardModal from "./ChangeRewardModal";
 import {Modals} from "@capacitor/core";
+import TimeLime from "../../components/TimeLime";
+import TimeLineItem from "../../components/TimeLineItem";
 
 interface ObjectiveDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -119,9 +121,9 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
             <IonTitle>{objectiveDetail.name || ''}</IonTitle>
 
           </IonToolbar>
+          <IonProgressBar value={objectiveDetail.progress / 100}/>
         </IonHeader>
         <IonContent>
-          <IonProgressBar value={objectiveDetail.progress / 100}/>
           <IonCardHeader>
             <IonCardTitle>{objectiveDetail.name}</IonCardTitle>
             <IonCardSubtitle>{objectiveDetail.description}</IonCardSubtitle>
@@ -137,7 +139,9 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
             </div>
             <div className="et-row large">
               <span className={'label'}>计划日期</span>
-              <span className="value">{`${objectiveDetail.planStartDate}~${objectiveDetail.planEndDate}`}</span>
+              <span className="value">
+                {`${objectiveDetail.planStartDate || ''}~${objectiveDetail.planEndDate || ''}`}
+              </span>
             </div>
             <div className="et-row large">
               <span className={'label'}>完成奖励</span>
@@ -168,7 +172,7 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
                 </IonNote>
                 </span>
                 {!objectiveDetail.rewarded && (
-                  <IonNote color={'success'} onClick={()=>this.sendReward()}>发放奖励</IonNote>
+                  <IonNote color={'success'} onClick={() => this.sendReward()}>发放奖励</IonNote>
                 )}
               </div>
             )}
@@ -193,20 +197,36 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
               <IonLabel>计划跟踪记录</IonLabel>
             </IonItemDivider>
             <div className="record-list">
-              {objectiveDetail.records.map((record: any) => (
+              <TimeLime>
+                {objectiveDetail.records.map((record: any) => {
+                  const diff = (record.currentProgress || 0) - (record.originProgress || 0);
+                  return (
+                    <TimeLineItem key={record.id} title={getTimeFormat(record.createdAt)}>
+                      <div className="record-detail">
+                        {record.title && (
+                          <h5 className="title">{record.title}</h5>
+                        )}
+                        <div className="content">
+                          <span className="operator">{record.operator.name}</span>
+                          {record.content}
+                        </div>
+                        {diff !== 0 && (
+                          <div className={'progress-info'}>
+                            <span>本次完成计划</span>
+                            <IonNote color={'primary'}>{`${diff}%`}</IonNote>
+                            <span>，达到</span>
+                            <IonNote color={'danger'}>{`${record.currentProgress}%`}</IonNote>
+                          </div>
 
-                <div className="record-detail" key={record.id}>
-                  <div className="time">{getTimeFormat(record.createdAt)}</div>
-                  {record.title && (
-                    <h5 className="title">{record.title}</h5>
-                  )}
-                  <div className="content">
-                    <span className="operator">{record.operator.name}</span>
-                    {record.content}
-                  </div>
-                  <PickImage value={record.images || []}/>
-                </div>
-              ))}
+                        )}
+                        <PickImage value={record.images || []}/>
+                      </div>
+                    </TimeLineItem>
+
+                  )
+                })}
+              </TimeLime>
+
             </div>
           </IonList>
 
