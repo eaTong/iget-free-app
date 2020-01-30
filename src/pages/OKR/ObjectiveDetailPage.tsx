@@ -37,6 +37,7 @@ import ChangeRewardModal from "./ChangeRewardModal";
 import {Modals} from "@capacitor/core";
 import TimeLime from "../../components/TimeLime";
 import TimeLineItem from "../../components/TimeLineItem";
+import Tips from "../../components/Tips";
 
 interface ObjectiveDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -66,7 +67,7 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
       planEndDate: '',
       rewarded: false,
       progress: 0,
-      responsibleUser: {name: ''},
+      responsibleUser: {name: '', id: 0},
       publishUser: {name: ''},
       records: [],
       childrenObjectives: [],
@@ -109,8 +110,9 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
   }
 
   render() {
-    const {history, match} = this.props;
+    const {history, match, app} = this.props;
     const {objectiveDetail, showRewardModal} = this.state;
+    const selfUse = objectiveDetail.responsibleUser.id === app.loginUser.id;
     return (
       <IonPage className={'objective-detail-page'}>
         <IonHeader>
@@ -119,7 +121,6 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
               <IonBackButton/>
             </IonButtons>
             <IonTitle>{objectiveDetail.name || ''}</IonTitle>
-
           </IonToolbar>
           <IonProgressBar value={objectiveDetail.progress / 100}/>
         </IonHeader>
@@ -162,19 +163,14 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
                 </>
               )}
             </div>
-
-            {objectiveDetail.reward && (
-              <div className="et-row large">
-                <span className={'label'}>奖励已发放</span>
-                <span className="value">
-                <IonNote color={objectiveDetail.rewarded ? 'success' : 'danger'} slot={'end'}>
-                  {objectiveDetail.rewarded ? '已发放' : '未发放'}
-                </IonNote>
-                </span>
-                {!objectiveDetail.rewarded && (
-                  <IonNote color={'success'} onClick={() => this.sendReward()}>发放奖励</IonNote>
-                )}
-              </div>
+            {objectiveDetail.reward && objectiveDetail.progress === 100 && (
+              <Tips>
+                <>
+                  <p>{`太棒了，计划完成！给「${selfUse?'自己':objectiveDetail.responsibleUser.name}」${objectiveDetail.rewarded?'的奖励也到手了':'一个奖励吧'}！`}</p>
+                  {!objectiveDetail.rewarded && (
+                    <IonButton size='small' onClick={() => this.sendReward()}>发放奖励</IonButton>)}
+                </>
+              </Tips>
             )}
 
           </IonCardContent>

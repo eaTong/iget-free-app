@@ -3,6 +3,7 @@ import {IonApp,} from '@ionic/react';
 import {Provider} from 'mobx-react';
 import store from './stores'
 
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 /* Basic CSS for apps built with Ionic */

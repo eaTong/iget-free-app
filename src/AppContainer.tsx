@@ -24,6 +24,10 @@ import CheckAuth from "./pages/CheckAuth";
 import AddObjective from "./pages/OKR/AddObjective";
 import ObjectiveDetailPage from "./pages/OKR/ObjectiveDetailPage";
 import AddObjectiveRecord from "./pages/OKR/AddObjectiveRecord";
+import AboutAuthor from "./pages/about/AboutAuthor";
+import AboutApp from "./pages/about/AboutApp";
+import FeedbackPage from "./pages/about/FeedbackPage";
+import AddFeedback from "./pages/about/AddFeedback";
 
 @inject('app') @observer
 class AppContainer extends Component<any, any> {
@@ -59,6 +63,10 @@ class AppContainer extends Component<any, any> {
         <Route path="/okr/detail/:id" component={ObjectiveDetailPage} exact/>
         <Route path="/okr/record/:id" component={AddObjectiveRecord} exact/>
         <Route path="/config/home" component={ConfigurationHomeCardPage} exact/>
+        <Route path="/about/author" component={AboutAuthor} exact/>
+        <Route path="/about/app" component={AboutApp} exact/>
+        <Route path="/about/feedback" component={FeedbackPage} exact/>
+        <Route path="/about/feedback/add" component={AddFeedback} exact/>
       </IonRouterOutlet>
 
     );

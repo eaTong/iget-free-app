@@ -28,10 +28,8 @@ class CheckAuth extends Component<CheckAuthInterface, any> {
     const {value} = await Storage.get({key: CACHED_LOGIN_USER});
     if (value) {
       try {
-        const loading = showLoading('自动登陆中...');
         await this.props.app.login(JSON.parse(value));
         this.jumpToIndex();
-        loading.destroy()
       } catch (e) {
         this.redirectLogin();
       }

@@ -6,6 +6,8 @@ import showLoading from "./loadingUtil";
 import {isPlatform} from "@ionic/react";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {ImagePicker, OutputType} from "@ionic-native/image-picker";
+import {FileTransferObject, FileTransfer} from "@ionic-native/file-transfer";
+import AppConfig from "../AppConfig";
 
 
 export function getTimeFormat(timeStr: string = '') {
@@ -61,23 +63,30 @@ export async function takePicture() {
     const options = {
       maximumImagesCount: 9,
       quality: 50,
-      outputType: OutputType.DATA_URL
+      outputType: OutputType.FILE_URL
     };
 
     let result = await ImagePicker.getPictures(options);
-    if (result === 'ok') {
+    console.log(result);
+    if (typeof result === "string" && result.toLocaleLowerCase() === 'ok') {
       result = await ImagePicker.getPictures(options);
     }
+    const fileTransfer: FileTransferObject = FileTransfer.create();
     const loading = showLoading('正在上传图片');
     const promise: Promise<any>[] = [];
-    result.forEach((base64: string) => {
-      promise.push(ajax({url: '/api/image/upload/base64', data: {file: base64}}))
+    result.forEach((path: string) => {
+      const options = {
+        fileKey: 'file',
+        fileName: path.replace(/^.*\//, ''),
+      };
+      promise.push(fileTransfer.upload(path, `${AppConfig.host}/api/pub/image/upload`, options))
     });
-    const finalResult = await Promise.all(promise);
+    const finalResult = formatResult(await Promise.all(promise));
     loading.destroy();
     return finalResult
 
   } catch (e) {
+    console.log(e);
     return []
   }
 }
@@ -117,7 +126,6 @@ async function analyseScanResult(text: string, history: any) {
 
 async function searchBook(ISBN: string) {
   return ajax({url: '/api/book/search', data: {keywords: ISBN}});
-
 }
 
 
@@ -147,4 +155,18 @@ export function getThumbnailList(list: Array<string> = []) {
 
 export function getThumbnail(url: string) {
   return `${url.replace(/\?.*$/, '')}?x-oss-process=image/resize,w_300`
+}
+
+function formatResult(responseBodies: Array<any>): Array<string> {
+  return responseBodies.map((responseBody: any) => {
+    if (responseBody.responseCode === 200) {
+      try {
+        const responseData = JSON.parse(responseBody.response);
+        return responseData.data;
+      } catch (e) {
+        return '';
+      }
+    }
+    return '';
+  }).filter(item => item);
 }

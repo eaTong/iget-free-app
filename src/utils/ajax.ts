@@ -16,6 +16,7 @@ export default function ajax(config: AjaxConfig): Promise<any> {
   return new Promise(((resolve, reject) => {
     if (isPlatform('ios') && !isPlatform('mobileweb')) {
       HTTP.sendRequest(urlPrefix + url, {method: 'post', data}).then((result: any) => {
+        console.log(result);
         if (result.status === 200) {
           const resultData = JSON.parse(result.data);
           if (resultData.success) {
@@ -28,6 +29,7 @@ export default function ajax(config: AjaxConfig): Promise<any> {
           reject();
         }
       }).catch((reason: any) => {
+        console.log(reason);
         try {
           const error = JSON.parse(reason.error).message;
           showToast(`${error}`);

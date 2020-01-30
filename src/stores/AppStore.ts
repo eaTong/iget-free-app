@@ -42,7 +42,7 @@ export default class AppStore {
   @action
   async login(user: any) {
     const loginUser = await ajax({url: '/api/user/login', data: user});
-    this.loginUser = loginUser;
+    this.loginUser = {...loginUser, ...user};
     this.logged = true;
     window.sessionStorage.setItem(HAS_LOGIN, '1');
     window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));

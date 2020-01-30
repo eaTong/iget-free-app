@@ -7,6 +7,15 @@
     color: var(--ion-color-warning);
   }
 }
+.et-tips {
+  padding: 30px 10px;
+  text-align: center;
+
+  .tips-icon {
+    font-size: 100px;
+    color: var(--ion-color-success);
+  }
+}
 
 .et-rate {
   display: inline-block;
