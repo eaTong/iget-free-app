@@ -8,18 +8,20 @@ import {time} from "ionicons/icons";
 
 interface TimeLineItemInterface {
   children: ReactElement,
-  title?: any
+  title?: any,
+  statusTag?: any,
 }
 
 const TimeLineItem: React.FC<TimeLineItemInterface> = (props: TimeLineItemInterface) => {
-  const {children, title} = props;
+  const {children, title, statusTag} = props;
   return (
     <div className={'et-timeline-item'}>
       <IonIcon icon={time}/>
       <div className="et-timeline-content-container">
         {title && (
           <div className="et-timeline-title">
-            {title}
+            <div className="title-content">{title}</div>
+            <div className="status-tag">{statusTag}</div>
           </div>
         )}
         <div className="et-timeline-content">

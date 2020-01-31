@@ -13,7 +13,6 @@ import {
   IonButtons, withIonLifeCycle, IonCard, IonImg, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
-import {Clipboard} from "@capacitor/core";
 
 interface AboutAuthorState {
 
@@ -21,10 +20,6 @@ interface AboutAuthorState {
 
 class AboutAuthor extends Component<PagePropsInterface, AboutAuthorState> {
   state = {};
-
-  copyTelephone(){
-    Clipboard.write({string:'18183820756'});
-  }
 
   render() {
     return (
@@ -44,7 +39,7 @@ class AboutAuthor extends Component<PagePropsInterface, AboutAuthorState> {
               <IonCardSubtitle>不止程序员，个人主页：https://eatong.cn</IonCardSubtitle>
             </IonCardHeader>
             <IonCardContent>
-              <p onClick={()=>this.copyTelephone()}>联系方式：18183820756 ( 点击即可复制 )</p>
+              <p>联系方式：18183820756</p>
             </IonCardContent>
             <IonImg src={require('../../images/eaTong.png')}/>
             <IonCardContent>

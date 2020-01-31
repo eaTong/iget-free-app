@@ -10,7 +10,7 @@ import {
   IonToolbar,
   IonContent,
   IonBackButton,
-  IonButtons, withIonLifeCycle, IonButton
+  IonButtons, withIonLifeCycle, IonButton, IonNote
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
@@ -19,6 +19,7 @@ import TimeLineItem from "../../components/TimeLineItem";
 import {getTimeFormat} from "../../utils/utils";
 import Empty from "../../components/Empty";
 import PickImage from "../../components/PickImage";
+import {responseStatusColor, responseStatusLabel} from "../../utils/enums";
 
 interface FeedbackPageState {
   feedbacks: Array<any>,
@@ -62,12 +63,26 @@ class FeedbackPage extends Component<PagePropsInterface, FeedbackPageState> {
         <IonContent>
           <TimeLime>
             {this.state.feedbacks.map((feedback: any) => (
-              <TimeLineItem title={getTimeFormat(feedback.createdAt)} key={feedback.id}>
-                <>
+              <TimeLineItem
+                title={getTimeFormat(feedback.createdAt)}
+                key={feedback.id}
+                statusTag={(<IonNote color={responseStatusColor[feedback.responseStatues || 0]}>
+                  {responseStatusLabel[feedback.responseStatues || 0]}
+                </IonNote>)}>
+                <div className={'feedback-item'}>
                   <strong>{feedback.name}</strong>
                   <p>{feedback.description}</p>
                   <PickImage value={feedback.images}/>
-                </>
+                  {feedback.responseText && (
+                    <div className="reply-card">
+                      <span className="replier">eaTong:</span>
+                      <span>感谢您对「书香-得寸进尺」的宝贵建议。</span>
+                      <span className="reply-content">
+                      {feedback.responseText}
+                    </span>
+                    </div>
+                  )}
+                </div>
               </TimeLineItem>
             ))}
           </TimeLime>

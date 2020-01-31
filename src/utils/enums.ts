@@ -8,6 +8,8 @@ export const bookMarkStatus = [
 export const bookMarkListenedStatus = ['未听', '已听'];
 export const weekEnums = ['周天', '周一', '周二', '周三', '周四', '周五', '周六',];
 export const appTabLinks = ['/home', '/mine/home', '/apps'];
+export const responseStatusLabel = ['待回复', '已回复', '待处理', '已解决', '已拒绝'];
+export const responseStatusColor = ['normal', 'primary', 'warning', 'success', 'danger'];
 
 export const cardsConfig = [
   {

@@ -199,21 +199,40 @@
       top: 20px;
       z-index: -1;
     }
-    ion-icon{
-      color:var(--ion-color-medium);
+
+    ion-icon {
+      color: var(--ion-color-medium);
     }
 
-    .et-timeline-content-container{
+    .et-timeline-content-container {
       flex: 1;
       margin-left: 10px;
       overflow: hidden;
-      .et-timeline-title{
+
+      .et-timeline-title {
         padding-bottom: 10px;
+        display: flex;
+
+        .title-content {
+          flex: 1;
+        }
       }
     }
+
     .et-timeline-content {
       padding: 8px;
       background-color: #f2f2f2;
     }
+  }
+}
+
+.reply-card {
+  background-color: #fff;
+  border-radius: 4px;
+  padding:10px;
+
+  .replier {
+    color: var(--ion-color-primary);
+    margin-right: 5px;
   }
 }

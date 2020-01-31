@@ -71,8 +71,8 @@ export async function takePicture() {
     if (typeof result === "string" && result.toLocaleLowerCase() === 'ok') {
       result = await ImagePicker.getPictures(options);
     }
+    console.log(result);
     const fileTransfer: FileTransferObject = FileTransfer.create();
-    const loading = showLoading('正在上传图片');
     const promise: Promise<any>[] = [];
     result.forEach((path: string) => {
       const options = {
@@ -81,9 +81,15 @@ export async function takePicture() {
       };
       promise.push(fileTransfer.upload(path, `${AppConfig.host}/api/pub/image/upload`, options))
     });
-    const finalResult = formatResult(await Promise.all(promise));
-    loading.destroy();
-    return finalResult
+    const loading = showLoading('正在上传图片');
+    try {
+      const finalResult = formatResult(await Promise.all(promise));
+      loading.destroy();
+      return finalResult
+    } catch (e) {
+      loading.destroy();
+      return [];
+    }
 
   } catch (e) {
     console.log(e);
