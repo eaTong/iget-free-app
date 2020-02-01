@@ -1,6 +1,7 @@
 import BookStaticsCard from "../components/cards/BookStaticsCard";
 import BookList from "../components/cards/BookList";
 import ObjectiveList from "../components/cards/ObjectiveList";
+//UPDATE_TAG:importHomeCard
 
 export const bookMarkStatus = [
   '未读', '想读', '在读', '已读',
@@ -82,4 +83,5 @@ export const cardsConfig = [
     hide: false,
     Component: ObjectiveList
   },
+//UPDATE_TAG:addHomeCard
 ];

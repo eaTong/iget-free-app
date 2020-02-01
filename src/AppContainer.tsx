@@ -29,6 +29,8 @@ import AboutApp from "./pages/about/AboutApp";
 import FeedbackPage from "./pages/about/FeedbackPage";
 import AddFeedback from "./pages/about/AddFeedback";
 
+//UPDATE_TAG:importPage
+
 @inject('app') @observer
 class AppContainer extends Component<any, any> {
   async componentDidMount() {
@@ -40,6 +42,14 @@ class AppContainer extends Component<any, any> {
   }
 
   renderRouters() {
+    const routes = [
+      {path: '/about/author', component: AboutAuthor},
+      {path: '/about/app', component: AboutApp},
+      {path: '/about/feedback', component: FeedbackPage},
+      {path: '/about/feedback/add', component: AddFeedback},
+      //UPDATE_TAG:addPageRoute
+    ];
+
     return (
       <IonRouterOutlet>
         <Route exact path="/" render={() => <Redirect to="/check"/>}/>
@@ -63,10 +73,9 @@ class AppContainer extends Component<any, any> {
         <Route path="/okr/detail/:id" component={ObjectiveDetailPage} exact/>
         <Route path="/okr/record/:id" component={AddObjectiveRecord} exact/>
         <Route path="/config/home" component={ConfigurationHomeCardPage} exact/>
-        <Route path="/about/author" component={AboutAuthor} exact/>
-        <Route path="/about/app" component={AboutApp} exact/>
-        <Route path="/about/feedback" component={FeedbackPage} exact/>
-        <Route path="/about/feedback/add" component={AddFeedback} exact/>
+        {routes.map((route:any)=>(
+          <Route path={route.path} component={route.component} exact/>
+        ))}
       </IonRouterOutlet>
 
     );
