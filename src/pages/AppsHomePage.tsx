@@ -59,6 +59,7 @@ class AppsHomePage extends Component<PagePropsInterface, AppsHomePageState> {
             </IonItemDivider>
             <IonItem routerLink={'/team/home'} detail>团队</IonItem>
             <IonItem routerLink={'/okr/home'} detail>OKR</IonItem>
+            <IonItem routerLink={'/contact/home'} detail>人脉管理</IonItem>
 
           </IonList>
 

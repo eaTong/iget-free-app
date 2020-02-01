@@ -13,12 +13,12 @@ const readlineInstance = readline.createInterface({
 
 readlineInstance.question('What\'s the form name ?', async form => {
   await updateFile(path.resolve(basePath, 'AppContainer.tsx'), 'importPage', getImportPage(form));
-  await updateFile(path.resolve(basePath, 'AppContainer.tsx', 'addPageRoute', getAddRoute(form)));
-  await writeFile(path.resolve(basePath, form, `${upperFirstLetter(form)}Page.tsx`, getFormPage(form)));
-  await writeFile(path.resolve(basePath, form, `${upperFirstLetter(form)}Detail.tsx`, getDetailPage(form)));
-  await writeFile(path.resolve(basePath, form, `${upperFirstLetter(form)}ListItem.tsx`, getListItem(form)));
-  await writeFile(path.resolve(basePath, form, `Add${upperFirstLetter(form)}.tsx`, getAddForm(form)));
-  await writeFile(path.resolve(basePath, 'components', 'cards'`${upperFirstLetter(form)}Card.tsx`, getHomeCard(form)));
+  await updateFile(path.resolve(basePath, 'AppContainer.tsx'), 'addPageRoute', getAddRoute(form));
+  await writeFile(path.resolve(basePath, 'pages', form, `${upperFirstLetter(form)}Page.tsx`), getFormPage(form));
+  await writeFile(path.resolve(basePath, 'pages', form, `${upperFirstLetter(form)}Detail.tsx`), getDetailPage(form));
+  await writeFile(path.resolve(basePath, 'pages', form, `${upperFirstLetter(form)}ListItem.tsx`), getListItem(form));
+  await writeFile(path.resolve(basePath, 'pages', form, `Add${upperFirstLetter(form)}.tsx`), getAddForm(form));
+  await writeFile(path.resolve(basePath, 'components', 'cards', `${upperFirstLetter(form)}List.tsx`), getHomeCard(form));
   await updateFile(path.resolve(basePath, 'utils', 'enums.ts'), 'importHomeCard', getHomeCardImport(form));
   await updateFile(path.resolve(basePath, 'utils', 'enums.ts'), 'addHomeCard', getHomeCardConfig(form));
 

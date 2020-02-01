@@ -28,6 +28,9 @@ import AboutAuthor from "./pages/about/AboutAuthor";
 import AboutApp from "./pages/about/AboutApp";
 import FeedbackPage from "./pages/about/FeedbackPage";
 import AddFeedback from "./pages/about/AddFeedback";
+import ContactPage from "./pages/contact/ContactPage";
+import AddContact from "./pages/contact/AddContact";
+import ContactDetail from "./pages/contact/ContactDetail";
 
 //UPDATE_TAG:importPage
 
@@ -47,7 +50,10 @@ class AppContainer extends Component<any, any> {
       {path: '/about/app', component: AboutApp},
       {path: '/about/feedback', component: FeedbackPage},
       {path: '/about/feedback/add', component: AddFeedback},
-      //UPDATE_TAG:addPageRoute
+      {path: '/contact/home', component: ContactPage},
+      {path: '/contact/add', component: AddContact},
+      {path: '/contact/detail/:id', component: ContactDetail},
+//UPDATE_TAG:addPageRoute
     ];
 
     return (
@@ -74,7 +80,7 @@ class AppContainer extends Component<any, any> {
         <Route path="/okr/record/:id" component={AddObjectiveRecord} exact/>
         <Route path="/config/home" component={ConfigurationHomeCardPage} exact/>
         {routes.map((route:any)=>(
-          <Route path={route.path} component={route.component} exact/>
+          <Route path={route.path} key={route.path} component={route.component} exact/>
         ))}
       </IonRouterOutlet>
 

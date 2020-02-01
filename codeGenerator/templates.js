@@ -4,11 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports.getAddRoute = function (form) {
-  return `
-      {path: '/${form}/home', component: ${upperFirstLetter(form)}Page,
-      {path: '/${form}/add', component: Add${upperFirstLetter(form)},
-      {path: '/${form}/detail/:id', component: ${upperFirstLetter(form)}Detail,
-`
+  return `      {path: '/${form}/home', component: ${upperFirstLetter(form)}Page},
+      {path: '/${form}/add', component: Add${upperFirstLetter(form)}},
+      {path: '/${form}/detail/:id', component: ${upperFirstLetter(form)}Detail},`
 };
 
 module.exports.getImportPage = function (form) {
@@ -95,7 +93,7 @@ class ${upperFirstLetter(form)}Page extends Component<PagePropsInterface, ${uppe
             <IonButtons slot="start">
               <IonBackButton/>
             </IonButtons>
-            <IonTitle>我的团队</IonTitle>
+            <IonTitle>我的XXX</IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={this.create${upperFirstLetter(form)}.bind(this)}>新建</IonButton>
             </IonButtons>
@@ -103,7 +101,7 @@ class ${upperFirstLetter(form)}Page extends Component<PagePropsInterface, ${uppe
         </IonHeader>
         <IonContent>
           {${form}s.length === 0 && fetched && (
-            <Empty title={'您还没有加入任何团队哦'}>
+            <Empty title={'您还没有加入任何XXX哦'}>
               <IonButton onClick={this.create${upperFirstLetter(form)}.bind(this)}>新建</IonButton>
             </Empty>
           )}
@@ -122,8 +120,7 @@ export default withIonLifeCycle(${upperFirstLetter(form)}Page);
 module.exports.getListItem = function (form) {
   return `
 import React from 'react';
-import {IonItem, IonLabel, IonNote, IonIcon} from "@ionic/react";
-import {lock} from "ionicons/icons";
+import {IonItem, IonLabel} from "@ionic/react";
 
 interface ${upperFirstLetter(form)}ListItemInterface {
   ${form}: any,
@@ -168,7 +165,6 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardContent,
-  IonCardSubtitle,
   IonItem,
   IonList,
   IonLabel,
@@ -185,9 +181,7 @@ interface ${upperFirstLetter(form)}DetailPageProps extends RouteComponentProps<{
 }
 
 interface ${upperFirstLetter(form)}DetailPageState {
-  ${form}Detail: {
-    name:''
-  }
+  ${form}Detail:any
 }
 
 @inject('app') @observer
@@ -225,7 +219,6 @@ class ${upperFirstLetter(form)}DetailPage extends Component<${upperFirstLetter(f
           <IonCard>
             <IonCardHeader>
               <IonCardTitle>{${form}Detail.name}</IonCardTitle>
-              <IonCardSubtitle>{${form}Detail.description}</IonCardSubtitle>
             </IonCardHeader>
             <IonCardContent>
 
@@ -250,12 +243,11 @@ import {
   IonToolbar,
   IonContent,
   IonBackButton,
-  IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel, IonTextarea, IonDatetime, IonToggle
+  IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel
 } from "@ionic/react";
 import formWrapper from "../../utils/formWrapper";
 import {RouteComponentProps} from "react-router";
 import {FormWrapperProps} from "../../utils/types";
-import {Calendar} from '@ionic-native/calendar';
 import ajax from "../../utils/ajax";
 
 interface Add${upperFirstLetter(form)}Props extends RouteComponentProps<{
@@ -268,7 +260,7 @@ interface Add${upperFirstLetter(form)}Props extends RouteComponentProps<{
 
 class Add${upperFirstLetter(form)} extends Component<Add${upperFirstLetter(form)}Props, any> {
   async onSaveData() {
-    const {match, history, form} = this.props;
+    const {history, form} = this.props;
     const values = form.getFieldsValue();
     await ajax({url: '/api/${form}/add', data: {...values}});
     history.goBack();
@@ -276,7 +268,6 @@ class Add${upperFirstLetter(form)} extends Component<Add${upperFirstLetter(form)
 
   render() {
     const {form} = this.props;
-    const values = form.getFieldsValue();
     return (
       <IonPage>
         <IonHeader>
@@ -311,7 +302,7 @@ export default withIonLifeCycle(formWrapper(Add${upperFirstLetter(form)}));
 };
 
 module.exports.getHomeCard = function (form) {
-return  `
+  return `
 import React from 'react';
 import ${upperFirstLetter(form)}ListItem from "../../pages/${form}/${upperFirstLetter(form)}ListItem";
 
@@ -335,13 +326,12 @@ export default ${upperFirstLetter(form)}List;
 };
 
 module.exports.getHomeCardImport = function (form) {
-return `
+  return `
 import ${upperFirstLetter(form)}List from "../components/cards/${upperFirstLetter(form)}List";
 `
 };
 module.exports.getHomeCardConfig = function (form) {
-  return `
-  {
+  return `{
     title: '${form}',
     key: '${form}-all',
     subtitle: '',
@@ -350,6 +340,5 @@ module.exports.getHomeCardConfig = function (form) {
     link: '/${form}/home',
     hide: false,
     Component: ${upperFirstLetter(form)}List
-  },
-  `;
+  },`;
 }

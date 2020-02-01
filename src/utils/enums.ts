@@ -1,6 +1,7 @@
 import BookStaticsCard from "../components/cards/BookStaticsCard";
 import BookList from "../components/cards/BookList";
 import ObjectiveList from "../components/cards/ObjectiveList";
+import ContactList from "../components/cards/ContactList";
 //UPDATE_TAG:importHomeCard
 
 export const bookMarkStatus = [
@@ -83,5 +84,17 @@ export const cardsConfig = [
     hide: false,
     Component: ObjectiveList
   },
+
+  {
+    title: 'contact',
+    key: 'contact-all',
+    subtitle: '',
+    ajaxConfig: {url: '/api/contact/get', data: {pageSize: 5}},
+    dataResolve: (result: any) => ({contactList: result.list}),
+    link: '/contact/home',
+    hide: false,
+    Component: ContactList
+  },
+
 //UPDATE_TAG:addHomeCard
 ];
