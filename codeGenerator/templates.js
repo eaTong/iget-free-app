@@ -1,11 +1,9 @@
 const {upperFirstLetter} = require("./utils");
 
-const fs = require('fs');
-const path = require('path');
-
 module.exports.getAddRoute = function (form) {
   return `      {path: '/${form}/home', component: ${upperFirstLetter(form)}Page},
       {path: '/${form}/add', component: Add${upperFirstLetter(form)}},
+      {path: '/${form}/edit/:id', component: Add${upperFirstLetter(form)}},
       {path: '/${form}/detail/:id', component: ${upperFirstLetter(form)}Detail},`
 };
 
@@ -28,25 +26,24 @@ import {
   IonContent,
   IonButton,
   IonButtons,
-  IonSegment,
-  IonSegmentButton,
-  IonLabel,
-  withIonLifeCycle,
+  IonItemSliding,
   IonBackButton,
+  withIonLifeCycle,
   IonInfiniteScroll,
-  IonInfiniteScrollContent
+  IonInfiniteScrollContent, IonItemOptions, IonItemOption
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import Empty from "../../components/Empty";
-import ${upperFirstLetter(form)}List from "../../components/cards/${upperFirstLetter(form)}List";
+import ${upperFirstLetter(form)}ListItem from "./${upperFirstLetter(form)}ListItem";
+import {Modals} from "@capacitor/core";
 
 interface ${upperFirstLetter(form)}PageState {
   ${form}Status: string,
-    ${form}s: Array<any>,
-    fetched: boolean,
-    total: number,
-    page: number
+  ${form}s: Array<any>,
+  fetched: boolean,
+  total: number,
+  page: number
 }
 
 class ${upperFirstLetter(form)}Page extends Component<PagePropsInterface, ${upperFirstLetter(form)}PageState> {
@@ -84,6 +81,17 @@ class ${upperFirstLetter(form)}Page extends Component<PagePropsInterface, ${uppe
     this.setState({fetched: true, ${form}s: page === 0 ? list : [...this.state.${form}s, ...list], total});
   }
 
+  async delete${upperFirstLetter(form)}(${form}: any) {
+    const {value} = await Modals.confirm({title: '操作确认', message: '删除后数据将不可恢复，确认删除？'});
+    if (value) {
+      await ajax({
+        url: '/api/${form}/delete',
+        data: {ids: [${form}.id]}
+      });
+      this.get${upperFirstLetter(form)}s(0);
+    }
+  }
+
   render() {
     const {${form}s, fetched} = this.state;
     return (
@@ -105,7 +113,18 @@ class ${upperFirstLetter(form)}Page extends Component<PagePropsInterface, ${uppe
               <IonButton onClick={this.create${upperFirstLetter(form)}.bind(this)}>新建</IonButton>
             </Empty>
           )}
-          <${upperFirstLetter(form)}List history={this.props.history} ${form}List={${form}s}/>
+          {${form}s.map((${form}: any) => (
+            <IonItemSliding key={${form}.id}>
+              <${upperFirstLetter(form)}ListItem history={this.props.history} ${form}={${form}} key={${form}.id}/>
+              <IonItemOptions side="end">
+                <IonItemOption color="danger" onClick={_=> this.delete${upperFirstLetter(form)}(${form})}>删除</IonItemOption>
+                <IonItemOption color="warning" onClick={_=> this.props.history.push(\`/${form}/edit/\${${form}.id}\`)}>
+                  编辑
+                </IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+          ))}
+
           <IonInfiniteScroll threshold="100px" onIonInfinite={(event) => this.onIonInfinite(event)}>
             <IonInfiniteScrollContent loadingText={'正在加载下一页'}/>
           </IonInfiniteScroll>
@@ -114,6 +133,7 @@ class ${upperFirstLetter(form)}Page extends Component<PagePropsInterface, ${uppe
     )
   }
 }
+
 export default withIonLifeCycle(${upperFirstLetter(form)}Page);
 `
 };
@@ -259,12 +279,34 @@ interface Add${upperFirstLetter(form)}Props extends RouteComponentProps<{
 }
 
 class Add${upperFirstLetter(form)} extends Component<Add${upperFirstLetter(form)}Props, any> {
-  async onSaveData() {
-    const {history, form} = this.props;
-    const values = form.getFieldsValue();
-    await ajax({url: '/api/${form}/add', data: {...values}});
-    history.goBack();
-  }
+    state = {
+      ${form}Detail: {}
+    };
+
+    async componentDidMount(): Promise<void> {
+      if (this.isEdit()) {
+        const ${form}Detail = await ajax({url: '/api/${form}/detail', data: {id: this.props.match.params.id}});
+        this.setState({
+          ${form}Detail
+        });
+        this.props.form.setFieldsValue(${form}Detail);
+      }
+    }
+
+    isEdit() {
+      return /\/edit\//.test(this.props.match.url)
+    }
+
+    async onSaveData() {
+      const {history, form} = this.props;
+      const values = form.getFieldsValue();
+      if (this.isEdit()) {
+        await ajax({url: '/api/${form}/update', data: {...this.state.${form}Detail, ...values}})
+      } else {
+        await ajax({url: '/api/${form}/add', data: {...values}});
+      }
+      history.goBack();
+    }
 
   render() {
     const {form} = this.props;

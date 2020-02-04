@@ -7,6 +7,7 @@
     color: var(--ion-color-warning);
   }
 }
+
 .et-tips {
   padding: 30px 10px;
   text-align: center;
@@ -50,7 +51,7 @@
   .value {
     font-size: 0.9em;
     color: var(--ion-color-dark, #222428);
-    flex:1;
+    flex: 1;
   }
 
 }
@@ -67,5 +68,11 @@
     flex: 1;
     text-align: right;
     color: var(--ion-color-danger)
+  }
+}
+
+ion-card-header + ion-card-content {
+  &.card-content-ios, &.card-content-android {
+    padding-top: 0;
   }
 }

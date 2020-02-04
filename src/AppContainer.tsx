@@ -52,6 +52,7 @@ class AppContainer extends Component<any, any> {
       {path: '/about/feedback/add', component: AddFeedback},
       {path: '/contact/home', component: ContactPage},
       {path: '/contact/add', component: AddContact},
+      {path: '/contact/edit/:id', component: AddContact},
       {path: '/contact/detail/:id', component: ContactDetail},
 //UPDATE_TAG:addPageRoute
     ];
@@ -79,7 +80,7 @@ class AppContainer extends Component<any, any> {
         <Route path="/okr/detail/:id" component={ObjectiveDetailPage} exact/>
         <Route path="/okr/record/:id" component={AddObjectiveRecord} exact/>
         <Route path="/config/home" component={ConfigurationHomeCardPage} exact/>
-        {routes.map((route:any)=>(
+        {routes.map((route: any) => (
           <Route path={route.path} key={route.path} component={route.component} exact/>
         ))}
       </IonRouterOutlet>

@@ -22,7 +22,9 @@ const PickImage: React.FC<ImagePickerInterface> = (props: ImagePickerInterface) 
     onChange && onChange(value ? [...value, ...images] : images);
   }
 
-  function deleteImage(index: number) {
+  function deleteImage(event:Event,index: number) {
+    event.stopPropagation();
+    event.preventDefault();
     const newList = [...(value || [])];
     newList.splice(index, 1);
     onChange && onChange(newList);
@@ -41,7 +43,8 @@ const PickImage: React.FC<ImagePickerInterface> = (props: ImagePickerInterface) 
       {getThumbnailList(value).map((src: string, index: number) => (
         <div className={'et-image-item'} key={src + index} onClick={() => previewImage(index)}>
           <div className="et-image-box">
-            {onChange && <IonIcon className={'delete-icon'} icon={close} onClick={() => deleteImage(index)}/>}
+            {onChange &&
+            <IonIcon className={'delete-icon'} icon={close} onClick={(event: any) => deleteImage(event, index)}/>}
             <img alt={src} src={getThumbnail(src)}/>
           </div>
         </div>

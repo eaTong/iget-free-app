@@ -1,15 +1,14 @@
-
 /**
  * Created by eaTong on 2020-02-01 .
  * Description: auto generated in  2020-02-01
  */
 
 import React from 'react';
-import {IonItem, IonLabel} from "@ionic/react";
+import {IonItem, IonLabel, IonNote} from "@ionic/react";
 
 interface ContactListItemInterface {
   contact: any,
-  key: any,
+  key?: any,
   history: any
 }
 
@@ -25,7 +24,12 @@ const ContactListItem: React.FC<ContactListItemInterface> = (props: ContactListI
   return (
     <IonItem button onClick={viewDetail}>
       <IonLabel>
-        <h3>{contact.name}</h3>
+        <h3>
+          <IonNote color={contact.gender ? 'danger' : 'primary'}>{contact.name}</IonNote>
+          <span className="et-remark">{contact.phone}</span>
+          <span className="et-remark">{(contact.birthday || '')}</span>
+        </h3>
+        <p>{contact.description}</p>
       </IonLabel>
     </IonItem>
   )

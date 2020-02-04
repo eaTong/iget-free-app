@@ -156,7 +156,7 @@ export function checkTabBarShouldHide(history: any, location: any) {
 }
 
 export function getThumbnailList(list: Array<string> = []) {
-  return list.map((url: string) => getThumbnail(url));
+  return (list || []).map((url: string) => getThumbnail(url));
 }
 
 export function getThumbnail(url: string) {

@@ -1,4 +1,3 @@
-
 /**
  * Created by eaTong on 2020-02-01 .
  * Description: auto generated in  2020-02-01
@@ -13,22 +12,24 @@ import {
   IonContent,
   IonButton,
   IonButtons,
-  withIonLifeCycle,
+  IonItemSliding,
   IonBackButton,
+  withIonLifeCycle,
   IonInfiniteScroll,
-  IonInfiniteScrollContent
+  IonInfiniteScrollContent, IonItemOptions, IonItemOption
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import Empty from "../../components/Empty";
-import ContactList from "../../components/cards/ContactList";
+import ContactListItem from "./ContactListItem";
+import {Modals} from "@capacitor/core";
 
 interface ContactPageState {
   contactStatus: string,
-    contacts: Array<any>,
-    fetched: boolean,
-    total: number,
-    page: number
+  contacts: Array<any>,
+  fetched: boolean,
+  total: number,
+  page: number
 }
 
 class ContactPage extends Component<PagePropsInterface, ContactPageState> {
@@ -66,6 +67,17 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
     this.setState({fetched: true, contacts: page === 0 ? list : [...this.state.contacts, ...list], total});
   }
 
+  async deleteContact(contact: any) {
+    const {value} = await Modals.confirm({title: '操作确认', message: '删除后数据将不可恢复，确认删除？'});
+    if (value) {
+      await ajax({
+        url: '/api/contact/delete',
+        data: {ids: [contact.id]}
+      });
+      this.getContacts(0);
+    }
+  }
+
   render() {
     const {contacts, fetched} = this.state;
     return (
@@ -87,7 +99,18 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
               <IonButton onClick={this.createContact.bind(this)}>新建</IonButton>
             </Empty>
           )}
-          <ContactList history={this.props.history} contactList={contacts}/>
+          {contacts.map((contact: any) => (
+            <IonItemSliding key={contact.id}>
+              <ContactListItem history={this.props.history} contact={contact} key={contact.id}/>
+              <IonItemOptions side="end">
+                <IonItemOption color="danger" onClick={_=> this.deleteContact(contact)}>删除</IonItemOption>
+                <IonItemOption color="warning" onClick={_=> this.props.history.push(`/contact/edit/${contact.id}`)}>
+                  编辑
+                </IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+          ))}
+
           <IonInfiniteScroll threshold="100px" onIonInfinite={(event) => this.onIonInfinite(event)}>
             <IonInfiniteScrollContent loadingText={'正在加载下一页'}/>
           </IonInfiniteScroll>
@@ -96,4 +119,5 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
     )
   }
 }
+
 export default withIonLifeCycle(ContactPage);

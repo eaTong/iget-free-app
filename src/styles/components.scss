@@ -45,6 +45,12 @@
   }
 }
 
+.et-remark {
+  font-size: 0.9em;
+  opacity: 0.8;
+  margin: 0 10px;
+}
+
 .et-pick-image-list {
   display: flex;
   padding: 5px;
@@ -229,7 +235,7 @@
 .reply-card {
   background-color: #fff;
   border-radius: 4px;
-  padding:10px;
+  padding: 10px;
 
   .replier {
     color: var(--ion-color-primary);
