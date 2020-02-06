@@ -88,9 +88,9 @@ export default class AppStore {
   }
 
   @action
-  onSortCards(value: any) {
-    const {newIndex, oldIndex} = value;
-    this.homeCardsConfig = arrayMove(this.homeCardsConfig, oldIndex, newIndex);
+  onSortCards(detail: any) {
+    const {from, to} = detail;
+    this.homeCardsConfig = arrayMove(this.homeCardsConfig, from, to);
     this.saveConfiguration();
   }
 

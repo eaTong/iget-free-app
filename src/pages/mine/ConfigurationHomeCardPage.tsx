@@ -10,46 +10,26 @@ import {
   IonToolbar,
   IonContent,
   IonBackButton,
-  IonButtons, withIonLifeCycle, IonItem, IonLabel, IonList, IonCheckbox
+  IonButtons, withIonLifeCycle, IonItem, IonLabel, IonCheckbox, IonReorder, IonReorderGroup
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 
 interface ConfigurationHomeCardPageInterface extends PagePropsInterface {
   app?: any
 }
 
 
-const SortableListContainer = SortableContainer((item: any) => {
-  return <IonList>{item.children}</IonList>;
-});
-
 @inject('app') @observer
 class ConfigurationHomeCardPage extends Component<ConfigurationHomeCardPageInterface, any> {
   state = {};
 
-  SortableItem = SortableElement((props: any) => {
-    const item = props.value;
-    return (
-      <IonItem key={item.key}>
-        <IonLabel>
-          <h3>{item.title}</h3>
-          <p>{item.subtitle}</p>
-        </IonLabel>
-        <IonCheckbox
-          slot="end"
-          checked={!item.hide} value={item.key} name={'card-config'}
-          onIonChange={(event: any) =>{
-            console.log(event);
-            this.props.app.onChangeVisible(event.target.checked, item.key);
-          }}/>
-      </IonItem>
-    )
-  });
+  onSortChange(event: any) {
+    this.props.app.onSortCards(event.detail);
+    event.detail.complete();
+  }
 
   render() {
-    const SortableItem = this.SortableItem;
     return (
       <IonPage>
         <IonHeader>
@@ -61,12 +41,24 @@ class ConfigurationHomeCardPage extends Component<ConfigurationHomeCardPageInter
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <SortableListContainer onSortEnd={(value: any) => this.props.app.onSortCards(value)} pressDelay={350}>
-            {this.props.app.homeCards.map((value: any, index: any) => (
-              <SortableItem key={`item-${value.key}`} index={index} value={value}/>
+          <IonReorderGroup onIonItemReorder={(event: any) => this.onSortChange(event)} disabled={false}>
+            {this.props.app.homeCards.map((item: any, index: any) => (
+              <IonItem key={item.key}>
+                <IonLabel>
+                  <h3>{item.title}</h3>
+                  <p>{item.subtitle}</p>
+                </IonLabel>
+                <IonCheckbox
+                  slot="start"
+                  checked={!item.hide} value={item.key} name={'card-config'}
+                  onIonChange={(event: any) => {
+                    console.log(event);
+                    this.props.app.onChangeVisible(event.target.checked, item.key);
+                  }}/>
+                <IonReorder slot="end"/>
+              </IonItem>
             ))}
-          </SortableListContainer>
-
+          </IonReorderGroup>
         </IonContent>
 
       </IonPage>

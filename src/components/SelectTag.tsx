@@ -13,10 +13,8 @@ import {
   IonTitle,
   IonToolbar,
   IonSearchbar,
-  IonBadge,
   IonList,
-  IonItemDivider,
-  IonLabel
+  IonChip
 } from '@ionic/react';
 import ajax from "../utils/ajax";
 import {DynamicObject} from "../utils/types";
@@ -84,7 +82,7 @@ class SelectTag extends Component<SelectTagIPropsInterface, SelectTagInterface> 
         list.push(tag);
       }
     });
-    if (!hasSearchText) {
+    if (!hasSearchText && filter) {
       list.splice(0, 0, {id: `temp~${filter}`, name: filter})
     }
 
@@ -137,7 +135,7 @@ class SelectTag extends Component<SelectTagIPropsInterface, SelectTagInterface> 
         {value.length > 0 && (
           <div className="tag-list">
             {value.map((tagId: string) => (
-              <IonBadge key={tagId}>{(tagMapping[tagId + ''] || {}).name}</IonBadge>
+              <IonChip key={tagId} color={'primary'}>{(tagMapping[tagId + ''] || {}).name}</IonChip>
             ))}
             <IonButton size={'small'} color={'light'} onClick={() => this.toggleTagModal(true)}>选择标签</IonButton>
           </div>
@@ -162,9 +160,9 @@ class SelectTag extends Component<SelectTagIPropsInterface, SelectTagInterface> 
                 {tags.map((tag: any) => {
                   const selected = selectedTags.find((item: any) => item.id === tag.id);
                   return (
-                    <IonBadge key={tag.id} color={selected ? 'primary' : 'light'} onClick={() => this.onChangeTag(tag)}>
+                    <IonChip key={tag.id} color={selected ? 'primary' : 'medium'} onClick={() => this.onChangeTag(tag)}>
                       {tag.name}
-                    </IonBadge>
+                    </IonChip>
                   )
                 })}
               </div>

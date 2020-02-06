@@ -23,26 +23,49 @@ import ajax from "../../utils/ajax";
 import Empty from "../../components/Empty";
 import ContactListItem from "./ContactListItem";
 import {Modals} from "@capacitor/core";
+import ScrollTabBar from "../../components/ScrollTabBar";
 
 interface ContactPageState {
   contactStatus: string,
   contacts: Array<any>,
+  myTags: Array<any>,
   fetched: boolean,
   total: number,
-  page: number
+  page: number,
+  currentTab: string
 }
 
 class ContactPage extends Component<PagePropsInterface, ContactPageState> {
   state = {
     contactStatus: '-1',
     contacts: [],
+    myTags: [],
     fetched: false,
     total: 0,
-    page: 0
+    page: 0,
+    currentTab: '0'
   };
 
   async ionViewDidEnter() {
-    this.getContacts()
+    this.getContacts();
+    this.getMyTags();
+  }
+
+  async getMyTags() {
+    const myTags = await ajax({
+      url: '/api/tag/get/mine',
+      data: {statics: true}
+    });
+    this.setState({
+      myTags: [{key: '0', label: `全部`}, ...myTags.map((tag: any) => ({
+        key: tag.id + '',
+        label: `${tag.name}(${tag.total || 0})`
+      }))]
+    });
+  }
+
+  onChangeTab(currentTab: string) {
+    this.setState({currentTab}, () => this.getContacts())
   }
 
   createContact() {
@@ -62,7 +85,7 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
   async getContacts(page: number = 0) {
     const {list, total} = await ajax({
       url: '/api/contact/get',
-      data: {pageIndex: page, status: parseInt(this.state.contactStatus)}
+      data: {tagId: this.state.currentTab, pageIndex: page, status: parseInt(this.state.contactStatus)}
     });
     this.setState({fetched: true, contacts: page === 0 ? list : [...this.state.contacts, ...list], total});
   }
@@ -79,7 +102,7 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
   }
 
   render() {
-    const {contacts, fetched} = this.state;
+    const {contacts, fetched, myTags} = this.state;
     return (
       <IonPage>
         <IonHeader>
@@ -92,6 +115,7 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
               <IonButton onClick={this.createContact.bind(this)}>添加人脉</IonButton>
             </IonButtons>
           </IonToolbar>
+          <ScrollTabBar dataSource={myTags} defaultTab={'0'} onChangeTab={(val: string) => this.onChangeTab(val)}/>
         </IonHeader>
         <IonContent>
           {contacts.length === 0 && fetched && (
@@ -103,8 +127,8 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
             <IonItemSliding key={contact.id}>
               <ContactListItem history={this.props.history} contact={contact} key={contact.id}/>
               <IonItemOptions side="end">
-                <IonItemOption color="danger" onClick={_=> this.deleteContact(contact)}>删除</IonItemOption>
-                <IonItemOption color="warning" onClick={_=> this.props.history.push(`/contact/edit/${contact.id}`)}>
+                <IonItemOption color="danger" onClick={_ => this.deleteContact(contact)}>删除</IonItemOption>
+                <IonItemOption color="warning" onClick={_ => this.props.history.push(`/contact/edit/${contact.id}`)}>
                   编辑
                 </IonItemOption>
               </IonItemOptions>
