@@ -87,16 +87,16 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
             <IonButtons slot="start">
               <IonBackButton/>
             </IonButtons>
-            <IonTitle>我的XXX</IonTitle>
+            <IonTitle>人脉</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={this.createContact.bind(this)}>新建</IonButton>
+              <IonButton onClick={this.createContact.bind(this)}>添加人脉</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
           {contacts.length === 0 && fetched && (
-            <Empty title={'您还没有加入任何XXX哦'}>
-              <IonButton onClick={this.createContact.bind(this)}>新建</IonButton>
+            <Empty title={'您还没有添加任何人脉'}>
+              <IonButton onClick={this.createContact.bind(this)}>添加人脉</IonButton>
             </Empty>
           )}
           {contacts.map((contact: any) => (

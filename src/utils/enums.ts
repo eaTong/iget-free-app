@@ -25,6 +25,16 @@ export const cardsConfig = [
     Component: BookStaticsCard
   },
   {
+    title: 'contact',
+    key: 'contact-all',
+    subtitle: '',
+    ajaxConfig: {url: '/api/contact/get', data: {pageSize: 5}},
+    dataResolve: (result: any) => ({contactList: result.list}),
+    link: '/contact/home',
+    hide: false,
+    Component: ContactList
+  },
+  {
     title: '在读书单',
     subtitle: '书香：我的灵魂在赶路。',
     key: 'book-reading',
@@ -41,7 +51,7 @@ export const cardsConfig = [
     ajaxConfig: {url: '/api/bookMark/get', data: {status: "-1", listenedStatus: "1"}},
     dataResolve: (result: any) => ({bookList: result.list}),
     link: '/book/list?status=-1&listenedStatus=1',
-    hide: false,
+    hide: true,
     Component: BookList
   },
   {
@@ -84,17 +94,5 @@ export const cardsConfig = [
     hide: false,
     Component: ObjectiveList
   },
-
-  {
-    title: 'contact',
-    key: 'contact-all',
-    subtitle: '',
-    ajaxConfig: {url: '/api/contact/get', data: {pageSize: 5}},
-    dataResolve: (result: any) => ({contactList: result.list}),
-    link: '/contact/home',
-    hide: false,
-    Component: ContactList
-  },
-
 //UPDATE_TAG:addHomeCard
 ];

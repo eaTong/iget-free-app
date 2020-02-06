@@ -14,15 +14,15 @@ import {
   IonBackButton,
   IonButtons,
   withIonLifeCycle,
-  IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardContent, IonNote, IonCardSubtitle,
+  IonCardContent, IonNote,
 } from "@ionic/react";
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
 import {inject, observer} from "mobx-react";
 import PickImage from "../../components/PickImage";
+import SelectTag from "../../components/SelectTag";
 
 interface ContactDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -44,7 +44,8 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
       birthday: '',
       phone: '',
       id: '',
-      album: []
+      album: [],
+      tags: [],
     }
   };
 
@@ -57,6 +58,12 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
     this.setState({
       contactDetail
     });
+  }
+
+
+  async onChangeTags(tags: Array<string>) {
+    await ajax({url: '/api/contact/update', data: {id: this.props.match.params.id, tags}});
+    this.getContactDetail();
   }
 
   render() {
@@ -72,29 +79,32 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle>
-                {contactDetail.name}
-                <span className="et-remark">
+          <IonCardHeader>
+            <IonCardTitle>
+              {contactDetail.name}
+              <span className="et-remark">
                 <IonNote
                   color={contactDetail.gender ? 'danger' : 'primary'}>{contactDetail.gender ? '女' : '男'}</IonNote>
                 </span>
-              </IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <div className="et-row">
-                <div className="label">电话</div>
-                <div className="value">{contactDetail.phone}</div>
-              </div>
-              <div className="et-row">
-                <div className="label">生日</div>
-                <div className="value">{contactDetail.birthday}</div>
-              </div>
-              <p className="description">{contactDetail.description}</p>
-              <PickImage value={contactDetail.album || []}/>
-            </IonCardContent>
-          </IonCard>
+            </IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <div className="et-row">
+              <div className="label">电话</div>
+              <div className="value">{contactDetail.phone}</div>
+            </div>
+            <div className="et-row">
+              <div className="label">生日</div>
+              <div className="value">{contactDetail.birthday}</div>
+            </div>
+            <p className="description">{contactDetail.description}</p>
+            <PickImage value={contactDetail.album || []}/>
+
+          </IonCardContent>
+          <SelectTag
+            value={contactDetail.tags.map((tag: any) => tag.id)}
+            onChange={(tags: Array<string>) => this.onChangeTags(tags)}
+          />
         </IonContent>
       </IonPage>
     )

@@ -76,3 +76,7 @@ ion-card-header + ion-card-content {
     padding-top: 0;
   }
 }
+
+ion-badge + ion-badge {
+  margin-left: 0.4em;
+}

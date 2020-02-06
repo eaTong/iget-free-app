@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {IonItem, IonLabel, IonNote} from "@ionic/react";
+import {IonBadge, IonItem, IonLabel, IonNote} from "@ionic/react";
 
 interface ContactListItemInterface {
   contact: any,
@@ -29,6 +29,7 @@ const ContactListItem: React.FC<ContactListItemInterface> = (props: ContactListI
           <span className="et-remark">{contact.phone}</span>
           <span className="et-remark">{(contact.birthday || '')}</span>
         </h3>
+        <p>{(contact.tags ||[]).map((tag:any)=><IonBadge key={tag.id}>{tag.name}</IonBadge>)}</p>
         <p>{contact.description}</p>
       </IonLabel>
     </IonItem>

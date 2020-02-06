@@ -7,3 +7,8 @@ export interface FormWrapperProps {
   setFieldsValue: Function,
   getFieldDecorator: Function
 }
+
+export interface TagType {
+  id: number,
+  name: string,
+}
