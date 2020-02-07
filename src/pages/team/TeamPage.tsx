@@ -1,24 +1,24 @@
 import React, {Component} from "react";
 import {
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonContent,
   IonButton,
   IonButtons,
+  IonContent,
+  IonHeader,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonLabel,
+  IonPage,
   IonSegment,
   IonSegmentButton,
-  IonLabel,
-  withIonLifeCycle,
-  IonBackButton,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent
+  IonTitle,
+  IonToolbar,
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import Empty from "../../components/Empty";
 import TeamList from "../../components/cards/TeamList";
+import BackButton from "../../components/BackButton";
 
 interface TeamPageState {
   teamStatus: string,
@@ -74,7 +74,7 @@ class TeamPage extends Component<PagePropsInterface, TeamPageState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>我的团队</IonTitle>
             <IonButtons slot="end">

@@ -1,15 +1,15 @@
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
-  IonPage, IonSearchbar,
-  IonTitle,
-  IonToolbar,
-  IonButtons,
-  IonBackButton,
+  IonIcon,
   IonList,
-  IonButton,
-  IonIcon
+  IonPage,
+  IonSearchbar,
+  IonTitle,
+  IonToolbar
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
@@ -17,6 +17,7 @@ import BookListItem from "../../components/BookListItem";
 import {qrScanner} from "ionicons/icons";
 import Empty from "../../components/Empty";
 import {scanQrCode} from "../../utils/utils";
+import BackButton from "../../components/BackButton";
 
 class SearchBookPage extends Component<PagePropsInterface, {}> {
   state = {
@@ -40,7 +41,7 @@ class SearchBookPage extends Component<PagePropsInterface, {}> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>书海寻珍</IonTitle>
             <IonButtons slot="end">

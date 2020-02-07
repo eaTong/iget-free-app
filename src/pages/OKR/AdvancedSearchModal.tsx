@@ -9,10 +9,16 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonItemDivider,
+  IonLabel,
+  IonList,
   IonModal,
+  IonRadio,
+  IonRadioGroup,
   IonTitle,
-  IonToolbar,
-  IonInput, IonList, IonItem, IonLabel, IonRadioGroup, IonRadio,IonItemDivider
+  IonToolbar
 } from "@ionic/react";
 import {FormWrapperProps} from "../../utils/types";
 

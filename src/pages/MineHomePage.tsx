@@ -1,14 +1,18 @@
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
   IonHeader,
+  IonIcon,
+  IonItem,
+  IonItemDivider,
+  IonLabel,
+  IonList,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonButton,
-  IonList,
-  IonItem,
-  IonLabel, IonButtons, IonItemDivider, withIonLifeCycle, IonIcon
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import UserSettingModal from "./mine/UserSettingModal";

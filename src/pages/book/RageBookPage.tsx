@@ -1,10 +1,14 @@
 import React, {Component} from "react";
 import {
-  IonBackButton,
-  IonButton, IonButtons,
+  IonButton,
+  IonButtons,
   IonContent,
-  IonHeader, IonItem, IonLabel, IonList,
-  IonPage, IonTextarea,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonTextarea,
   IonTitle,
   IonToolbar
 } from "@ionic/react";
@@ -12,6 +16,7 @@ import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import Rate from "../../components/Rate";
 import {parse} from "querystring";
 import ajax from "../../utils/ajax";
+import BackButton from "../../components/BackButton";
 
 class RageBookPage extends Component<PagePropsInterface, {}> {
   state = {
@@ -33,7 +38,7 @@ class RageBookPage extends Component<PagePropsInterface, {}> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>添加评分</IonTitle>
             <IonButtons slot="end">

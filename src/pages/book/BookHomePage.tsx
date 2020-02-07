@@ -1,14 +1,19 @@
 import {
+  IonButton,
+  IonButtons,
   IonContent,
-  IonPage,
-  IonListHeader,
-  IonList,
-  IonLabel,
   IonFab,
   IonFabButton,
+  IonHeader,
   IonIcon,
-  IonButton,
-  IonToolbar, IonTitle, withIonLifeCycle, IonButtons, IonSkeletonText, IonHeader, IonBackButton
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonPage,
+  IonSkeletonText,
+  IonTitle,
+  IonToolbar,
+  withIonLifeCycle
 } from '@ionic/react';
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
@@ -17,6 +22,7 @@ import {qrScanner, search} from "ionicons/icons";
 import {scanQrCode} from "../../utils/utils";
 import BookStaticsCard from "../../components/cards/BookStaticsCard";
 import BookList from "../../components/cards/BookList";
+import BackButton from '../../components/BackButton';
 
 class BookHomePage extends Component<PagePropsInterface, {}> {
 
@@ -64,7 +70,7 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>书香</IonTitle>
             <IonButtons slot="end">

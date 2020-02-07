@@ -4,18 +4,25 @@
 
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
   IonPage,
+  IonTextarea,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel, IonTextarea
+  withIonLifeCycle
 } from "@ionic/react";
 import {FormPageProps} from "../../utils/PagePropsInterface";
 import formWrapper from "../../utils/formWrapper";
 import ajax from "../../utils/ajax";
 import PickImage from "../../components/PickImage";
+import BackButton from "../../components/BackButton";
 
 interface AddFeedbackState {
 
@@ -42,7 +49,7 @@ class AddFeedback extends Component<FormPageProps, AddFeedbackState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>意见反馈</IonTitle>
             <IonButtons slot='end'>

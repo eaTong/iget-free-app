@@ -1,16 +1,19 @@
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
+  IonIcon,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
   IonPage,
+  IonSearchbar,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonButtons,
-  IonBackButton,
-  IonButton,
-  withIonLifeCycle,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent, IonSearchbar, IonIcon, IonFab, IonFabButton
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import Empty from "../../components/Empty";
@@ -18,6 +21,7 @@ import ajax from "../../utils/ajax";
 import ObjectiveList from "../../components/cards/ObjectiveList";
 import {add, search} from "ionicons/icons";
 import AdvancedSearchModal from "./AdvancedSearchModal";
+import BackButton from "../../components/BackButton";
 
 interface ObjectivePageState {
   objectiveStatus: string,
@@ -82,7 +86,7 @@ class OKRHomePage extends Component<PagePropsInterface, ObjectivePageState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>我的OKR</IonTitle>
             <IonButtons slot="end">

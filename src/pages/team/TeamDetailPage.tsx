@@ -4,23 +4,30 @@
 
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
+  IonFooter,
   IonHeader,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonNote,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons,
   withIonLifeCycle,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
-  IonCardSubtitle,
-  IonItem,
-  IonList,
-  IonLabel,
-  IonListHeader, IonNote, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonFooter, IonButton, IonInput,
 } from "@ionic/react";
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
@@ -28,6 +35,7 @@ import QRCode from 'qrcode.react';
 import {trash} from "ionicons/icons";
 import {inject, observer} from "mobx-react";
 import {Plugins} from '@capacitor/core';
+import BackButton from "../../components/BackButton";
 
 const {Modals} = Plugins;
 
@@ -124,7 +132,7 @@ class TeamDetailPage extends Component<TeamDetailPageProps, TeamDetailPageState>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>{teamDetail.name || ''}</IonTitle>
           </IonToolbar>

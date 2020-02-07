@@ -5,18 +5,19 @@
 
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
   IonHeader,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonButton,
-  IonButtons,
-  IonItemSliding,
-  IonBackButton,
-  withIonLifeCycle,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent, IonItemOptions, IonItemOption
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
@@ -24,6 +25,7 @@ import Empty from "../../components/Empty";
 import ContactListItem from "./ContactListItem";
 import {Modals} from "@capacitor/core";
 import ScrollTabBar from "../../components/ScrollTabBar";
+import BackButton from "../../components/BackButton";
 
 interface ContactPageState {
   contactStatus: string,
@@ -108,7 +110,7 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>人脉</IonTitle>
             <IonButtons slot="end">

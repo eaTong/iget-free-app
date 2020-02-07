@@ -1,37 +1,38 @@
 import React, {Component} from "react";
 import {
-  IonBackButton,
   IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
   IonCard,
+  IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonCardContent,
-  IonNote,
-  IonLabel,
-  IonItem,
-  IonList,
-  IonListHeader,
+  IonContent,
   IonFab,
   IonFabButton,
+  IonFabList,
+  IonHeader,
   IonIcon,
-  IonFabList, withIonLifeCycle,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonNote,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  withIonLifeCycle,
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import {parse} from 'querystring';
 import {bookMarkStatus} from "../../utils/enums";
 import Rate from "../../components/Rate";
-import {star, bookmarks, more, flag} from "ionicons/icons";
+import {bookmarks, flag, more, star} from "ionicons/icons";
 import {getThumbnail, getTimeFormat} from "../../utils/utils";
 import BookStatusModal from "../../components/BookStatusModal";
 import moment from "moment";
 import PickImage from "../../components/PickImage";
+import BackButton from "../../components/BackButton";
 
 const statusColor = ['default', 'warning', 'secondary', 'success', 'tertiary'];
 
@@ -91,7 +92,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>{bookDetail.name}</IonTitle>
           </IonToolbar>

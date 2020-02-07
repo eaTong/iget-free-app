@@ -4,27 +4,27 @@
 
 import React, {Component} from "react";
 import {
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonContent,
-  IonBackButton,
+  IonButton,
   IonButtons,
-  withIonLifeCycle,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
   IonCardContent,
-  IonNote,
-  IonProgressBar,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
   IonFab,
   IonFabButton,
-  IonIcon,
   IonFabList,
-  IonList,
+  IonHeader,
+  IonIcon,
   IonItemDivider,
-  IonLabel, IonButton,
+  IonLabel,
+  IonList,
+  IonNote,
+  IonPage,
+  IonProgressBar,
+  IonTitle,
+  IonToolbar,
+  withIonLifeCycle,
 } from "@ionic/react";
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
@@ -38,6 +38,7 @@ import {Modals} from "@capacitor/core";
 import TimeLime from "../../components/TimeLime";
 import TimeLineItem from "../../components/TimeLineItem";
 import Tips from "../../components/Tips";
+import BackButton from "../../components/BackButton";
 
 interface ObjectiveDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -118,7 +119,7 @@ class ObjectiveDetailPage extends Component<ObjectiveDetailPageProps, ObjectiveD
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>{objectiveDetail.name || ''}</IonTitle>
           </IonToolbar>

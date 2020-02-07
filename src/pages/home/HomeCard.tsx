@@ -4,7 +4,7 @@
 
 import React, {Component, FC} from 'react';
 import ajax from "../../utils/ajax";
-import {IonSkeletonText, IonCardHeader, IonCardTitle, IonCardSubtitle} from "@ionic/react";
+import {IonCardHeader, IonCardSubtitle, IonCardTitle, IonSkeletonText} from "@ionic/react";
 
 interface HomeCardProps {
   ajaxConfig: {

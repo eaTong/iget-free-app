@@ -4,15 +4,22 @@
 
 import React, {Component} from "react";
 import {
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
   IonHeader,
+  IonImg,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonCard, IonImg, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import BackButton from "../../components/BackButton";
 
 interface AboutAuthorState {
 
@@ -27,7 +34,7 @@ class AboutAuthor extends Component<PagePropsInterface, AboutAuthorState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>关于作者</IonTitle>
           </IonToolbar>

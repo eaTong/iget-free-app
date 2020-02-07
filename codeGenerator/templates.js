@@ -27,7 +27,6 @@ import {
   IonButton,
   IonButtons,
   IonItemSliding,
-  IonBackButton,
   withIonLifeCycle,
   IonInfiniteScroll,
   IonInfiniteScrollContent, IonItemOptions, IonItemOption
@@ -37,6 +36,7 @@ import ajax from "../../utils/ajax";
 import Empty from "../../components/Empty";
 import ${upperFirstLetter(form)}ListItem from "./${upperFirstLetter(form)}ListItem";
 import {Modals} from "@capacitor/core";
+import BackButton from "../../components/BackButton";
 
 interface ${upperFirstLetter(form)}PageState {
   ${form}Status: string,
@@ -99,7 +99,7 @@ class ${upperFirstLetter(form)}Page extends Component<PagePropsInterface, ${uppe
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton/>
             </IonButtons>
             <IonTitle>我的XXX</IonTitle>
             <IonButtons slot="end">
@@ -178,7 +178,6 @@ import {
   IonTitle,
   IonToolbar,
   IonContent,
-  IonBackButton,
   IonButtons,
   withIonLifeCycle,
   IonCard,
@@ -193,6 +192,7 @@ import {
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
 import {inject, observer} from "mobx-react";
+import BackButton from "../../components/BackButton";
 
 interface ${upperFirstLetter(form)}DetailPageProps extends RouteComponentProps<{
   id: string,
@@ -230,7 +230,7 @@ class ${upperFirstLetter(form)}DetailPage extends Component<${upperFirstLetter(f
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton/>
             </IonButtons>
             <IonTitle>{${form}Detail.name || ''}</IonTitle>
           </IonToolbar>
@@ -262,13 +262,13 @@ import {
   IonTitle,
   IonToolbar,
   IonContent,
-  IonBackButton,
   IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel
 } from "@ionic/react";
 import formWrapper from "../../utils/formWrapper";
 import {RouteComponentProps} from "react-router";
 import {FormWrapperProps} from "../../utils/types";
 import ajax from "../../utils/ajax";
+import BackButton from "../../components/BackButton";
 
 interface Add${upperFirstLetter(form)}Props extends RouteComponentProps<{
   id?: string,
@@ -301,11 +301,12 @@ class Add${upperFirstLetter(form)} extends Component<Add${upperFirstLetter(form)
       const {history, form} = this.props;
       const values = form.getFieldsValue();
       if (this.isEdit()) {
-        await ajax({url: '/api/${form}/update', data: {...this.state.${form}Detail, ...values}})
+        await ajax({url: '/api/contact/update', data: {...this.state.contactDetail, ...values}})
+        history.replace(\`/contact/detail/\${this.props.match.params.id}\`)
       } else {
-        await ajax({url: '/api/${form}/add', data: {...values}});
+        const contact = await ajax({url: '/api/contact/add', data: {...values}});
+        history.replace(\`/contact/detail/\${contact.id}\`)
       }
-      history.goBack();
     }
 
   render() {
@@ -315,7 +316,7 @@ class Add${upperFirstLetter(form)} extends Component<Add${upperFirstLetter(form)
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton/>
             </IonButtons>
             <IonTitle>新建XXX</IonTitle>
             <IonButtons slot='end'>

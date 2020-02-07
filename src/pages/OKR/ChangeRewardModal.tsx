@@ -10,7 +10,8 @@ import {
   IonHeader,
   IonItem,
   IonLabel,
-  IonModal, IonTextarea,
+  IonModal,
+  IonTextarea,
   IonTitle,
   IonToolbar
 } from "@ionic/react";

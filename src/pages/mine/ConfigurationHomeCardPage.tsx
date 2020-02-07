@@ -4,16 +4,22 @@
 
 import React, {Component} from "react";
 import {
+  IonButtons,
+  IonCheckbox,
+  IonContent,
   IonHeader,
+  IonItem,
+  IonLabel,
   IonPage,
+  IonReorder,
+  IonReorderGroup,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonItem, IonLabel, IonCheckbox, IonReorder, IonReorderGroup
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";
+import BackButton from "../../components/BackButton";
 
 interface ConfigurationHomeCardPageInterface extends PagePropsInterface {
   app?: any
@@ -35,7 +41,7 @@ class ConfigurationHomeCardPage extends Component<ConfigurationHomeCardPageInter
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>首页设置</IonTitle>
           </IonToolbar>

@@ -1,17 +1,18 @@
 import React, {Component} from "react";
 import {
-  IonPage,
-  IonContent,
-  IonItem,
-  IonLabel,
-  IonInput,
-  IonList,
   IonButton,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonRippleEffect,
-  IonFooter, IonCheckbox
+  IonCheckbox,
+  IonContent,
+  IonFooter,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonRippleEffect
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";

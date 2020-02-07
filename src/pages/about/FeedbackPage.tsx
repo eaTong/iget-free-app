@@ -4,13 +4,15 @@
 
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
   IonHeader,
+  IonNote,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonButton, IonNote
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
@@ -20,6 +22,7 @@ import {getTimeFormat} from "../../utils/utils";
 import Empty from "../../components/Empty";
 import PickImage from "../../components/PickImage";
 import {responseStatusColor, responseStatusLabel} from "../../utils/enums";
+import BackButton from "../../components/BackButton";
 
 interface FeedbackPageState {
   feedbacks: Array<any>,
@@ -52,7 +55,7 @@ class FeedbackPage extends Component<PagePropsInterface, FeedbackPageState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>意见反馈</IonTitle>
             <IonButtons slot="end">

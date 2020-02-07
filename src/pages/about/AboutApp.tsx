@@ -4,15 +4,21 @@
 
 import React, {Component} from "react";
 import {
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
+import BackButton from "../../components/BackButton";
 
 interface AboutAppState {
 
@@ -28,7 +34,7 @@ class AboutApp extends Component<PagePropsInterface, AboutAppState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>关于APP</IonTitle>
           </IonToolbar>

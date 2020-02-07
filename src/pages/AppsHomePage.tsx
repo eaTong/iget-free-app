@@ -4,12 +4,19 @@
 
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
   IonHeader,
+  IonIcon,
+  IonItem,
+  IonItemDivider,
+  IonLabel,
+  IonList,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  withIonLifeCycle, IonList, IonItem, IonButton, IonIcon, IonButtons, IonItemDivider, IonLabel,
+  withIonLifeCycle,
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";

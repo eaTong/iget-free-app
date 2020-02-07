@@ -6,23 +6,24 @@
 
 import React, {Component} from "react";
 import {
+  IonButtons,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonContent,
   IonHeader,
+  IonNote,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons,
   withIonLifeCycle,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent, IonNote,
 } from "@ionic/react";
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
 import {inject, observer} from "mobx-react";
 import PickImage from "../../components/PickImage";
 import SelectTag from "../../components/SelectTag";
+import BackButton from "../../components/BackButton";
 
 interface ContactDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -73,7 +74,7 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>{contactDetail.name || ''}</IonTitle>
           </IonToolbar>

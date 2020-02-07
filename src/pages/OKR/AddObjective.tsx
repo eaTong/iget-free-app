@@ -4,19 +4,28 @@
 
 import React, {Component} from "react";
 import {
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
+  IonButton,
+  IonButtons,
   IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel, IonTextarea, IonDatetime, IonToggle
+  IonDatetime,
+  IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonTextarea,
+  IonTitle,
+  IonToggle,
+  IonToolbar,
+  withIonLifeCycle
 } from "@ionic/react";
 import formWrapper from "../../utils/formWrapper";
 import {RouteComponentProps} from "react-router";
 import {FormWrapperProps} from "../../utils/types";
 import {Calendar} from '@ionic-native/calendar';
 import ajax from "../../utils/ajax";
+import BackButton from "../../components/BackButton";
 
 interface AddObjectiveProps extends RouteComponentProps<{
   id?: string,
@@ -62,7 +71,7 @@ class AddObjective extends Component<AddObjectiveProps, any> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>创建小目标</IonTitle>
             <IonButtons slot='end'>

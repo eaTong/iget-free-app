@@ -1,8 +1,11 @@
 import {
   IonButton,
   IonButtons,
-  IonContent, IonHeader, IonIcon,
-  IonPage, IonRouterLink,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonPage,
+  IonRouterLink,
   IonTitle,
   IonToolbar,
   withIonLifeCycle,

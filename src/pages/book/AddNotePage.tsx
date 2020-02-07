@@ -1,17 +1,23 @@
 import React, {Component} from "react";
 import {
+  IonButton,
   IonButtons,
+  IonContent,
   IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
   IonPage,
+  IonTextarea,
   IonTitle,
-  IonToolbar,
-  IonBackButton, IonButton, IonContent, IonItem, IonTextarea, IonList, IonLabel
+  IonToolbar
 } from "@ionic/react";
 import {FormPageProps} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import {parse} from "querystring";
 import PickImage from "../../components/PickImage";
 import formWrapper from "../../utils/formWrapper";
+import BackButton from "../../components/BackButton";
 
 
 class AddNotePage extends Component<FormPageProps, {}> {
@@ -30,7 +36,7 @@ class AddNotePage extends Component<FormPageProps, {}> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>添加笔记</IonTitle>
             <IonButtons slot="end">

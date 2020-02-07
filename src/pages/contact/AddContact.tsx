@@ -5,23 +5,22 @@
 
 import React, {Component} from "react";
 import {
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons,
-  withIonLifeCycle,
-  IonInput,
   IonButton,
-  IonList,
+  IonButtons,
+  IonContent,
+  IonDatetime,
+  IonHeader,
+  IonInput,
   IonItem,
   IonLabel,
-  IonSelectOption,
+  IonList,
+  IonPage,
   IonSelect,
-  IonDatetime,
-  IonTextarea
+  IonSelectOption,
+  IonTextarea,
+  IonTitle,
+  IonToolbar,
+  withIonLifeCycle
 } from "@ionic/react";
 import formWrapper from "../../utils/formWrapper";
 import {RouteComponentProps} from "react-router";
@@ -30,6 +29,7 @@ import ajax from "../../utils/ajax";
 import PickImage from "../../components/PickImage";
 import showToast from "../../utils/toastUtil";
 import SelectTag from "../../components/SelectTag";
+import BackButton from "../../components/BackButton";
 
 interface AddContactProps extends RouteComponentProps<{
   id?: string,
@@ -67,10 +67,11 @@ class AddContact extends Component<AddContactProps, any> {
     }
     if (this.isEdit()) {
       await ajax({url: '/api/contact/update', data: {...this.state.contactDetail, ...values}})
+      history.replace(`/contact/detail/${this.props.match.params.id}`)
     } else {
-      await ajax({url: '/api/contact/add', data: {...values}});
+      const contact = await ajax({url: '/api/contact/add', data: {...values}});
+      history.replace(`/contact/detail/${contact.id}`)
     }
-    history.goBack();
   }
 
   render() {
@@ -80,7 +81,7 @@ class AddContact extends Component<AddContactProps, any> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>{`${this.isEdit() ? "编辑" : '添加'}联系人`}</IonTitle>
             <IonButtons slot='end'>

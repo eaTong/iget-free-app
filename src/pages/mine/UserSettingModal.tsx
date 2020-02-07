@@ -1,14 +1,16 @@
 import React, {Component} from "react";
 import {
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
-  IonTitle,
-  IonToolbar,
-  IonLabel,
+  IonInput,
   IonItem,
+  IonLabel,
   IonList,
-  IonModal, IonButton, IonInput
+  IonModal,
+  IonTitle,
+  IonToolbar
 } from "@ionic/react";
 import {getLoginUser} from "../../utils/utils";
 import showToast from "../../utils/toastUtil";

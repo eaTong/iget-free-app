@@ -1,15 +1,22 @@
 import React from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
   IonPage,
+  IonTextarea,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonItem, IonLabel, IonTextarea, IonList, IonInput, IonButton
+  withIonLifeCycle
 } from "@ionic/react";
 import FormBase from "../../components/FormBase";
 import ajax from "../../utils/ajax";
+import BackButton from "../../components/BackButton";
 
 interface CreateTeamPageState {
   form: any
@@ -36,7 +43,7 @@ class CreateTeamPage extends FormBase {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>创建团队</IonTitle>
             <IonButtons slot={'end'}>

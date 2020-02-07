@@ -4,19 +4,27 @@
 
 import React, {Component} from "react";
 import {
+  IonButton,
+  IonButtons,
+  IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
   IonPage,
+  IonRange,
+  IonTextarea,
   IonTitle,
   IonToolbar,
-  IonContent,
-  IonBackButton,
-  IonButtons, withIonLifeCycle, IonInput, IonButton, IonList, IonItem, IonLabel, IonTextarea, IonRange
+  withIonLifeCycle
 } from "@ionic/react";
 import formWrapper from "../../utils/formWrapper";
 import ajax from "../../utils/ajax";
 import PickImage from "../../components/PickImage";
 import {RouteComponentProps} from "react-router";
 import {FormWrapperProps} from "../../utils/types";
+import BackButton from "../../components/BackButton";
 
 interface AddObjectiveRecordProps extends RouteComponentProps<{
   id: string,
@@ -72,7 +80,7 @@ class AddObjectiveRecord extends Component<AddObjectiveRecordProps, { objectiveD
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>目标记录</IonTitle>
             <IonButtons slot='end'>

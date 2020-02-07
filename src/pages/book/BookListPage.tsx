@@ -1,16 +1,22 @@
 import React, {Component} from "react";
 import {
+  IonButtons,
+  IonContent,
   IonHeader,
   IonPage,
+  IonRefresher,
+  IonRefresherContent,
   IonTitle,
-  IonToolbar, withIonLifeCycle, IonContent, IonRefresher, IonRefresherContent, IonButtons, IonBackButton
+  IonToolbar,
+  withIonLifeCycle
 } from "@ionic/react";
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
-import {bookMarkStatus, bookMarkListenedStatus} from "../../utils/enums";
+import {bookMarkListenedStatus, bookMarkStatus} from "../../utils/enums";
 import {parse} from "querystring";
 import ajax from "../../utils/ajax";
 import BookListItem from "../../components/BookListItem";
 import {RefresherEventDetail} from "@ionic/core";
+import BackButton from "../../components/BackButton";
 
 class BookListPage extends Component<PagePropsInterface, { bookList: any, status: number, listenedStatus: number, total: number }> {
   state = {
@@ -62,7 +68,7 @@ class BookListPage extends Component<PagePropsInterface, { bookList: any, status
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton/>
+              <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>{this.getTitle()}</IonTitle>
           </IonToolbar>

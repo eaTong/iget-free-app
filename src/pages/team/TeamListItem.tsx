@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {IonItem, IonLabel, IonNote, IonIcon} from "@ionic/react";
+import {IonIcon, IonItem, IonLabel, IonNote} from "@ionic/react";
 import {lock} from "ionicons/icons";
 
 interface TeamListItemInterface {

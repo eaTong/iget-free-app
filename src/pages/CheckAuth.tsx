@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from "react";
-import {IonPage, IonContent, withIonLifeCycle} from "@ionic/react";
+import {IonContent, IonPage, withIonLifeCycle} from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";
 import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
