@@ -254,6 +254,7 @@
   flex-wrap: wrap;
 
 }
+
 .tags-modal {
   .tag-list {
     padding: 12px;
@@ -262,6 +263,7 @@
     flex-wrap: wrap;
   }
 }
+
 .et-scroll-tab-bar-container {
   overflow-x: auto;
   white-space: nowrap;
@@ -271,7 +273,8 @@
 
   .et-scroll-tab-bar-list {
     padding-left: 0;
-    margin:0;
+    margin: 0;
+
     .et-scroll-tab-bar-item {
       display: inline-block;
       padding: 10px 20px;
@@ -303,5 +306,15 @@
         }
       }
     }
+  }
+}
+
+.et-async-select {
+  flex: 1;
+  text-align: right;
+
+  .placeholder {
+    color: var(--ion-color-medium);
+    font-size: 0.8em;
   }
 }

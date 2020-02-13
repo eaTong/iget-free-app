@@ -31,6 +31,8 @@ import AddFeedback from "./pages/about/AddFeedback";
 import ContactPage from "./pages/contact/ContactPage";
 import AddContact from "./pages/contact/AddContact";
 import ContactDetail from "./pages/contact/ContactDetail";
+import AddContactRecord from "./pages/contact/AddContactRecord";
+import AddRelation from "./pages/contact/AddRelation";
 
 //UPDATE_TAG:importPage
 
@@ -52,8 +54,10 @@ class AppContainer extends Component<any, any> {
       {path: '/about/feedback/add', component: AddFeedback},
       {path: '/contact/home', component: ContactPage},
       {path: '/contact/add', component: AddContact},
+      {path: '/contact/add/relation/:id', component: AddRelation},
       {path: '/contact/edit/:id', component: AddContact},
       {path: '/contact/detail/:id', component: ContactDetail},
+      {path: '/contact/record/:id', component: AddContactRecord},
 //UPDATE_TAG:addPageRoute
     ];
 

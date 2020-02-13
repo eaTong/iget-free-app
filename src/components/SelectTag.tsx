@@ -128,7 +128,7 @@ class SelectTag extends Component<SelectTagIPropsInterface, SelectTagInterface> 
     return (
       <div className='et-select-tag'>
         {value.length === 0 && (
-          <Empty title={'给你的联系人一个合适的标签描述吧'}>
+          <Empty title={'给你的联系人一个合适的标签描述吧'} hideIcon>
             <IonButton onClick={() => this.toggleTagModal(true)}>选择标签</IonButton>
           </Empty>
         )}
@@ -151,7 +151,7 @@ class SelectTag extends Component<SelectTagIPropsInterface, SelectTagInterface> 
           </IonHeader>
           <IonContent>
             <IonSearchbar
-              placeholder={'精确查找？'}
+              placeholder={'没有想要的？搜索试试吧。'}
               value={filter}
               onIonChange={(event: any) => this.onFilterChange(event)}
             />

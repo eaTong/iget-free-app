@@ -10,8 +10,8 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
-  IonContent,
-  IonHeader,
+  IonContent, IonFab, IonFabButton, IonFabList,
+  IonHeader, IonIcon,
   IonNote,
   IonPage,
   IonTitle,
@@ -24,6 +24,10 @@ import {inject, observer} from "mobx-react";
 import PickImage from "../../components/PickImage";
 import SelectTag from "../../components/SelectTag";
 import BackButton from "../../components/BackButton";
+import {bookmarks, gitCommit, more} from "ionicons/icons";
+import TimeLime from "../../components/TimeLime";
+import TimeLineItem from "../../components/TimeLineItem";
+import {getTimeFormat} from "../../utils/utils";
 
 interface ContactDetailPageProps extends RouteComponentProps<{
   id: string,
@@ -47,6 +51,8 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
       id: '',
       album: [],
       tags: [],
+      relations: [],
+      contactRecords: [],
     }
   };
 
@@ -100,13 +106,40 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
             </div>
             <p className="description">{contactDetail.description}</p>
             <PickImage value={contactDetail.album || []}/>
-
           </IonCardContent>
           <SelectTag
             value={contactDetail.tags.map((tag: any) => tag.id)}
             onChange={(tags: Array<string>) => this.onChangeTags(tags)}
           />
+
+          <TimeLime>
+            {(contactDetail.contactRecords || []).map((record: any) => (
+              <TimeLineItem title={(<span>{getTimeFormat(record.createdAt)}</span>)} key={record.id}>
+                <>
+                  <p>{record.content}</p>
+                  <PickImage value={record.images}/>
+                </>
+              </TimeLineItem>
+            ))}
+          </TimeLime>
         </IonContent>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton>
+            <IonIcon icon={more}/>
+          </IonFabButton>
+          <IonFabList side="top">
+            <IonFabButton
+              color={'danger'}
+              onClick={() => this.props.history.push(`/contact/record/${contactDetail.id}`)}>
+              <IonIcon icon={bookmarks}/>
+            </IonFabButton>
+            <IonFabButton
+              color={'warning'}
+              onClick={() => this.props.history.push(`/contact/add/relation/${contactDetail.id}`)}>
+              <IonIcon icon={gitCommit}/>
+            </IonFabButton>
+          </IonFabList>
+        </IonFab>
       </IonPage>
     )
   }
