@@ -14,7 +14,7 @@ import {
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from "../../utils/ajax";
 import BookListItem from "../../components/BookListItem";
-import {qrScanner} from "ionicons/icons";
+import {scanOutline} from "ionicons/icons";
 import Empty from "../../components/Empty";
 import {scanQrCode} from "../../utils/utils";
 import BackButton from "../../components/BackButton";
@@ -46,7 +46,7 @@ class SearchBookPage extends Component<PagePropsInterface, {}> {
             <IonTitle>书海寻珍</IonTitle>
             <IonButtons slot="end">
               <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
-                <IonIcon icon={qrScanner}/>
+                <IonIcon icon={scanOutline}/>
               </IonButton>
             </IonButtons>
           </IonToolbar>

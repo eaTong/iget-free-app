@@ -20,7 +20,7 @@ import {
 } from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";
-import {qrScanner} from "ionicons/icons";
+import {scanOutline} from "ionicons/icons";
 
 interface AppsHomePageState {
 
@@ -45,7 +45,7 @@ class AppsHomePage extends Component<PagePropsInterface, AppsHomePageState> {
             <IonTitle>百宝箱</IonTitle>
             <IonButtons slot="end">
               <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
-                <IonIcon icon={qrScanner}/>
+                <IonIcon icon={scanOutline}/>
               </IonButton>
             </IonButtons>
           </IonToolbar>

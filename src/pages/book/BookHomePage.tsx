@@ -18,7 +18,7 @@ import {
 import React, {Component} from 'react';
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import ajax from '../../utils/ajax';
-import {qrScanner, search} from "ionicons/icons";
+import {scanOutline, search} from "ionicons/icons";
 import {scanQrCode} from "../../utils/utils";
 import BookStaticsCard from "../../components/cards/BookStaticsCard";
 import BookList from "../../components/cards/BookList";
@@ -75,7 +75,7 @@ class BookHomePage extends Component<PagePropsInterface, {}> {
             <IonTitle>书香</IonTitle>
             <IonButtons slot="end">
               <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
-                <IonIcon icon={qrScanner}/>
+                <IonIcon icon={scanOutline}/>
               </IonButton>
             </IonButtons>
           </IonToolbar>

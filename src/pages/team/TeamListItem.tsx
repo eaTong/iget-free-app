@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {IonIcon, IonItem, IonLabel, IonNote} from "@ionic/react";
-import {lock} from "ionicons/icons";
+import {lockClosedOutline} from "ionicons/icons";
 
 interface TeamListItemInterface {
   team: any,
@@ -29,7 +29,7 @@ const TeamListItem: React.FC<TeamListItemInterface> = (props: TeamListItemInterf
       </IonLabel>
       {team.needPassword && (
         <IonNote color="success" slot={'end'}>
-          <IonIcon icon={lock}/>
+          <IonIcon icon={lockClosedOutline}/>
         </IonNote>
       )}
     </IonItem>

@@ -24,7 +24,7 @@ import {inject, observer} from "mobx-react";
 import PickImage from "../../components/PickImage";
 import SelectTag from "../../components/SelectTag";
 import BackButton from "../../components/BackButton";
-import {bookmarks, gitCommit, more} from "ionicons/icons";
+import {bookmarks, gitCommit, ellipsisVertical} from "ionicons/icons";
 import TimeLime from "../../components/TimeLime";
 import TimeLineItem from "../../components/TimeLineItem";
 import {getTimeFormat} from "../../utils/utils";
@@ -125,7 +125,7 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
         </IonContent>
         <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton>
-            <IonIcon icon={more}/>
+            <IonIcon icon={ellipsisVertical}/>
           </IonFabButton>
           <IonFabList side="top">
             <IonFabButton

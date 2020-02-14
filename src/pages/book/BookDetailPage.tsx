@@ -27,7 +27,7 @@ import ajax from "../../utils/ajax";
 import {parse} from 'querystring';
 import {bookMarkStatus} from "../../utils/enums";
 import Rate from "../../components/Rate";
-import {bookmarks, flag, more, star} from "ionicons/icons";
+import {bookmarks, flag, ellipsisVertical, star} from "ionicons/icons";
 import {getThumbnail, getTimeFormat} from "../../utils/utils";
 import BookStatusModal from "../../components/BookStatusModal";
 import moment from "moment";
@@ -206,7 +206,7 @@ class BookDetailPage extends Component<PagePropsInterface, { bookDetail: any, sh
 
           <IonFab vertical="bottom" horizontal="end" slot="fixed">
             <IonFabButton>
-              <IonIcon icon={more}/>
+              <IonIcon icon={ellipsisVertical}/>
             </IonFabButton>
             <IonFabList side="top">
               <IonFabButton color={'danger'} onClick={() => this.props.history.push(`/book/add-note?id=${query.id}`)}>

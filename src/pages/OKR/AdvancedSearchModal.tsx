@@ -67,7 +67,7 @@ class AdvancedSearchModal extends Component<AdvancedSearchModalProps, any> {
                 </IonItemDivider>
                 <IonItem>
                   <IonLabel>全部</IonLabel>
-                  <IonRadio slot="end" value="-1" checked/>
+                  <IonRadio slot="end" value="-1" />
                 </IonItem>
                 <IonItem>
                   <IonLabel>未开始</IonLabel>
@@ -90,7 +90,7 @@ class AdvancedSearchModal extends Component<AdvancedSearchModalProps, any> {
                 </IonItemDivider>
                 <IonItem>
                   <IonLabel>全部</IonLabel>
-                  <IonRadio slot="end" value="-1" checked/>
+                  <IonRadio slot="end" value="-1" />
                 </IonItem>
                 <IonItem>
                   <IonLabel>我发布的</IonLabel>

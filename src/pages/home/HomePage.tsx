@@ -14,7 +14,7 @@ import React, {Component} from 'react';
 import {PagePropsInterface} from "../../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../../utils/utils";
-import {qrScanner} from "ionicons/icons";
+import {scanOutline} from "ionicons/icons";
 import HomeCard from "./HomeCard";
 
 interface LoginPageInterface extends PagePropsInterface {
@@ -44,7 +44,7 @@ class HomePage extends Component<LoginPageInterface, {}> {
             <IonTitle>我的主页</IonTitle>
             <IonButtons slot="end">
               <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
-                <IonIcon icon={qrScanner}/>
+                <IonIcon icon={scanOutline}/>
               </IonButton>
             </IonButtons>
           </IonToolbar>

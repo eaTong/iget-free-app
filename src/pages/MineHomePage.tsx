@@ -21,7 +21,7 @@ import {Plugins} from "@capacitor/core";
 import showToast from "../utils/toastUtil";
 import {inject, observer} from "mobx-react";
 import {checkTabBarShouldHide, scanQrCode, showTabBar} from "../utils/utils";
-import {qrScanner} from "ionicons/icons";
+import {scanOutline} from "ionicons/icons";
 
 interface MineHomePageState {
   showSettingModal: Boolean,
@@ -85,7 +85,7 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
             <IonTitle>我的</IonTitle>
             <IonButtons slot="end">
               <IonButton color={'primary'} onClick={() => scanQrCode(this.props.history)}>
-                <IonIcon icon={qrScanner}/>
+                <IonIcon icon={scanOutline}/>
               </IonButton>
             </IonButtons>
           </IonToolbar>
