@@ -6,8 +6,8 @@ import React, {Component} from "react";
 import {IonContent, IonPage, withIonLifeCycle} from "@ionic/react";
 import {PagePropsInterface} from "../utils/PagePropsInterface";
 import {inject, observer} from "mobx-react";
-import {CACHED_LOGIN_USER, HAS_LOGIN} from "../utils/constants";
-import {Storage} from "@capacitor/core";
+import {USER_HAS_QUITED} from "../utils/constants";
+import { Storage} from "@capacitor/core";
 
 
 interface CheckAuthInterface extends PagePropsInterface {
@@ -17,23 +17,13 @@ interface CheckAuthInterface extends PagePropsInterface {
 @inject('app') @observer
 class CheckAuth extends Component<CheckAuthInterface, any> {
   async ionViewDidEnter() {
+    const {value} = await Storage.get({key:USER_HAS_QUITED});
+    if(!value){
+      await this.props.app.quickLogin();
+      this.props.history.replace('/home');
+    }else{
 
-    const hasLogged = window.sessionStorage.getItem(HAS_LOGIN);
-    if (hasLogged) {
-      this.props.app.autoLogin();
-      this.jumpToIndex();
-      return;
-    }
-    const {value} = await Storage.get({key: CACHED_LOGIN_USER});
-    if (value) {
-      try {
-        await this.props.app.login(JSON.parse(value));
-        this.jumpToIndex();
-      } catch (e) {
-        this.redirectLogin();
-      }
-    } else {
-      this.redirectLogin();
+      this.props.history.replace('/login');
     }
   }
 

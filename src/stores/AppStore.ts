@@ -1,7 +1,7 @@
 import {observable, action, computed, toJS} from 'mobx';
 import {Plugins, Storage} from "@capacitor/core";
 import ajax from "../utils/ajax";
-import {CACHED_LOGIN_USER, CURRENT_LOGIN_USER, HAS_LOGIN, HOME_CARD_CONFIG} from "../utils/constants";
+import {CACHED_LOGIN_USER, CURRENT_LOGIN_USER, HOME_CARD_CONFIG, USER_HAS_QUITED} from "../utils/constants";
 import {getLoginUser} from "../utils/utils";
 import {cardsConfig} from "../utils/enums";
 import arrayMove from 'array-move';
@@ -27,16 +27,15 @@ export default class AppStore {
     const loginUser = await ajax({url: '/api/pub/quickLogin', data: {uuid: deviceInfo.uuid}});
     this.loginUser = loginUser;
     this.logged = true;
-    window.sessionStorage.setItem(HAS_LOGIN, '1');
+    await Storage.remove({key: USER_HAS_QUITED});
     window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
   }
 
   @action
   async autoLogin() {
-    if (window.sessionStorage.getItem(HAS_LOGIN)) {
       this.logged = true;
       this.loginUser = getLoginUser();
-    }
+
   }
 
   @action
@@ -44,7 +43,6 @@ export default class AppStore {
     const loginUser = await ajax({url: '/api/user/login', data: user});
     this.loginUser = {...loginUser, ...user};
     this.logged = true;
-    window.sessionStorage.setItem(HAS_LOGIN, '1');
     window.sessionStorage.setItem(CURRENT_LOGIN_USER, JSON.stringify(loginUser));
     await Storage.set({key: CACHED_LOGIN_USER, value: JSON.stringify(loginUser)});
   }
@@ -53,7 +51,7 @@ export default class AppStore {
   async logout() {
     this.loginUser = {};
     this.logged = false;
-    window.sessionStorage.setItem(HAS_LOGIN, '0');
+    await Storage.set({key: USER_HAS_QUITED, value: 'true'});
     await ajax({url: '/api/pub/logout'});
   }
 

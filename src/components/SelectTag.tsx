@@ -47,7 +47,11 @@ class SelectTag extends Component<SelectTagIPropsInterface, SelectTagInterface> 
   }
 
   async componentDidMount(): Promise<void> {
-
+    const tagIdsWithoutMapping = (this.props.value || []).filter((tagId: string) => !this.state.tagMapping.hasOwnProperty(tagId + ''));
+    if (tagIdsWithoutMapping.length > 0) {
+      const tagsWithoutMapping = await ajax({url: '/api/tag/get/ids', data: {ids: tagIdsWithoutMapping}});
+      this.mapTag(tagsWithoutMapping);
+    }
   }
 
   async componentDidUpdate(): Promise<void> {

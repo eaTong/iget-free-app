@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {IonButton, IonIcon, IonLabel} from "@ionic/react";
-import {arrowBack} from "ionicons/icons";
+import {arrowBack, chevronBack} from "ionicons/icons";
 import * as H from 'history';
 import {isPlatform} from '@ionic/react';
 
@@ -14,10 +14,11 @@ interface BackButtonInterface {
 
 const BackButton: React.FC<BackButtonInterface> = (props: BackButtonInterface) => {
   const {history} = props;
+  const isAndroid = isPlatform('android');
   return (
     <IonButton onClick={() => history.goBack()}>
-      <IonIcon icon={arrowBack}/>
-      {isPlatform('android') || (
+      <IonIcon icon={isAndroid ? arrowBack : chevronBack}/>
+      {isAndroid || (
         <IonLabel>返回</IonLabel>
       )}
     </IonButton>
