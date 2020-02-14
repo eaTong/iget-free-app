@@ -11,17 +11,21 @@ import {
   IonContent,
   IonButtons, withIonLifeCycle, IonButton, IonList, IonItem, IonLabel
 } from "@ionic/react";
-import {FormPageProps} from "../../utils/PagePropsInterface";
 import formWrapper from "../../utils/formWrapper";
 import ajax from "../../utils/ajax";
 import AsyncSelect from "../../components/AsyncSelect";
 import BackButton from "../../components/BackButton";
+import {RouteComponentProps} from "react-router";
+import {FormWrapperProps} from "../../utils/types";
 
-interface AddRelationState {
-
+interface AddContactRelationProps extends RouteComponentProps<{
+  id: string,
+}> {
+  app: any,
+  form: FormWrapperProps,
 }
 
-class AddRelation extends Component<FormPageProps, AddRelationState> {
+class AddRelation extends Component<AddContactRelationProps, {}> {
   state = {};
 
   componentDidMount(): void {
@@ -30,11 +34,9 @@ class AddRelation extends Component<FormPageProps, AddRelationState> {
 
   async onSaveData() {
     const values = this.props.form.getFieldsValue();
-    console.log(values);
-    await ajax({url: '/api/contact/addRelation', data: {values}});
+    await ajax({url: '/api/contact/addRelation', data: {...values, contactId: this.props.match.params.id}});
     this.props.history.goBack();
   }
-
 
   render() {
     const {form} = this.props;
@@ -58,7 +60,7 @@ class AddRelation extends Component<FormPageProps, AddRelationState> {
             <IonItem>
               <IonLabel position={'fixed'}>关系</IonLabel>
               {form.getFieldDecorator('relation', {trigger: 'onIonChange'})(
-                <AsyncSelect placeholder={'选择关系'} api={'/api/tag/get'}/>
+                <AsyncSelect placeholder={'选择关系'} api={'/api/relation/get'} resultResolve={relationDataResolve}/>
               )}
             </IonItem>
             <IonItem>
@@ -70,10 +72,16 @@ class AddRelation extends Component<FormPageProps, AddRelationState> {
           </IonList>
 
         </IonContent>
-
       </IonPage>
     )
   }
+}
+
+function relationDataResolve(data: any, keywords: string) {
+  if (!keywords || data.list.find((relation: any) => relation.name === keywords)) {
+    return data.list;
+  }
+  return [{id: `temp~${keywords}`, name: keywords, ...data.list}]
 }
 
 export default withIonLifeCycle(formWrapper(AddRelation));

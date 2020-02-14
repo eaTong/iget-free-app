@@ -64,9 +64,10 @@ class AsyncSelect extends Component<AsyncSelectInterfaceProps, AsyncSelectInterf
   }
 
   async ensureValues() {
-    const {api, resultResolve, dataResolve} = this.props;
+    const {api, ensureDataResolve, dataResolve} = this.props;
+    const {keywords} = this.state;
     const result = await ajax({url: api, data: dataResolve()});
-    const dataList = result ? resultResolve(result) : [];
+    const dataList = result ? ensureDataResolve(result, keywords) : [];
     this.mapKeys(dataList);
   }
 
@@ -90,7 +91,7 @@ class AsyncSelect extends Component<AsyncSelectInterfaceProps, AsyncSelectInterf
   async getData(keywords = '') {
     const {api, resultResolve, dataResolve} = this.props;
     const result = await ajax({url: api, data: dataResolve(keywords)});
-    const dataList = result ? resultResolve(result) : [];
+    const dataList = result ? resultResolve(result ,keywords) : [];
     this.mapKeys(dataList);
     this.setState({dataList});
   }
@@ -116,6 +117,7 @@ class AsyncSelect extends Component<AsyncSelectInterfaceProps, AsyncSelectInterf
   }
 
   onFilterChange(event: any) {
+    console.log(event);
     const keywords = event.target.value;
     this.setState({keywords}, () => this.getData(keywords));
   }
