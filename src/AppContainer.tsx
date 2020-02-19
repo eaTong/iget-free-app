@@ -33,6 +33,7 @@ import AddContact from "./pages/contact/AddContact";
 import ContactDetail from "./pages/contact/ContactDetail";
 import AddContactRecord from "./pages/contact/AddContactRecord";
 import AddRelation from "./pages/contact/AddRelation";
+import TestPage from "./pages/TestPage";
 
 //UPDATE_TAG:importPage
 
@@ -66,6 +67,7 @@ class AppContainer extends Component<any, any> {
         <Route exact path="/" render={() => <Redirect to="/check"/>}/>
         <Route path="/check" component={CheckAuth} exact/>
         <Route path="/home" component={HomePage} exact/>
+        <Route path="/test" component={TestPage} exact/>
         <Route path="/apps" component={AppsHomePage} exact/>
         <Route path="/login" component={LoginPage} exact/>
         <Route path="/book/home" component={BookHomePage} exact/>

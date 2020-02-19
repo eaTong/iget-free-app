@@ -43,7 +43,7 @@ class LoginPage extends Component<LoginPageInterface, {}> {
       await this.props.app.quickLogin();
       this.props.history.replace('/home');
     } else {
-      showToast('请先同意「书香-得寸进尺」隐私政策')
+      showToast('请先同意「得寸进尺」隐私政策')
     }
   }
 
@@ -94,7 +94,7 @@ class LoginPage extends Component<LoginPageInterface, {}> {
             onIonChange={(event: any) => this.setState({agreed: event.target.checked})}
           />
           <span className={'tip-content'}>
-            我同意「书香-得寸进尺」
+            我同意「得寸进尺」
           </span>
           <IonButton fill={'clear'} onClick={() => this.viewPrivacy()}>隐私政策</IonButton>
 

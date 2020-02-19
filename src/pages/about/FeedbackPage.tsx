@@ -79,7 +79,7 @@ class FeedbackPage extends Component<PagePropsInterface, FeedbackPageState> {
                   {feedback.responseText && (
                     <div className="reply-card">
                       <span className="replier">eaTong:</span>
-                      <span>感谢您对「书香-得寸进尺」的宝贵建议。</span>
+                      <span>感谢您对「得寸进尺」的宝贵建议。</span>
                       <span className="reply-content">
                       {feedback.responseText}
                     </span>
@@ -90,7 +90,7 @@ class FeedbackPage extends Component<PagePropsInterface, FeedbackPageState> {
             ))}
           </TimeLime>
           {this.state.feedbacks.length === 0 && (
-            <Empty title={'「书香-得寸进尺」期待您的宝贵意见。'}>
+            <Empty title={'「得寸进尺」期待您的宝贵意见。'}>
               <>
                 <IonButton onClick={() => this.props.history.push('/about/feedback/add')}>提个意见</IonButton>
               </>

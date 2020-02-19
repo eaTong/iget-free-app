@@ -122,7 +122,7 @@ class MineHomePage extends Component<MineHomePageInterface, MineHomePageState> {
               <IonLabel>帮助</IonLabel>
             </IonItemDivider>
             <IonItem routerLink={'/about/feedback'} detail>意见反馈</IonItem>
-            <IonItem routerLink={'/about/app'} detail>关于「书香-得寸进尺」</IonItem>
+            <IonItem routerLink={'/about/app'} detail>关于「得寸进尺」</IonItem>
             <IonItem routerLink={'/about/author'} detail>关于作者</IonItem>
           </IonList>
           <IonButton color='danger' expand="full" onClick={() => this.logout()}>退出登录</IonButton>

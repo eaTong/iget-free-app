@@ -1,6 +1,6 @@
 {
   "appId": "cn.eatong.iget",
-  "appName": "书香-得寸进尺",
+  "appName": "得寸进尺",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

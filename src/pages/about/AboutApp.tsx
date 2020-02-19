@@ -40,7 +40,7 @@ class AboutApp extends Component<PagePropsInterface, AboutAppState> {
         </IonHeader>
         <IonContent>
           <IonCardHeader>
-            <IonCardTitle>书香-得寸进尺</IonCardTitle>
+            <IonCardTitle>得寸进尺</IonCardTitle>
             <IonCardSubtitle>帮助个人精进的APP，祝你「得寸进尺」</IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>

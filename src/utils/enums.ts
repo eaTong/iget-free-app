@@ -25,9 +25,9 @@ export const cardsConfig = [
     Component: BookStaticsCard
   },
   {
-    title: 'contact',
+    title: '人脉',
     key: 'contact-all',
-    subtitle: '',
+    subtitle: '打造人脉圈中更懂ta的你。',
     ajaxConfig: {url: '/api/contact/get', data: {pageSize: 5}},
     dataResolve: (result: any) => ({contactList: result.list}),
     link: '/contact/home',

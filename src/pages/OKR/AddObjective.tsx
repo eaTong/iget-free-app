@@ -54,8 +54,8 @@ class AddObjective extends Component<AddObjectiveProps, any> {
     }
     if (values.addToEvent) {
       const options = await Calendar.getCalendarOptions();
-      options.calendarName = '书香-得寸进尺';
-      values.calendarId = await Calendar.createEventWithOptions(values.name, values.description, '书香-得寸进尺', new Date(values.planStartDate || ''), new Date(values.planEndDate || ''), options)
+      options.calendarName = '得寸进尺';
+      values.calendarId = await Calendar.createEventWithOptions(values.name, values.description, '得寸进尺', new Date(values.planStartDate || ''), new Date(values.planEndDate || ''), options)
     }
     await ajax({url: '/api/objective/add', data: {...values}});
 

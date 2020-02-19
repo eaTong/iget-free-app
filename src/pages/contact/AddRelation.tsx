@@ -34,7 +34,7 @@ class AddRelation extends Component<AddContactRelationProps, {}> {
 
   async onSaveData() {
     const values = this.props.form.getFieldsValue();
-    await ajax({url: '/api/contact/addRelation', data: {...values, contactId: this.props.match.params.id}});
+    await ajax({url: '/api/contact/addRelation', data: {...values, contactFromId: this.props.match.params.id}});
     this.props.history.goBack();
   }
 
@@ -65,7 +65,7 @@ class AddRelation extends Component<AddContactRelationProps, {}> {
             </IonItem>
             <IonItem>
               <IonLabel position={'fixed'}>联系人</IonLabel>
-              {form.getFieldDecorator('contact', {trigger: 'onIonChange'})(
+              {form.getFieldDecorator('contactToId', {trigger: 'onIonChange'})(
                 <AsyncSelect placeholder={'选择联系人'} api={'/api/contact/get'}/>
               )}
             </IonItem>
