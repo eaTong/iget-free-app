@@ -8,6 +8,8 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {ImagePicker, OutputType} from "@ionic-native/image-picker";
 import {FileTransferObject, FileTransfer} from "@ionic-native/file-transfer";
 import AppConfig from "../AppConfig";
+import {Contact, Contacts} from "@ionic-native/contacts";
+import {Modals, Plugins} from "@capacitor/core";
 
 
 export function getTimeFormat(timeStr: string = '') {
@@ -175,4 +177,20 @@ function formatResult(responseBodies: Array<any>): Array<string> {
     }
     return '';
   }).filter(item => item);
+}
+
+export async function importContact() {
+  const {value} = await Modals.confirm({title: '操作确认', message: '此操作将会导入通讯录中所有联系人，并且需要您的授权，是否确认？'});
+  if (!value) return [];
+  const contacts = new Contacts();
+  const result = await contacts.find(['displayName', 'name.formatted', 'phoneNumbers', 'name']);
+  const deviceInfo = await Plugins.Device.getInfo();
+  return (result || []).map((contact: Contact) => {
+    return {
+      name: contact.displayName || contact.name.formatted,
+      birthday: contact.birthday,
+      phone: contact.phoneNumbers ? contact.phoneNumbers[0]?.value?.replace(/\D|\s/g, '') : '',
+      contactUniqueKey: `device:${deviceInfo.uuid},key:${contact.id || contact.rawId}`
+    };
+  })
 }

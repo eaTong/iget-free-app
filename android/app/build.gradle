@@ -6,8 +6,8 @@ android {
         applicationId "cn.eatong.iget"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1522
-        versionName "1.5.2"
+        versionCode 1542
+        versionName "1.5.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

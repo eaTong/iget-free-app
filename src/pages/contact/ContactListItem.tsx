@@ -30,6 +30,9 @@ const ContactListItem: React.FC<ContactListItemInterface> = (props: ContactListI
           <span className="et-remark">{(contact.birthday || '')}</span>
         </h3>
         <p>{(contact.tags ||[]).map((tag:any)=><IonBadge key={tag.id}>{tag.name}</IonBadge>)}</p>
+        {contact.lastContactDate &&(
+          <p>{`上次联系日期：${contact.lastContactDate}`}</p>
+        )}
         <p>{contact.description}</p>
       </IonLabel>
     </IonItem>

@@ -13,13 +13,15 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import {filterOutline} from "ionicons/icons";
+import {reorderThreeOutline} from "ionicons/icons";
 
 
 interface MultipleFilterPropsInterface {
   dataSource: Array<any>
   onChange?: Function,
   label?: string,
+  slot?: string,
+  iconOnly?: boolean,
   emptyTip: string,
   selectedKeys?: Array<any>,
 }
@@ -62,15 +64,17 @@ class MultipleFilter extends Component<MultipleFilterPropsInterface, ScrollTabBa
   }
 
   render() {
-    const {dataSource, emptyTip} = this.props;
+    const {dataSource, emptyTip, iconOnly} = this.props;
     const {showModal, selectedItems} = this.state;
     return (
-      <div className="et-multiple-filter-line">
-        <div className="label-container" onClick={() => this.toggleModal(true)}>
-          {selectedItems.length === 0 ? (
-            <span className="placeholder">{emptyTip}</span>) : selectedItems.map((item: any) => item.label).join('、')}
-        </div>
-        <IonIcon icon={filterOutline}/>
+      <div className={`et-multiple-filter-line ${iconOnly ? 'icon-only' : ''}`}>
+        {!iconOnly && (
+          <div className="label-container" onClick={() => this.toggleModal(true)}>
+            {selectedItems.length === 0 ? (
+              <span className="placeholder">{emptyTip}</span>) : selectedItems.map((item: any) => item.label).join('、')}
+          </div>
+        )}
+        <IonIcon icon={reorderThreeOutline} onClick={() => this.toggleModal(true)}/>
         <IonModal isOpen={showModal} onDidDismiss={() => this.toggleModal(false)} cssClass={'tags-modal'}>
           <IonHeader>
             <IonToolbar>

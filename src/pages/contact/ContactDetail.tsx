@@ -18,7 +18,7 @@ import {
   IonToolbar,
   withIonLifeCycle,
   IonLabel,
-  IonListHeader,
+  IonListHeader, IonButton,
 } from "@ionic/react";
 import ajax from "../../utils/ajax";
 import {RouteComponentProps} from "react-router";
@@ -52,6 +52,7 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
       description: '',
       birthday: '',
       phone: '',
+      lastContactDate: '',
       id: '',
       album: [],
       tags: [],
@@ -162,6 +163,9 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
               <BackButton history={this.props.history}/>
             </IonButtons>
             <IonTitle>{contactDetail.name || ''}</IonTitle>
+            <IonButtons slot="end">
+              <IonButton onClick={_ => this.props.history.replace(`/contact/edit/${contactDetail.id}`)}>编辑</IonButton>
+            </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -187,7 +191,12 @@ class ContactDetailPage extends Component<ContactDetailPageProps, ContactDetailP
                 <div className="label">生日</div>
                 <div className="value">{contactDetail.birthday}</div>
               </div>
-
+            )}
+            {contactDetail.lastContactDate && (
+              <div className="et-row">
+                <div className="label">上次联系日期</div>
+                <div className="value">{contactDetail.lastContactDate}</div>
+              </div>
             )}
             <p className="description">{contactDetail.description}</p>
             <PickImage value={contactDetail.album || []}/>

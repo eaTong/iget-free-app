@@ -115,6 +115,12 @@ class AddContact extends Component<AddContactProps, any> {
               )}
             </IonItem>
             <IonItem>
+              <IonLabel>最后联系日期</IonLabel>
+              {form.getFieldDecorator('lastContactDate')(
+                <IonDatetime displayFormat={'YYYY-MM-DD'} placeholder={'最后联系日期'}/>
+              )}
+            </IonItem>
+            <IonItem>
               <IonLabel>生日</IonLabel>
               {form.getFieldDecorator('birthday')(
                 <IonDatetime displayFormat={'YYYY-MM-DD'} placeholder={'生日'}/>
@@ -134,7 +140,6 @@ class AddContact extends Component<AddContactProps, any> {
                 <IonTextarea required placeholder={'备注'}/>
               )}
             </IonItem>
-
             {form.getFieldDecorator('tags')(
               <SelectTag/>
             )}
