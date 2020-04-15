@@ -107,6 +107,9 @@ class ContactPage extends Component<PagePropsInterface, ContactPageState> {
 
   async importContact() {
     const contacts = await importContact();
+    if(contacts.length ===0 ){
+      return;
+    }
     const loading = showLoading('正在保存联系人数据');
     await ajax({
       url: '/api/contact/import',
